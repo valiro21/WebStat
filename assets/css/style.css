@@ -1,0 +1,41 @@
+body{
+    margin: 0;
+}
+
+header{
+    margin: 0;
+}
+
+#navBar {
+    font-family: "Verdana";
+    position:fixed;
+    top: 0;
+    width: 100%;
+}
+
+#navBar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+#navBar li {
+    float: left;
+}
+
+#navBar li a {
+    display: block;
+    background-color: #333;
+    border: 0;
+    color: #f9f9f9;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+#navBar li a:hover {
+    background-color: #111;
+}

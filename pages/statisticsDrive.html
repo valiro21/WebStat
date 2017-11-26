@@ -2,18 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WStat</title>
-</head>
-    <script src="../assets/js/Chart.bundle.min.js"></script>
+    <link rel="stylesheet" href="../assets/css/style.css">
     <script src="../assets/js/statisticsDrive.js"></script>
-    <script src="../assets/css/style.css"></script>
+    <script src="../assets/js/Chart.bundle.min.js"></script>
+    <script src="../assets/js/NavBar.js"></script>
+</head>
 <body>
-
-    <div>
-        <canvas id="testChart"></canvas>
-    </div>
-
+    <header>
+        <script>initNavBar()</script>
+    </header>
+    <canvas id="testChart"></canvas>
     <script> window.initChart() </script>
-
 </body>
 </html>
