@@ -4,9 +4,9 @@ function getRandomInt(a, b) {
 }
 
 function getRandomRgb() {
-    r = getRandomInt(0, 255);
-    g = getRandomInt(0, 255);
-    b = getRandomInt(0, 255);
+    r = getRandomInt(5, 255);
+    g = getRandomInt(5, 255);
+    b = getRandomInt(5, 255);
 
     return 'rgb(' + r + ', ' + g + ', ' + b + ')';
 }
