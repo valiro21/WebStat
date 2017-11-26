@@ -1,7 +1,11 @@
 
+// Numbers ------------------------------------------------------------------------------
+
 function getRandomInt(a, b) {
-    return a + Math.floor(Math.random() * (b - a));
+    return a + Math.floor(Math.random() * (b - a + 1));
 }
+
+// Colors -------------------------------------------------------------------------------
 
 function getRandomRgb() {
     r = getRandomInt(5, 255);
@@ -30,4 +34,10 @@ function getRandomColors(cnt) {
         colors.push(getRandomRgb());
     }
     return colors;
+}
+
+// Distributions ------------------------------------------------------------------------------
+
+function randomChoice(arr) {
+    return arr[getRandomInt(0, arr.length - 1)];
 }
