@@ -5,13 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WStat</title>
     <script src="../assets/js/NavBar.js"></script>
+    <link rel="stylesheet" href="../assets/css/reset.css">
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/frontPage.css">
     <script src="../assets/js/frontPage.js"></script>
+    <script src="../assets/js/Chart.bundle.min.js"></script>
 </head>
 <body>
     <header>
-        <script>initNavBar()</script>
     </header>
-Front page test
+    <div id="wstat-image">
+        <div class="wrapper">
+            <div id="motto">
+                <h2><strong>WStat</strong><br/>
+                    A simple way to gather data and generate statistics.
+                </h2>
+                <a href="#" class="button-1">Get Started</a>
+            </div>
+            <canvas id="bgChart"></canvas>
+            <script> window.initChart()</script>
+        </div>
+    </div>
+    <div id="features">
+        <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
 </body>
 </html>
