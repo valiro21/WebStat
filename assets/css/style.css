@@ -53,8 +53,14 @@ a:hover, a:visited, a:link, a:active {
 
 .statisticsContainer {
     display: flex;
-    flex-flow: row wrap;
-    max-width: 900px;
+    flex-wrap: wrap;
+}
+
+.addStatisticsButton {
+    margin: 8px 8px 8px 8px;
+    width: 250px;
+    opacity: 0.2;
+    text-align: center;
 }
 
 .statisticEntry {
@@ -70,6 +76,7 @@ a:hover, a:visited, a:link, a:active {
 }
 
 .container {
+    display: inline-flex;
     padding: 2px 16px;
 }
 
@@ -85,4 +92,41 @@ form {
 .form-align input {
     display: inline-block;
     width: 18em;
+}
+
+.editStatisticButton {
+    background-color: #3e454c;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.editStatisticContent {
+    display: none;
+    position: absolute;
+    background-color: #3e454c;
+    min-width: 100px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.editStatisticContent button {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.editStatisticButton:hover {
+    background-color: #02b8dd;
+}
+
+.editStatistic:hover .editStatisticContent {
+    display: block;
+}
+
+.editStatistic:hover .editStatisticButton {
+    background-color: #3e454c;
 }
