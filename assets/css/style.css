@@ -1,13 +1,15 @@
-body{
+body {
     margin: 0;
+    background-color: #fff;
+    color: #777;
+    font: normal 15px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 }
-
 header{
-    margin: 0;
+    margin-bottom: 50px;
 }
 
 #navBar {
-    font-family: "Verdana";
+    z-index: 1000;
     position:fixed;
     top: 0;
     width: 100%;
@@ -37,7 +39,8 @@ header{
 
 /* Change the link color to #111 (black) on hover */
 #navBar li a:hover {
-    background-color: #111;
+    background-color: #02b8dd;
+    color: #fff;
 }
 
 .statisticsContainer {

@@ -5,13 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WStat</title>
     <script src="../assets/js/NavBar.js"></script>
+    <link rel="stylesheet" href="../assets/css/reset.css">
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/frontPage.css">
     <script src="../assets/js/frontPage.js"></script>
+    <script src="../assets/js/Chart.bundle.min.js"></script>
 </head>
 <body>
     <header>
-        <script>initNavBar()</script>
     </header>
-Front page test
+    <div id="wstat-image">
+        <div class="wrapper">
+            <div id="motto">
+                <h2><strong>WStat</strong><br/>
+                    A simple way to gather data<br/>
+                    and generate statistics.
+                </h2>
+                <a href="#" class="button-1">Get Started</a>
+            </div>
+            <canvas id="bgChart"></canvas>
+            <script> window.initChart()</script>
+        </div>
+    </div>
+    <div id="features">
+        <div class="wrapper">
+            <ul>
+                <li class="feature-1">
+                    <h4>Easy to Use</h4>
+                    <p>
+                        Our application is easy to use, all you need to do is start our crawler,
+                        gather data then create a statistic using the data you gathered.
+                    </p>
+                </li>
+                <li class="feature-2">
+                    <h4>Gather data</h4>
+                    <p>
+                        You can easily gather data using our crawler, it works with multiple social platforms
+                        such as Facebook, Twitter, Reddit, Tumblr and so many more.<br/>
+                        As long as a platform has an API, you can configure our crawler for it.
+                    </p>
+                </li>
+                <li class="feature-3">
+                    <h4>Real-time statistics</h4>
+                    <p>
+                        We use Chart.JS for our statistics, for beautiful and responsive charts.
+                        <br/>
+                        You're guaranteed to find a chart suited for your desired statistic, plus it will be
+                        updated in real-time so you won't miss anything
+                    </p>
+                </li>
+                <div class="clear"></div>
+            </ul>
+        </div>
+    </div>
 </body>
 </html>
