@@ -33,6 +33,33 @@ Statistic.prototype.generateElement = function() {
 var StatisticsDrive = (function() {
     var instance;
 
+    function createAddButton() {
+        var addButtonRedirect = document.createElement('a');
+        addButtonRedirect.setAttribute('href', '../pages/statisticsConfig.html');
+
+        var addButton = document.createElement('div');
+        addButtonRedirect.appendChild(addButton);
+
+        addButton.setAttribute('class', 'addStatisticsButton');
+
+        var imgElement = document.createElement('img');
+        imgElement.setAttribute('src', 'https://goo.gl/LkaMqy');
+        imgElement.setAttribute('style', 'margin-top: 50px');
+        imgElement.setAttribute('height', '150px');
+        imgElement.setAttribute('width', '150px');
+
+        var textElement = document.createElement('div');
+        textElement.setAttribute('class', 'container');
+
+        var title = document.createElement('h4');
+        title.textContent = 'New Statistic';
+        textElement.appendChild(title);
+
+        addButton.appendChild(imgElement);
+        addButton.appendChild(textElement);
+        return addButtonRedirect;
+    }
+
     function createInstance() {
         var that = {};
 
@@ -55,6 +82,7 @@ var StatisticsDrive = (function() {
             that.statistics.forEach(function(item) {
                 statisticsElement.appendChild(item.generateElement());
             });
+            statisticsElement.appendChild(createAddButton());
             document.getElementById('statisticsContainer').appendChild(statisticsElement);
         };
 
