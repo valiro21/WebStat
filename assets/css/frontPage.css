@@ -3,6 +3,9 @@ body {
     color: #777;
     font: normal 15px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
     border: 0;
+}
+
+.content{
     overflow-x: hidden;
 }
 
@@ -70,7 +73,9 @@ small {
 .wrapper {
     margin: 0 auto;
     padding: 0 0;
-    width: 100%
+    width: 100%;
+    overflow-x: hidden;
+    padding-bottom: 10em;
 }
 
 .button-1 {
@@ -95,32 +100,38 @@ small {
     margin-left: -1em;
     padding: 0;
     width: 200%;
+    overflow-x: hidden;
 }
 
 canvas{
     padding: 0;
     width: 150%;
+    overflow-x: hidden;
 }
 
 #motto{
     z-index: 100;
     width: 100%;
     position: absolute;
+    margin-top: 2em;
 }
 
 #wstat-image{
     width:105%;
     overflow-x: hidden;
+    height: auto;
 }
 
 #features ul {
-    margin: 80px 0;
+    margin: 3em 0;
+    list-style-type: none;
+    overflow: hidden;
 }
 #features ul li {
-    width: 33.3%;
     padding-top: 140px;
+    width: 33.3%;
     float: left;
-
+    display: block;
     text-align: center;
 }
 #features ul li.feature-1 {
@@ -131,4 +142,47 @@ canvas{
 }
 #features ul li.feature-3 {
     background: url('../img/feature-3.png') no-repeat top center;
+}
+
+@media only screen and (max-width: 500px) {
+    body {
+        font-size: 10px;
+    }
+    h1{
+        font-size: 22px;
+    }
+    h2{
+        font-size: 18px;
+    }
+    h3{
+        font-size: 16px;
+    }
+    h4{
+        font-size: 12px;
+    }
+    .button-1 {
+        display: block;
+        text-align: center;
+        background: #444;
+        border-radius: 3px;
+        color: #fff;
+        width: 100px;
+        height: 30px;
+        font-size: 16px;
+        line-height: 30px;
+        margin: 0 auto;
+    }
+    #wstat-image{
+        padding-top: 0.7em;
+    }
+    #features ul li {
+        padding-top: 140px;
+        width: auto;
+        float: left;
+        display: block;
+        text-align: center;
+    }
+    .wrapper{
+        padding-bottom: 3em;
+    }
 }
