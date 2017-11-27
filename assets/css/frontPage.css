@@ -3,6 +3,7 @@ body {
     color: #777;
     font: normal 15px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
     border: 0;
+    overflow-x: hidden;
 }
 
 p {
@@ -49,7 +50,7 @@ h5 {
 }
 a {
     text-decoration: none;
-    text-aling: center;
+    text-align: center;
     color: #444;
 }
 a:hover {
@@ -68,8 +69,8 @@ small {
 }
 .wrapper {
     margin: 0 auto;
-    padding: 0 00px;
-    width: 100%;
+    padding: 0 0;
+    width: 100%
 }
 
 .button-1 {
@@ -91,23 +92,32 @@ small {
 }
 
 #bgChart{
-    margin-top: -10px;
-    margin-left: -10px;
-    width: 110%
+    margin-left: -1em;
+    padding: 0;
+    width: 200%;
+}
+
+canvas{
+    padding: 0;
+    width: 150%;
 }
 
 #motto{
-    margin-top: 50px;
     z-index: 100;
     width: 100%;
     position: absolute;
+}
+
+#wstat-image{
+    width:105%;
+    overflow-x: hidden;
 }
 
 #features ul {
     margin: 80px 0;
 }
 #features ul li {
-    width: 33%;
+    width: 33.3%;
     padding-top: 140px;
     float: left;
 

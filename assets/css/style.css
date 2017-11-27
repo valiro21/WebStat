@@ -9,7 +9,7 @@ body {
     font: normal 1.6rem "Open Sans", sans-serif;
 }
 header{
-    margin-bottom: 50px;
+    margin-bottom: 3em;
 }
 
 #navBar {
@@ -49,7 +49,6 @@ header{
 
 a:hover, a:visited, a:link, a:active {
     text-decoration: none!important;
-
 }
 
 .statisticsContainer {
