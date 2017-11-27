@@ -6,6 +6,8 @@
     <title>WStat</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/reset.css">
+    <link rel="stylesheet" href="../assets/css/realTimeData.css">
+
     <script src="../assets/js/Chart.bundle.min.js"></script>
     <script src="../assets/js/Utils.js"></script>
     <script src="../assets/js/Random.js"></script>
@@ -14,9 +16,65 @@
     <script src="../assets/js/NavBar.js"></script>
 </head>
 <body>
-    <header>
-    </header>
-    <canvas id="chart"></canvas>
+
+    <header></header>
+
+    <!-- Sidebar -->
+    <div class="sidebar w3-bar-block animate-left" id="sidebar">
+
+        <!--<a class="sidebar-item btn" onclick="closeSidebar()">Close settings &times;</a>-->
+
+        <div class="sidebar-item">
+            <label for="chart-type">
+                Chart type
+            </label>
+
+            <select id="chart-type" onchange="changeChartType()">
+                <option value="bar" selected="selected">Bar chart</option>
+                <option value="pie">Pie chart</option>
+                <option value="doughnut">Doughnut chart</option>
+                <option value="line">Line chart</option>
+            </select>
+        </div>
+
+        <a href="#" class="sidebar-item btn">Choose dataset...</a>
+
+        <div class="sidebar-item"> <hr/> </div>
+
+        <div class="sidebar-item">
+            <a class="sidebar-item-left btn" href="#">Element 1</a>
+            <a class="sidebar-item-del btn" href="#">Delete</a>
+        </div>
+
+        <div class="sidebar-item">
+            <a class="sidebar-item-left btn" href="#">Element 2</a>
+            <a class="sidebar-item-del btn" href="#">Delete</a>
+        </div>
+
+        <div class="sidebar-item">
+            <a class="sidebar-item-left btn" href="#">Element 3</a>
+            <a class="sidebar-item-del btn" href="#">Delete</a>
+        </div>
+
+        <a href="#" class="sidebar-item btn">Add element to chart</a>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay animate-opacity" id="overlay" onclick="closeSidebar()"></div>
+
+    <!-- Content -->
+    <div id="main">
+        <div>
+            <a id="openSidebar" class="btn" onclick="openSidebar()">Chart settings</a>
+        </div>
+
+        <div>
+            <canvas id="chart"></canvas>
+        </div>
+    </div>
+
     <script> window.initTestChart() </script>
+
+
 </body>
 </html>

@@ -34,6 +34,11 @@ ChartWrapper.prototype.update = function () {
     this.chart.update();
 };
 
+ChartWrapper.prototype.fullRefresh = function () {
+    this.destroy();
+    this.render();
+};
+
 // Random changes ------------------------------------------------------------------------------------------
 
 ChartWrapper.prototype.changeDataRandom = function (min, max) {
