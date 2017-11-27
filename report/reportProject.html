@@ -1,48 +1,148 @@
 <!DOCTYPE html>
 <html lang="en-GB">
-	<head>
-	    <meta charset="UTF-8">
-	    <meta name="viewport" content="width=device-width">
-	    <title>Report of the Web Statistics project</title>
-	    <link rel="stylesheet" href="scholarly.css">
-	    <link rel="stylesheet" href="node_modules/prismjs/themes/prism-coy.css">
-	    <script src="node_modules/prismjs/prism.js" defer></script>
-	</head>
-	<body prefix="schema: http://schema.org/ xsd: http://www.w3.org/2001/XMLSchema# sa: https://ns.science.ai/">
-		<header>
-	      <p class="title">Report of the Web Statistics project</p>
-	      <p class="subtitle">WStat</p>
-	    </header>
-	    <article id="what" typeof="schema:ScholarlyArticle" resource="#">
-	    	<h1>WStat</h1>
-	    	<section>
-	    		<ol>
-	    			<li property="schema:author" typeof="sa:ContributorRole">
-			            <a property="schema:author" typeof="schema:Person">
-			              <span property="schema:givenName">Andrei</span>
-			              <span property="schema:familyName">Netedu</span>
-			            </a>
-			        </li>
-		          	<li property="schema:contributor" typeof="sa:ContributorRole">
-			            <a property="schema:author" typeof="schema:Person">
-			              <span property="schema:givenName">Valentin</span>
-			              <span property="schema:familyName">Rosca</span>
-			            </a>
-		          	</li>
-		          	<li property="schema:contributor" typeof="sa:ContributorRole">
-			            <a property="schema:author" typeof="schema:Person">
-			              <span property="schema:givenName">Cosmin</span>
-			              <span property="schema:familyName">Pascaru</span>
-			            </a>
-		          	</li>
-		          	<li property="schema:contributor" typeof="sa:ContributorRole">
-			            <a property="schema:author" typeof="schema:Person">
-			              <span property="schema:givenName">Alexandru</span>
-			              <span property="schema:familyName">Miron</span>
-			            </a>
-		          	</li>
-	    		</ol>
-	    	</section>
-	    </article>
-	</body>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<title>Report of the Web Statistics project</title>
+	<link rel="stylesheet" href="scholarly.css">
+	<link rel="stylesheet" href="node_modules/prismjs/themes/prism-coy.css">
+	<script src="node_modules/prismjs/prism.js" defer></script>
+</head>
+<body prefix="schema: http://schema.org/ xsd: http://www.w3.org/2001/XMLSchema# sa: https://ns.science.ai/">
+<header>
+	<p class="title">Report of the Web Statistics project</p>
+	<p class="subtitle">WStat</p>
+</header>
+<article id="what" typeof="schema:ScholarlyArticle" resource="#">
+	<h1>WStat</h1>
+	<section>
+		<ol>
+			<li property="schema:author" typeof="sa:ContributorRole">
+				<a property="schema:author" typeof="schema:Person">
+					<span property="schema:givenName">Andrei</span>
+					<span property="schema:familyName">Netedu</span>
+				</a>
+			</li>
+			<li property="schema:contributor" typeof="sa:ContributorRole">
+				<a property="schema:author" typeof="schema:Person">
+					<span property="schema:givenName">Valentin</span>
+					<span property="schema:familyName">Rosca</span>
+				</a>
+			</li>
+			<li property="schema:contributor" typeof="sa:ContributorRole">
+				<a property="schema:author" typeof="schema:Person">
+					<span property="schema:givenName">Cosmin</span>
+					<span property="schema:familyName">Pascaru</span>
+				</a>
+			</li>
+			<li property="schema:contributor" typeof="sa:ContributorRole">
+				<a property="schema:author" typeof="schema:Person">
+					<span property="schema:givenName">Alexandru</span>
+					<span property="schema:familyName">Miron</span>
+				</a>
+			</li>
+		</ol>
+	</section>
+
+	<section typeof="sa:Abstract" id="abstract">
+		<h2>Abstract</h2>
+		<p>
+			In this project we are trying to create a mashup of different APIs that are provided by social platforms
+			(for example Facebook, Twitter, Redit). The mashup will be able to display all the data centralized as
+			well as being capable of representing different statistics computed from the available data. Some of
+			those statistics may provide answers to the following questions: What kind of data is most popular on
+			Facebook?, What website contains the highest volume of new information?, etc.
+			The user of the website will be able to create custom statistics dynamically and also add new sources of
+			data (new APIs), through the use of a page simulating the functionality of a file system.
+			All the websites configurations (graphics and APIs) will be stored locally.
+		</p>
+	</section>
+
+	<section typeof="sa:MaterialAndMethods" id="ideas and concepts">
+		<h2>Ideas and Concepts</h2>
+		<h3>File system</h3>
+		<figure typeof="sa:Image">
+			<img src="https://goo.gl/PJPtBD" width="880" height="655">
+			<figcaption>
+				Drawing of the File system concept
+			</figcaption>
+		</figure>
+		<p>
+			We needed to use an easy and intuitive way to store different statistics and APIs. So we came up with the idea
+			to replicate the functionality of a file system (see Google Drive for reference). There will be 2 separate
+			systems one what contains the APIs and one with custom charts. We understand that a single list of the charts
+			would get too cluttered eventually so we decided to incorporate a basic folder system where the user could
+			organize his charts. We currently don't expect to have this problem with the APIs but we might chose
+			to implement the folder system there in the future.
+		</p>
+
+		<h3>Custom APIs</h3>
+		<figure typeof="sa:Image">
+			<img src="https://goo.gl/PJPtBD" width="880" height="655">
+			<figcaption>
+				Drawing of the APIs configuration page concept
+			</figcaption>
+		</figure>
+		<p>
+			A user should be able to add his own APIs as long as he is able to tell the application how the data should
+			be interpreted. This functionality is what makes the application easily extensible for future ways to add
+			data. Even is a user is not experienced enough to add his own APIs we will also provide some default ones,
+			those can later be remove if they are not desirable.
+		</p>
+
+		<h3>Custom Charts</h3>
+		<figure typeof="sa:Image">
+			<img src="https://goo.gl/PJPtBD" width="880" height="655">
+			<figcaption>
+				Drawing of the Custom chart configuration page concept
+			</figcaption>
+		</figure>
+		<p>
+			We thought that different users might have different needs for statistics. So we came up with the idea to let
+			all users create their own charts. In practice to create a chart you need to select what data
+			you wish to represent (number of text, number of chars in a text, number of images, etc.) and what type
+			of representation you like to have (bar chart, pie chart, etc.). While we don't know yet what kind
+			of data we will be able to extract from different APIs we will try to provide as many parameters as possible.
+		</p>
+
+		<h3>Real Time Data</h3>
+		<figure typeof="sa:Image">
+			<img src="https://goo.gl/PJPtBD" width="880" height="655">
+			<figcaption>
+				Drawing of the Real Time Data page concept
+			</figcaption>
+		</figure>
+		<p>
+			As a neat addition to statistics we also wanted to add the possibility to view the extracted data directly.
+			This page should be fairly easy to implement compared to the more complex statistics while also being
+			extremely useful as it will be a able to provide a user with the ability to browse news from multiple
+			places at once.
+		</p>
+	</section>
+
+	<section typeof="sa:MaterialAndMethods" id="user interaction">
+		<p>
+			When we built the concept for the application we considered two types of users: normal and advanced.
+			For the normal user we will provide some example statistical graphs with information from the most common
+			APIs. Alongside the example statistics we provide a page with real time data.
+			The more advanced user is expected to take full advantage of the configurable APIs and custom Graphs. We
+			will provide this type of user with a way to add new APIs and configure them so that the application can
+			interpret the data.
+		</p>
+		<figure typeof="sa:Image">
+			<img src="https://goo.gl/PJPtBD" width="880" height="655">
+			<figcaption>
+				Real time data
+			</figcaption>
+		</figure>
+		<figure typeof="sa:Image">
+			<img src="https://goo.gl/PJPtBD" width="880" height="655">
+			<figcaption>
+				Real time charts
+			</figcaption>
+		</figure>
+	</section>
+
+</article>
+</body>
 </html>
