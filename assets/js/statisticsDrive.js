@@ -4,6 +4,33 @@ function Statistic(img, url, title) {
     this.title = title;
 }
 
+Statistic.prototype.createDropDownEditButton = function() {
+    var dropDownMenu = document.createElement('div');
+    dropDownMenu.setAttribute('class', 'editStatistic');
+
+    var dropDownButton = document.createElement('button');
+    dropDownButton.setAttribute('class', 'editStatisticButton');
+    dropDownButton.textContent = '...';
+
+    var dropDownContent = document.createElement('div');
+    dropDownContent.setAttribute('class', 'editStatisticContent');
+
+    var deleteButton = document.createElement('button');
+    deleteButton.setAttribute('class', 'editStatisticButton');
+    deleteButton.textContent = 'Delete';
+
+    var editButton = document.createElement('button');
+    editButton.setAttribute('class', 'editStatisticButton');
+    editButton.textContent = 'Edit';
+
+    dropDownMenu.appendChild(dropDownButton);
+    dropDownMenu.appendChild(dropDownContent);
+    dropDownContent.appendChild(deleteButton);
+    dropDownContent.appendChild(editButton);
+
+    return dropDownMenu;
+};
+
 Statistic.prototype.generateElement = function() {
     var statisticElementLink = document.createElement('a');
     statisticElementLink.setAttribute('href', this.url);
@@ -24,6 +51,7 @@ Statistic.prototype.generateElement = function() {
     title.textContent = this.title;
     textElement.appendChild(title);
 
+    textElement.appendChild(this.createDropDownEditButton());
     statisticElement.appendChild(imgElement);
     statisticElement.appendChild(textElement);
 
@@ -64,7 +92,8 @@ var StatisticsDrive = (function() {
         var that = {};
 
         that.statistics = [new Statistic('https://lh3.googleusercontent.com/Ned_Tu_ge6GgJZ_lIO_5mieIEmjDpq9kfgD05wapmvzcInvT4qQMxhxq_hEazf8ZsqA=w300', 'https://www.youtube.com/', 'Youtube'),
-            new Statistic('http://is1.mzstatic.com/image/thumb/Purple128/v4/71/c6/d4/71c6d492-b0d8-7136-75b8-5198b11a5023/source/175x175bb.jpg', 'https://www.facebook.com/', 'Facebook')];
+            new Statistic('http://is1.mzstatic.com/image/thumb/Purple128/v4/71/c6/d4/71c6d492-b0d8-7136-75b8-5198b11a5023/source/175x175bb.jpg', 'https://www.facebook.com/', 'Facebook'),
+            new Statistic('https://pbs.twimg.com/profile_images/875087697177567232/Qfy0kRIP_400x400.jpg', 'https://twitter.com/twitter', 'Twitter')];
 
         that.addStatistic = function() {
         };
