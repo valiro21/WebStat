@@ -149,16 +149,16 @@ canvas{
         font-size: 10px;
     }
     h1{
-        font-size: 24px;
+        font-size: 22px;
     }
     h2{
-        font-size: 20px;
-    }
-    h3{
         font-size: 18px;
     }
+    h3{
+        font-size: 16px;
+    }
     h4{
-        font-size: 14px;
+        font-size: 12px;
     }
     .button-1 {
         display: block;
@@ -172,9 +172,6 @@ canvas{
         line-height: 30px;
         margin: 0 auto;
     }
-    #navBar{
-        font-size: 8px;
-    }
     #wstat-image{
         padding-top: 0.7em;
     }
@@ -184,5 +181,8 @@ canvas{
         float: left;
         display: block;
         text-align: center;
+    }
+    .wrapper{
+        padding-bottom: 3em;
     }
 }

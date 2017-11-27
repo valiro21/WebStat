@@ -9,7 +9,7 @@ body {
     font: normal 1.6rem "Open Sans", sans-serif;
 }
 header{
-    margin-bottom: 3em;
+    margin-bottom: 2em;
 }
 
 #navBar {
@@ -129,4 +129,20 @@ form {
 
 .editStatistic:hover .editStatisticButton {
     background-color: #3e454c;
+}
+
+@media only screen and (max-width: 500px) {
+    #navBar{
+        font-size: 8px;
+    }
+
+    #navBar li a {
+        display: block;
+        background-color: #333;
+        border: 0;
+        color: #f9f9f9;
+        text-align: center;
+        padding: 10px 12px;
+        text-decoration: none;
+    }
 }
