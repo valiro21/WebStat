@@ -9,7 +9,6 @@ body {
 }
 
 .setup-step{
-    padding-top: 3em; /* NavBar error */
     width: 100%;
     height: 100vh;
     display: flex;
@@ -17,6 +16,7 @@ body {
 }
 
 .setup-step > .setup-step-body{
+    padding-top: 3em; /* NavBar error */
     flex: 1;
 }
 
