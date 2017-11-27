@@ -32,15 +32,13 @@ function changeChartType() {
 // Sidebar functions ------------------------------------------------------------------------------------
 
 function openSidebar() {
-    document.getElementById("main").style.marginLeft = "25%";
+    // document.getElementById("main").style.marginLeft = "25%";
 
-    document.getElementById("sidebar").style.width = "25%";
     document.getElementById("sidebar").style.display = "block";
-
     document.getElementById("overlay").style.display = "block";
 }
 function closeSidebar() {
-    document.getElementById("main").style.marginLeft = "0%";
+    // document.getElementById("main").style.marginLeft = "0%";
 
     document.getElementById("sidebar").style.display = "none";
     document.getElementById("overlay").style.display = "none";
