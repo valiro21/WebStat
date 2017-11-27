@@ -68,3 +68,17 @@ header{
 .container {
     padding: 2px 16px;
 }
+
+form {
+    font-size: 20px;
+}
+
+.form-align label{
+    display: inline-block;
+    width: 11em;
+    text-align: right;
+}
+.form-align input {
+    display: inline-block;
+    width: 18em;
+}
