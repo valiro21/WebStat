@@ -34,14 +34,31 @@ ChartWrapper.prototype.update = function () {
     this.chart.update();
 };
 
-ChartWrapper.prototype.changeTypeRandom = function () {
-    this.changeType(randomChoice(CHART_TYPES));
+// Random changes ------------------------------------------------------------------------------------------
+
+ChartWrapper.prototype.changeDataRandom = function (min, max) {
+    var dsIndex = getRandomInt(0, this.data.datasets.length - 1);
+    var ds = this.data.datasets[dsIndex];
+
+    var dataIndex = getRandomInt(0, ds.data.length - 1);
+
+    this.setData(dsIndex, dataIndex, min, max);
+    this.update();
 };
 
-ChartWrapper.prototype.changeType = function (newType) {
+ChartWrapper.prototype.setData = function (dsIndex, ds, min, max) {
+    this.data.datasets[dsIndex].data[ds] = getRandomInt(min, max);
+};
+
+
+ChartWrapper.prototype.changeTypeRandom = function () {
     this.destroy();
-    this.type = newType;
+    this.setType(randomChoice(CHART_TYPES));
     this.render();
+};
+
+ChartWrapper.prototype.setType = function (newType) {
+    this.type = newType;
 };
 
 // Data builders ------------------------------------------------------------------------------------------

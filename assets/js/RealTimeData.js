@@ -18,5 +18,5 @@ function initTestChart() {
 
     chartWrapper.render();
 
-    window.setInterval(chartWrapper.changeTypeRandom.bind(chartWrapper), 1000);
+    window.setInterval(chartWrapper.changeTypeRandom.bind(chartWrapper), 1500);
 }

@@ -1,8 +1,12 @@
+html {
+    font-size: 62.5%;
+}
+
 body {
     margin: 0;
     background-color: #fff;
-    color: #777;
-    font: normal 15px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+    color: #3e454c;
+    font: normal 1.6rem "Open Sans", sans-serif;
 }
 header{
     margin-bottom: 50px;
