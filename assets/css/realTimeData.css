@@ -19,7 +19,7 @@ html {
     overflow: hidden;
     text-decoration: none;
     color: inherit;
-    background-color: inherit;
+    background-color: #eee;
     text-align: center;
     cursor: pointer;
     white-space: nowrap
@@ -94,7 +94,6 @@ html {
     }
 }
 
-
 @keyframes animateleft {
     from {
         left: -300px;
@@ -106,9 +105,19 @@ html {
     }
 }
 
+@-webkit-keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
 /* Overlay */
 
-.overlay {
+.sidebar-overlay {
     position: fixed;
     display: none;
     width: 100%;
@@ -123,28 +132,126 @@ html {
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 2
 }
+.modal-overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    cursor:pointer;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 4
+}
+
 
 /* Modal */
 
 .modal {
-    z-index: 3;
     display: none;
-    padding-top: 100px;
+    z-index: 5;
+    background-color: #fefefe;
+    margin: auto;
+    border: 1px solid #888;
+    width: 50%;
+
     position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.4)
+    left: 50%;
+    top: 20%;
+    transform: translate(-50%, -50%);
+
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
 }
 
-/* Responsive sidebar */
+
+/* Modal Content */
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+/* Modal Header */
+.modal-header {
+    padding: 0.5em 1.5em;
+    background-color: rgba(0,58,255,0.1);
+    color: inherit;
+}
+
+/* Modal Body */
+.modal-body {
+    padding: 0.5em 1.5em;
+}
+
+/* Modal Footer */
+.modal-footer {
+    padding: 0.5em 1.5em;
+    background-color: rgba(0,58,255,0.1);
+    color: inherit;
+}
+
+/* Modal close button */
+.modal-close {
+    color: inherit;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Inputs */
+
+input[type=text] {
+    width: 50%;
+    padding: 0.5em 0.7em;
+    margin: 1em 0;
+    box-sizing: border-box;
+    border: 2px solid #888;
+}
+
+input[type=text]:focus {
+    border: 2px solid #555;
+}
+
+select {
+    width: 70%;
+    padding: 0.5em 1em;
+    border: 1px;
+    border-radius: 4px;
+    background-color: rgba(0,58,255,0.2);
+}
+
+
+/* Responsiveness */
 
 @media only screen and (max-width: 1200px) {
     .sidebar {
         width: 35%;
+    }
+    .modal {
+        width: 50%;
     }
 }
 
@@ -152,11 +259,17 @@ html {
     .sidebar {
         width: 50%;
     }
+    .modal {
+        width: 75%;
+    }
 }
 
 @media only screen and (max-width: 600px) {
     .sidebar {
         width: 80%;
+    }
+    .modal {
+        width: 85%;
     }
 }
 
@@ -164,4 +277,8 @@ html {
     .sidebar {
         width: 100%;
     }
+    .modal {
+        width: 100%;
+    }
 }
+
