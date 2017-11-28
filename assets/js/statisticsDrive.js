@@ -132,3 +132,19 @@ var StatisticsDrive = (function() {
 function initStatisticsDrive() {
     StatisticsDrive.getInstance().renderStatistics();
 }
+
+
+// Add drive generation after page load w/o overriding.
+if(window.attachEvent) {
+    window.attachEvent('onload', initStatisticsDrive);
+} else {
+    if(window.onload) {
+        var currentOnLoad = window.onload;
+        window.onload = function(evt) {
+            currentOnLoad(evt);
+            initStatisticsDrive();
+        };
+    } else {
+        window.onload = initStatisticsDrive;
+    }
+}

@@ -132,3 +132,18 @@ var EntitiesDrive = (function() {
 function initEntitiesDrive() {
     EntitiesDrive.getInstance().renderEntities();
 }
+
+// Add NavBar generation after page load w/o overriding.
+if(window.attachEvent) {
+    window.attachEvent('onload', initEntitiesDrive);
+} else {
+    if(window.onload) {
+        var currentOnLoad = window.onload;
+        window.onload = function(evt) {
+            currentOnLoad(evt);
+            initEntitiesDrive();
+        };
+    } else {
+        window.onload = initEntitiesDrive;
+    }
+}
