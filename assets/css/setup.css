@@ -2,10 +2,15 @@ header{
     position: fixed;
 }
 
+html {
+    max-width: 100%;
+}
+
 body {
     margin-bottom: 0;
     overflow-y: hidden;
     width: 100%;
+    max-width: 100%;
 }
 
 .setup-step{
@@ -16,7 +21,8 @@ body {
 
 .setup-step > .setup-step-body{
     padding-top: 3em; /* NavBar error */
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     max-height: 82vh;
 }
 
