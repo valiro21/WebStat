@@ -6,7 +6,7 @@
     <title>WStat</title>
     <link rel="stylesheet" href="../assets/css/reset.css">
     <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/realTimeData.css">
+    <link rel="stylesheet" href="../assets/css/real_time_data.css">
 
     <script src="../assets/js/Chart.bundle.min.js"></script>
     <script src="../assets/js/Utils.js"></script>
@@ -42,17 +42,17 @@
         <div class="sidebar-item"> <hr/> </div>
 
         <div class="sidebar-item">
-            <a class="sidebar-item-left btn" href="#">Element 1</a>
+            <a class="sidebar-item-left btn" onclick="openModal()">Element 1</a>
             <a class="sidebar-item-del btn" href="#">Delete</a>
         </div>
 
         <div class="sidebar-item">
-            <a class="sidebar-item-left btn" href="#">Element 2</a>
+            <a class="sidebar-item-left btn" onclick="openModal()">Element 2</a>
             <a class="sidebar-item-del btn" href="#">Delete</a>
         </div>
 
         <div class="sidebar-item">
-            <a class="sidebar-item-left btn" href="#">Element 3</a>
+            <a class="sidebar-item-left btn" onclick="openModal()">Element 3</a>
             <a class="sidebar-item-del btn" href="#">Delete</a>
         </div>
 
@@ -60,7 +60,7 @@
     </div>
 
     <!-- Chart element modal -->
-    <div class="modal" id="chart-element-modal">
+    <div class="modal animate-top" id="chart-element-modal">
         <div class="modal-header">
             <div id="modal-header-text">Modal Header</div>
             <!--<a class="modal-close" onclick="closeModal()">&times;</a>-->

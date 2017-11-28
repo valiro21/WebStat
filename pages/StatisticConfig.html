@@ -5,9 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WStat</title>
     <script src="../assets/js/NavBar.js"></script>
+    <script src="../assets/js/Random.js"></script>
+    <script src="../assets/js/Chart.bundle.min.js"></script>
+    <script src="../assets/js/ChartWrapper.js"></script>
+    <script src="../assets/js/StatisticsConfig.js"></script>
     <link rel="stylesheet" href="../assets/css/reset.css">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/setup.css">
+    <link rel="stylesheet" href="../assets/css/statistic_config.css">
 </head>
 <body>
 <header>
@@ -18,6 +23,12 @@
         <a name="General"></a>
 
         <div class="setup-step-body">
+
+            <div class="chart-preview"><canvas id="bar-chart"></canvas></div>
+            <div class="chart-preview"><canvas id="pie-chart"></canvas></div>
+            <div class="chart-preview"><canvas id="doughnut-chart"></canvas></div>
+            <div class="chart-preview"><canvas id="line-chart"></canvas></div>
+
             <div class="form-content">
                 <div class="form-content-center form-align">
                     <label for="StatisticsAlias">Website Name: </label>
@@ -39,7 +50,40 @@
 
         <div class="setup-step-body">
             <div class="form-content">
-                <div class="form-content-center form-align">
+                <div class="entity-form">
+                    <label>Entity:</label>
+                    <input type="text" autocomplete="true" />
+                    <br>
+                    <br>
+                    <label>Parameters</label>
+                    <div class="parameters">
+                        <input class="param-name" placeholder="name" name="ParameterName" type="text" autocomplete="true" />
+                        <input placeholder="value" name="ParameterValue" type="text" autocomplete="true" />
+                        <input class="add-param" type="button" value="Add">
+                        <br>
+                    </div>
+
+                    <br>
+                    <br>
+                    <label>Filters</label>
+                    <div class="parameters">
+                        <input class="param-name" placeholder="condition" name="ParameterName" type="text" autocomplete="true" />
+                        <input class="add-param" type="button" value="Add">
+                        <br>
+                    </div>
+                    <br>
+                    <label>Map function:</label>
+                    <input type="text" autocomplete="true" />
+                    <br>
+                    <br>
+                    <label>Aggregate function:</label>
+                    <select>
+                        <option>Max</option>
+                        <option>Min</option>
+                        <option>Sum</option>
+                        <option>StdDev</option>
+                        <option>Count</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -55,6 +99,8 @@
         </div>
     </div>
 </form>
+
+<script>window.initPreviewCharts()</script>
 
 </body>
 </html>
