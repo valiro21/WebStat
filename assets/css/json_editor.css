@@ -1,0 +1,107 @@
+.node > a:not(.remove-node)::before{
+    background-size: 1em 1em;
+    width: 1em;
+    height: 1em;
+    display: inline-block;
+    content: "";
+    transform: translate(0, 0.2em);
+    padding-left: 0.4em;
+}
+
+.node.non-value > a:not(.remove-node)::before {
+    background-image: url("../icons/down-arrow.svg");
+    background-repeat: no-repeat;
+}
+
+.closed > .node.non-value > a:not(.remove-node)::before {
+    background-image: url("../icons/next.svg");
+}
+
+.level-node .new-node.btn  {
+    background-image: url("../icons/add.svg");
+    background-repeat: no-repeat;
+    background-size: 0.8em 0.8em;
+    width: 0.8em;
+    height: 0.8em;
+    display: inline-block;
+    content: "";
+    transform: translate(0, 0.2em);
+    padding-left: 0.4em;
+}
+
+.level-node .remove-node.btn  {
+    background-image: url("../icons/rubbish-bin.svg");
+    background-repeat: no-repeat;
+    background-size: 0.9em 0.9em;
+    width: 0.9em;
+    height: 0.9em;
+    display: inline-block;
+    content: "";
+    transform: translate(0, 0.2em);
+    padding-left: 0.4em;
+}
+
+.closed > .node > .btn.remove-node {
+    visibility: visible;
+    display: block;
+}
+
+.level-node.closed div:not(.node), .level-node.closed a.btn {
+    visibility: hidden;
+    display: none;
+}
+
+.node {
+    display: block;
+}
+
+.level-node {
+    margin-left: 2vw;
+}
+
+.key {
+    display: inline;
+}
+
+.type {
+    display: inline;
+    font-style: italic;
+    padding-left: 5vw;
+}
+
+.btn.remove-node {
+    margin-right: 0;
+    float: right;
+}
+
+.btn.new-node {
+    margin-left: calc(1em + 2.5vw);
+}
+
+.editor {
+    margin-right: 40vw;
+    background-color: #f3f6fa;
+    background-image: linear-gradient(rgba(255, 255, 255, 1) 50%, transparent 50%, transparent);
+    background-size: 2.7em 2.7em;
+    width: 60vw;
+    margin-left: 20vw;
+}
+
+div.add-node {
+    height: 1em;
+    margin-bottom: 0.5em;
+}
+
+input.add-node {
+    height: 1em;
+    width: 60px;
+    margin-left: 1em;
+}
+
+select.add-node {
+    height: 1.9em;
+}
+
+button.add-node {
+    margin-left: 1vh;
+}
