@@ -23,10 +23,15 @@ Statistic.prototype.createDropDownEditButton = function() {
     editButton.setAttribute('class', 'editButton');
     editButton.textContent = 'Edit';
 
+    var exportButton = document.createElement('button');
+    exportButton.setAttribute('class', 'editButton');
+    exportButton.textContent = 'Export';
+
     dropDownMenu.appendChild(dropDownButton);
     dropDownMenu.appendChild(dropDownContent);
     dropDownContent.appendChild(deleteButton);
     dropDownContent.appendChild(editButton);
+    dropDownContent.appendChild(exportButton);
 
     return dropDownMenu;
 };
