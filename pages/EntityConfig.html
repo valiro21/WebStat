@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WStat</title>
+    <script src="../assets/js/NavBar.js"></script>
+    <script src="../assets/js/JsonEditor.js"></script>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/setup.css">
+    <link rel="stylesheet" href="../assets/css/entity.css">
+    <link rel="stylesheet" href="../assets/css/json_editor.css">
+</head>
+<body>
+
+<header>
+</header>
+
+<form>
+    <div class="setup-step">
+        <a name="General"></a>
+
+        <div class="setup-step-body">
+            <div class="form-content">
+                <div class="form-content-center form-align">
+                    <label for="EntityAlias">Entity Name: </label>
+                    <input id="EntityAlias" name="EntityAlias" type="text" autocomplete="true" />
+                    <br>
+                    <label for="EntityUri">Entity uri: </label>
+                    <input id="EntityUri" name="EntityUri" type="text" />
+                    <br>
+                    <label for="WebsiteAlias">Website: </label>
+                    <input id="WebsiteAlias" name="WebsiteAlias" type="text" autocomplete="true" />
+                </div>
+            </div>
+        </div>
+
+        <div class="setup-step-footer">
+            <a href='#Parameters' class="next">
+                <p>Parameters</p>
+            </a>
+        </div>
+    </div>
+
+    <div class="setup-step">
+        <a name="Parameters"></a>
+
+        <div class="setup-step-body">
+            <div class="form-content">
+                <div class="form-content-center form-align">
+                    <h2>Parameters</h2>
+                    <div class="parameter">
+                        <hr>
+                        <input class="param-name" placeholder="name" name="ParameterName" type="text" autocomplete="true" />
+                        <input placeholder="value" name="ParameterValue" type="text" autocomplete="true" />
+                        <input class="add-param" type="button" value="Add">
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="setup-step-footer">
+            <a href='#General' class="back">
+                <p>General</p>
+            </a>
+
+            <a href='#Data' class="next">
+                <p class="next">Data</p>
+            </a>
+        </div>
+    </div>
+
+    <div class="setup-step">
+        <a name="Data"></a>
+
+        <div class="setup-step-body">
+            <div class="form-content">
+                <div class="">
+                    <div class="editor"><script>refreshEditor();</script></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="setup-step-footer">
+            <a href='#Parameters' class="back">
+                <p>Parameters</p>
+            </a>
+
+            <a href='' class="next finish">
+                <p>Finish</p>
+            </a>
+        </div>
+    </div>
+</form>
+
+</body>
+</html>
