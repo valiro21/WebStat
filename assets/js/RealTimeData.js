@@ -1,7 +1,9 @@
 
+
 var chartWrapper;
 
 // Test data ------------------------------------------------------------------------------
+
 
 var testData = [12, 19, 3, 5, 2, 3];
 var testLabels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"];
@@ -11,6 +13,9 @@ var testType = 'bar';
 
 // Functions ------------------------------------------------------------------------------
 
+/**
+ * Initializes chart with mock-up data
+ */
 function initTestChart() {
     chartWrapper = new ChartWrapper(testId, testType, null, null);
 
@@ -19,11 +24,12 @@ function initTestChart() {
     chartWrapper.render();
 }
 
+/**
+ * Changes chart type to the one specified by #chart-type element
+ */
 function changeChartType() {
     var elem = document.getElementById("chart-type");
     var type = elem.options[elem.selectedIndex].value;
-
-    console.log(type);
 
     chartWrapper.setType(type);
     chartWrapper.fullRefresh();
@@ -35,11 +41,26 @@ function openSidebar() {
     // document.getElementById("main").style.marginLeft = "25%";
 
     document.getElementById("sidebar").style.display = "block";
-    document.getElementById("overlay").style.display = "block";
+    document.getElementById("sidebar-overlay").style.display = "block";
+
+    // TODO: temporary, just for testing
+    openModal();
 }
 function closeSidebar() {
     // document.getElementById("main").style.marginLeft = "0%";
 
     document.getElementById("sidebar").style.display = "none";
-    document.getElementById("overlay").style.display = "none";
+    document.getElementById("sidebar-overlay").style.display = "none";
+}
+
+// Modal functions ---------------------------------------------------------------------------------------
+
+function openModal() {
+    document.getElementById("chart-element-modal").style.display = "block";
+    document.getElementById("modal-overlay").style.display = "block"
+}
+
+function closeModal() {
+    document.getElementById("chart-element-modal").style.display = "none";
+    document.getElementById("modal-overlay").style.display = "none"
 }
