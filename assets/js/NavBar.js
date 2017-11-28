@@ -15,7 +15,7 @@ function initNavBar(){
 
     var buttonLinks = [
         '../pages/frontPage.html',
-        '../pages/realTimeData.html',
+        '../pages/RealTimeData.html',
         '../pages/statisticsDrive.html',
         '../pages/entityDrive.html',
         '../pages/StatisticConfig.html'

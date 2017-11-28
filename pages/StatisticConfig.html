@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WStat</title>
     <script src="../assets/js/NavBar.js"></script>
+    <script src="../assets/js/Random.js"></script>
+    <script src="../assets/js/Chart.bundle.min.js"></script>
+    <script src="../assets/js/ChartWrapper.js"></script>
+    <script src="../assets/js/StatisticsConfig.js"></script>
     <link rel="stylesheet" href="../assets/css/reset.css">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/setup.css">
@@ -19,6 +23,12 @@
         <a name="General"></a>
 
         <div class="setup-step-body">
+
+            <div class="chart-preview"><canvas id="bar-chart"></canvas></div>
+            <div class="chart-preview"><canvas id="pie-chart"></canvas></div>
+            <div class="chart-preview"><canvas id="doughnut-chart"></canvas></div>
+            <div class="chart-preview"><canvas id="line-chart"></canvas></div>
+
             <div class="form-content">
                 <div class="form-content-center form-align">
                     <label for="StatisticsAlias">Website Name: </label>
@@ -89,6 +99,8 @@
         </div>
     </div>
 </form>
+
+<script>window.initPreviewCharts()</script>
 
 </body>
 </html>
