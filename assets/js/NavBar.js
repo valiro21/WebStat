@@ -18,7 +18,7 @@ function initNavBar(){
         '../pages/realTimeData.html',
         '../pages/statisticsDrive.html',
         '../pages/entityDrive.html',
-        '../pages/StatisticConfig.html'
+        '../pages/statisticsConfig.html'
     ];
 
     // Dynamically generating the link list

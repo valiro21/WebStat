@@ -64,7 +64,7 @@ var StatisticsDrive = (function() {
 
     function createAddButton() {
         var addButtonRedirect = document.createElement('a');
-        addButtonRedirect.setAttribute('href', '../pages/StatisticConfig.html');
+        addButtonRedirect.setAttribute('href', '../pages/statisticsConfig.html');
 
         var addButton = document.createElement('div');
         addButtonRedirect.appendChild(addButton);
