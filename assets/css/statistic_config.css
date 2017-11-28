@@ -18,3 +18,7 @@
     display: flex;
     flex-flow: wrap;
 }
+
+div[selected] {
+    border: 2px solid black;
+}

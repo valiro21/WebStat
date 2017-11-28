@@ -7,6 +7,7 @@ var chartWrappers = [];
 var testData = [12, 19, 3, 5, 2, 3];
 var testLabels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"];
 var testDatasetLabel = '# of votes';
+var testIds = [];
 var testTypes = ['bar', 'pie', 'doughnut', 'line'];
 
 // Functions ------------------------------------------------------------------------------
@@ -26,6 +27,30 @@ function initPreviewCharts() {
 
         chartWrapper.render();
 
+        testIds.push(id);
         chartWrappers.push(chartWrapper);
     });
+}
+
+function setSelectedChart(id) {
+    var elem = document.getElementById(id);
+
+    // set parent div to selected
+    elem.parentNode.setAttribute('selected', 'selected');
+}
+
+function setUnselectedChart(id) {
+    var elem = document.getElementById(id);
+    elem.parentNode.removeAttribute('selected');
+}
+
+function selectChart(id) {
+    testIds.forEach(function (t) {
+        if (t === id) {
+            setSelectedChart(t);
+        }
+        else {
+            setUnselectedChart(t);
+        }
+    })
 }
