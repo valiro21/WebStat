@@ -16,6 +16,8 @@ body {
 
 .setup-step > .setup-step-body{
     padding-top: 3em; /* NavBar error */
+    overflow: auto;
+    max-height: 82vh;
 }
 
 .setup-step > .setup-step-footer{

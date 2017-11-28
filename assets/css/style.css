@@ -11,6 +11,7 @@ body {
 
 header{
     margin-bottom: 3em;
+    z-index: 1000;
 }
 
 #navBar {
