@@ -10,4 +10,11 @@
 .chart-preview {
     width: 200px;
     height: 200px;
+    display: inherit;
+}
+
+.charts-align {
+    margin-left: 20px;
+    display: flex;
+    flex-flow: wrap;
 }
