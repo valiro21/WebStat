@@ -47,7 +47,8 @@ Statistic.prototype.generateElement = function() {
     var textElement = document.createElement('div');
     textElement.setAttribute('class', 'container');
 
-    var title = document.createElement('h4');
+    var title = document.createElement('div');
+    title.setAttribute('class', 'title');
     title.textContent = this.title;
     textElement.appendChild(title);
 
@@ -71,7 +72,7 @@ var StatisticsDrive = (function() {
         addButton.setAttribute('class', 'addStatisticsButton');
 
         var imgElement = document.createElement('img');
-        imgElement.setAttribute('src', 'https://goo.gl/LkaMqy');
+        imgElement.setAttribute('src', '../assets/img/cross.png');
         imgElement.setAttribute('style', 'margin-top: 50px');
         imgElement.setAttribute('height', '150px');
         imgElement.setAttribute('width', '150px');
@@ -91,9 +92,9 @@ var StatisticsDrive = (function() {
     function createInstance() {
         var that = {};
 
-        that.statistics = [new Statistic('https://lh3.googleusercontent.com/Ned_Tu_ge6GgJZ_lIO_5mieIEmjDpq9kfgD05wapmvzcInvT4qQMxhxq_hEazf8ZsqA=w300', 'https://www.youtube.com/', 'Youtube'),
-            new Statistic('http://is1.mzstatic.com/image/thumb/Purple128/v4/71/c6/d4/71c6d492-b0d8-7136-75b8-5198b11a5023/source/175x175bb.jpg', 'https://www.facebook.com/', 'Facebook'),
-            new Statistic('https://pbs.twimg.com/profile_images/875087697177567232/Qfy0kRIP_400x400.jpg', 'https://twitter.com/twitter', 'Twitter')];
+        that.statistics = [new Statistic('../assets/img/youtube.png', '#', 'Youtube'),
+            new Statistic('../assets/img/facebook.jpg', '#', 'Facebook'),
+            new Statistic('../assets/img/twitter.jpg', '#', 'Twitter')];
 
         that.addStatistic = function() {
         };
