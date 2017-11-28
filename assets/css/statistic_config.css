@@ -10,7 +10,7 @@
 .chart-preview {
     width: 200px;
     height: 200px;
-    display: inherit;
+    display: inline-block;
 }
 
 .charts-align {
