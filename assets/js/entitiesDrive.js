@@ -64,7 +64,7 @@ var EntitiesDrive = (function() {
 
     function createAddButton() {
         var addButtonRedirect = document.createElement('a');
-        addButtonRedirect.setAttribute('href', '../pages/entitiesConfig.html');
+        addButtonRedirect.setAttribute('href', '../pages/EntityConfig.html');
 
         var addButton = document.createElement('div');
         addButtonRedirect.appendChild(addButton);

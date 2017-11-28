@@ -7,18 +7,14 @@ function initNavBar(){
 
     var buttonNames = [
         'Home',
-        'Statistic example',
         'Statistic List',
-        'Entity List',
-        'Create statistic'
+        'Entity List'
     ];
 
     var buttonLinks = [
         '../pages/frontPage.html',
-        '../pages/RealTimeData.html',
         '../pages/statisticsDrive.html',
-        '../pages/entityDrive.html',
-        '../pages/StatisticConfig.html'
+        '../pages/entityDrive.html'
     ];
 
     // Dynamically generating the link list
