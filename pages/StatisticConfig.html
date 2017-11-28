@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="../assets/css/reset.css">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/setup.css">
-    <link rel="stylesheet" href="../assets/css/StatisticConfig.css">
+    <link rel="stylesheet" href="../assets/css/statistic_config.css">
 </head>
 <body>
 <header>
@@ -50,7 +50,40 @@
 
         <div class="setup-step-body">
             <div class="form-content">
-                <div class="form-content-center form-align">
+                <div class="entity-form">
+                    <label>Entity:</label>
+                    <input type="text" autocomplete="true" />
+                    <br>
+                    <br>
+                    <label>Parameters</label>
+                    <div class="parameters">
+                        <input class="param-name" placeholder="name" name="ParameterName" type="text" autocomplete="true" />
+                        <input placeholder="value" name="ParameterValue" type="text" autocomplete="true" />
+                        <input class="add-param" type="button" value="Add">
+                        <br>
+                    </div>
+
+                    <br>
+                    <br>
+                    <label>Filters</label>
+                    <div class="parameters">
+                        <input class="param-name" placeholder="condition" name="ParameterName" type="text" autocomplete="true" />
+                        <input class="add-param" type="button" value="Add">
+                        <br>
+                    </div>
+                    <br>
+                    <label>Map function:</label>
+                    <input type="text" autocomplete="true" />
+                    <br>
+                    <br>
+                    <label>Aggregate function:</label>
+                    <select>
+                        <option>Max</option>
+                        <option>Min</option>
+                        <option>Sum</option>
+                        <option>StdDev</option>
+                        <option>Count</option>
+                    </select>
                 </div>
             </div>
         </div>
