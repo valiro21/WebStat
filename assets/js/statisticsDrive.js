@@ -92,9 +92,9 @@ var StatisticsDrive = (function() {
     function createInstance() {
         var that = {};
 
-        that.statistics = [new Statistic('../assets/img/chart-1.png', '../pages/realTimeData.html', 'Highest traffic'),
-            new Statistic('../assets/img/chart-2.png', '../pages/realTimeData.html', 'Most text'),
-            new Statistic('../assets/img/chart-3.png', '../pages/realTimeData.html', 'Data types')];
+        that.statistics = [new Statistic('../assets/img/chart-1.png', '../pages/RealTimeData.html', 'Highest traffic'),
+            new Statistic('../assets/img/chart-2.png', '../pages/RealTimeData.html', 'Most text'),
+            new Statistic('../assets/img/chart-3.png', '../pages/RealTimeData.html', 'Data types')];
 
         that.addStatistic = function() {
         };
