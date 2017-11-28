@@ -9,7 +9,7 @@
 
 .chart-preview {
     width: 200px;
-    height: 200px;
+    height: 150px;
     display: inline-block;
 }
 
@@ -19,6 +19,6 @@
     flex-flow: wrap;
 }
 
-div[selected] {
+*[selected] {
     border: 2px solid black;
 }

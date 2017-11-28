@@ -34,14 +34,12 @@ function initPreviewCharts() {
 
 function setSelectedChart(id) {
     var elem = document.getElementById(id);
-
-    // set parent div to selected
-    elem.parentNode.setAttribute('selected', 'selected');
+    elem.setAttribute('selected', 'selected');
 }
 
 function setUnselectedChart(id) {
     var elem = document.getElementById(id);
-    elem.parentNode.removeAttribute('selected');
+    elem.removeAttribute('selected');
 }
 
 function selectChart(id) {
