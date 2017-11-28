@@ -26,7 +26,7 @@
 
         <div class="sidebar-item">
             <label for="chart-type">
-                Chart type
+                Chart type:
             </label>
 
             <select id="chart-type" onchange="changeChartType()">
@@ -37,7 +37,7 @@
             </select>
         </div>
 
-        <a href="#" class="sidebar-item btn">Choose dataset...</a>
+        <!--<a href="#" class="sidebar-item btn">Choose dataset...</a>-->
 
         <div class="sidebar-item"> <hr/> </div>
 
@@ -59,8 +59,42 @@
         <a href="#" class="sidebar-item btn">Add element to chart</a>
     </div>
 
-    <!-- Overlay -->
-    <div class="overlay animate-opacity" id="overlay" onclick="closeSidebar()"></div>
+    <!-- Chart element modal -->
+    <div class="modal" id="chart-element-modal">
+        <div class="modal-header">
+            <div id="modal-header-text">Modal Header</div>
+            <!--<a class="modal-close" onclick="closeModal()">&times;</a>-->
+        </div>
+
+        <div class="modal-body">
+            <form class="modal-form">
+                <div>
+                    <!-- TODO: remove hardcored font sizes... -->
+                    <label for="alias-input" style="font-size: 15px">Alias: </label>
+                    <input id="alias-input"  type="text" />
+                </div>
+
+                <div>
+                    <!-- TODO: remove hardcored font sizes... -->
+                    <label for="active-checkbox" style="font-size: 15px">Active: </label>
+                    <input id="active-checkbox" type="checkbox"/>
+                </div>
+
+                <div>
+                    <button type="submit" class="btn">Save</button>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="modal-footer">
+            <div id="modal-footer-text">Modal Footer</div>
+        </div>
+    </div>
+
+    <!-- Overlays -->
+    <div class="sidebar-overlay animate-opacity" id="sidebar-overlay" onclick="closeSidebar()"></div>
+    <div class="modal-overlay animate-opacity" id="modal-overlay" onclick="closeModal()"></div>
 
     <!-- Content -->
     <div id="main">
