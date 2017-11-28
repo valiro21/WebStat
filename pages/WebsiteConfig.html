@@ -10,61 +10,60 @@
     <link rel="stylesheet" href="../assets/css/setup.css">
 </head>
 <body>
+    <header>
+    </header>
+    
+    <form>
+        <div class="setup-step">
+            <a name="WebsiteName"></a>
 
-<header>
-</header>
-
-<form>
-    <div class="setup-step">
-        <a name="WebsiteName"></a>
-
-        <div class="setup-step-body">
-            <div class="form-content">
-                <div class="form-content-center form-align">
-                    <label for="WebsiteAlias">Website Name: </label>
-                    <input id="WebsiteAlias" name="WebsiteAlias" type="text" autocomplete="true" />
-                    <br>
-                    <br>
-                    <label for="WebsiteHostname">Request uri: </label>
-                    <input id="WebsiteHostname" name="WebsiteHostname" type="url" autocomplete="true" />
+            <div class="setup-step-body">
+                <div class="form-content">
+                    <div class="form-content-center form-align">
+                        <label for="WebsiteAlias">Website Name: </label>
+                        <input id="WebsiteAlias" name="WebsiteAlias" type="text" autocomplete="true" />
+                        <br>
+                        <br>
+                        <label for="WebsiteHostname">Request uri: </label>
+                        <input id="WebsiteHostname" name="WebsiteHostname" type="url" autocomplete="true" />
+                    </div>
                 </div>
+            </div>
+
+            <div class="setup-step-footer">
+                <a name="Name" href="#Oauth" class="next">
+                    <p>Oauth</p>
+                </a>
             </div>
         </div>
 
-        <div class="setup-step-footer">
-            <a name="Name" href="#Oauth" class="next">
-                <p>Oauth</p>
-            </a>
-        </div>
-    </div>
+        <div class="setup-step finish">
+            <a name="Oauth"></a>
 
-    <div class="setup-step finish">
-        <a name="Oauth"></a>
-
-        <div class="setup-step-body">
-            <div class="form-content">
-                <div class="form-content-center form-align">
-                    <label for="OauthKey">Access token:</label>
-                    <input id="OauthKey" name="OauthKey" type="text" autocomplete="true" />
-                    <br>
-                    <br>
-                    <label for="OauthKeyParam">Parameter name:</label>
-                    <input id="OauthKeyParam" name="OauthKeyParam" type="text" autocomplete="true" value="access_token"/>
+            <div class="setup-step-body">
+                <div class="form-content">
+                    <div class="form-content-center form-align">
+                        <label for="OauthKey">Access token:</label>
+                        <input id="OauthKey" name="OauthKey" type="text" autocomplete="true" />
+                        <br>
+                        <br>
+                        <label for="OauthKeyParam">Parameter name:</label>
+                        <input id="OauthKeyParam" name="OauthKeyParam" type="text" autocomplete="true" value="access_token"/>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="setup-step-footer">
-            <a href='#WebsiteName' class="back">
-                <p>Name</p>
-            </a>
+            <div class="setup-step-footer">
+                <a href='#WebsiteName' class="back">
+                    <p>Name</p>
+                </a>
 
-            <a href='' class="finish next">
-                <p class="next">Finish</p>
-            </a>
+                <a href='' class="finish next">
+                    <p class="next">Finish</p>
+                </a>
+            </div>
         </div>
-    </div>
-</form>
+    </form>
 
 </body>
 </html>
