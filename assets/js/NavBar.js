@@ -9,6 +9,7 @@ function initNavBar(){
         'Home',
         'Statistic example',
         'Statistic List',
+        'Entity List',
         'Create statistic'
     ];
 
@@ -16,6 +17,7 @@ function initNavBar(){
         '../pages/frontPage.html',
         '../pages/realTimeData.html',
         '../pages/statisticsDrive.html',
+        '../pages/entityDrive.html',
         '../pages/statisticsConfig.html'
     ];
 
