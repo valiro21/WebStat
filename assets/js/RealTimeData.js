@@ -42,9 +42,6 @@ function openSidebar() {
 
     document.getElementById("sidebar").style.display = "block";
     document.getElementById("sidebar-overlay").style.display = "block";
-
-    // TODO: temporary, just for testing
-    openModal();
 }
 function closeSidebar() {
     // document.getElementById("main").style.marginLeft = "0%";
