@@ -21,6 +21,7 @@ Entity.prototype.createDropDownEditButton = function() {
 
     var editButton = document.createElement('button');
     editButton.setAttribute('class', 'editButton');
+    editButton.setAttribute('onclick', 'redirectToEdit()');
     editButton.textContent = 'Edit';
 
     dropDownMenu.appendChild(dropDownButton);
@@ -146,4 +147,8 @@ if(window.attachEvent) {
     } else {
         window.onload = initEntitiesDrive;
     }
+}
+
+function redirectToEdit() {
+    window.location.href = "../pages/WebsiteConfig.html";
 }
