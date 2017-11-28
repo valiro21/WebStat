@@ -54,3 +54,18 @@ function selectChart(id) {
         }
     })
 }
+
+// Add NavBar generation after page load w/o overriding.
+if(window.attachEvent) {
+    window.attachEvent('onload', window.initPreviewCharts);
+} else {
+    if(window.onload) {
+        var currentOnLoad = window.onload;
+        window.onload = function(evt) {
+            currentOnLoad(evt);
+            window.initPreviewCharts();
+        };
+    } else {
+        window.onload = window.initPreviewCharts;
+    }
+}
