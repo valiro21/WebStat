@@ -142,7 +142,7 @@ function removeNode(event) {
 
 function toggleVisibleNode(event){
     var node = event.target.parentNode.parentNode;
-    if (node.tagName == "p") {
+    if (node.tagName === "p") {
         node = node.parentNode;
     }
 
