@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+
+  "name": "wstat",
+  "description": "Stat web resources and build statistics.",
+  "version": "0.1",
+  "author": "Valentin Rosca, Cosmin Pascaru, Miron Alexandru, Andrei Netedu",
+
+  "icons": {
+    "48": "assets/img/cross.png"
+  }, 
+  "browser_action": {
+        "default_title": "wstat",
+        "default_icon": {
+          "19":"assets/img/cross.png",
+          "20":"assets/img/cross.png",
+          "38":"assets/img/cross.png"
+        },
+    "default_popup": "pages/frontPage.html"
+  },
+  "content_scripts": [],
+  "permissions": [
+    "activeTab"
+  ]
+}

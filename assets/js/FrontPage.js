@@ -56,3 +56,18 @@ function initChart() {
 
     window.setInterval(bgChartWrapper.changeDataRandom.bind(bgChartWrapper), 1000, -28, -10);
 }
+
+// Add NavBar generation after page load w/o overriding.
+if(window.attachEvent) {
+    window.attachEvent('onload', window.initChart);
+} else {
+    if(window.onload) {
+        var currentOnLoad = window.onload;
+        window.onload = function(evt) {
+            currentOnLoad(evt);
+            window.initChart();
+        };
+    } else {
+        window.onload = window.initChart;
+    }
+}

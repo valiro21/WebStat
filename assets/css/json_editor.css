@@ -79,7 +79,6 @@
 }
 
 .editor {
-    margin-right: 40vw;
     background-color: #f3f6fa;
     background-image: linear-gradient(rgba(255, 255, 255, 1) 50%, transparent 50%, transparent);
     background-size: 2.7em 2.7em;

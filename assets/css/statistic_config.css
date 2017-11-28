@@ -9,5 +9,16 @@
 
 .chart-preview {
     width: 200px;
-    height: 200px;
+    height: 150px;
+    display: inline-block;
+}
+
+.charts-align {
+    margin-left: 20px;
+    display: flex;
+    flex-flow: wrap;
+}
+
+*[selected] {
+    border: 2px solid black;
 }

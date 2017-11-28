@@ -1,5 +1,6 @@
 html {
     font-size: 62.5%;
+    min-width: 600px;
 }
 
 body {
@@ -11,6 +12,7 @@ body {
 
 header{
     margin-bottom: 3em;
+    z-index: 1000;
 }
 
 #navBar {

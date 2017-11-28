@@ -23,12 +23,6 @@
         <a name="General"></a>
 
         <div class="setup-step-body">
-
-            <div class="chart-preview"><canvas id="bar-chart"></canvas></div>
-            <div class="chart-preview"><canvas id="pie-chart"></canvas></div>
-            <div class="chart-preview"><canvas id="doughnut-chart"></canvas></div>
-            <div class="chart-preview"><canvas id="line-chart"></canvas></div>
-
             <div class="form-content">
                 <div class="form-content-center form-align">
                     <label for="StatisticsAlias">Website Name: </label>
@@ -39,6 +33,31 @@
         </div>
 
         <div class="setup-step-footer">
+            <a href="#Charts" class="next">
+                <p>Charts</p>
+            </a>
+        </div>
+    </div>
+
+    <div class="setup-step">
+        <a name="Charts"></a>
+
+        <div class="setup-step-body">
+            <div class="form-content">
+                <div class="form-align charts-align">
+                    <div class="chart-preview" onclick="selectChart('bar-chart')"><canvas id="bar-chart"></canvas></div>
+                    <div class="chart-preview" onclick="selectChart('pie-chart')"><canvas id="pie-chart"></canvas></div>
+                    <div class="chart-preview" onclick="selectChart('doughnut-chart')"><canvas id="doughnut-chart"></canvas></div>
+                    <div class="chart-preview" onclick="selectChart('line-chart')"><canvas id="line-chart"></canvas></div>
+                    <br>
+                </div>
+            </div>
+        </div>
+
+        <div class="setup-step-footer">
+            <a href='#General' class="back">
+                <p>General</p>
+            </a>
             <a href="#Variables" class="next">
                 <p>Variables</p>
             </a>
@@ -89,8 +108,8 @@
         </div>
 
         <div class="setup-step-footer">
-            <a href='#General' class="back">
-                <p>General</p>
+            <a href='#Charts' class="back">
+                <p>Charts</p>
             </a>
 
             <a href='' class="finish next">
@@ -99,8 +118,6 @@
         </div>
     </div>
 </form>
-
-<script>window.initPreviewCharts()</script>
 
 </body>
 </html>
