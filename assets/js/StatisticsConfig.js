@@ -22,7 +22,11 @@ function initPreviewCharts() {
     testTypes.forEach(function (t) {
         var id = t + '-chart';
 
-        chartWrapper = new ChartWrapper(id, t, null, null);
+        var options = {
+            events: [] // do not show pop-ups
+        };
+
+        chartWrapper = new ChartWrapper(id, t, options, null);
         chartWrapper.buildDataSingle(testLabels, testDatasetLabel, testData);
 
         chartWrapper.render();
