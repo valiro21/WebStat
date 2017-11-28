@@ -53,17 +53,38 @@ function selectChart(id) {
     })
 }
 
+function toArray(obj) {
+    var array = [];
+    // iterate backwards ensuring that length is an UInt32
+    for (var i = obj.length >>> 0; i--;) {
+        array[i] = obj[i];
+    }
+    return array;
+}
+
+function pageLoad() {
+    window.initPreviewCharts();
+
+    var charts = toArray(document.getElementsByClassName('chart-preview'));
+
+    charts.forEach(function(item, index) {
+        item.addEventListener('click', function(){
+            selectChart(testIds[index]);
+        });
+    });
+}
+
 // Add NavBar generation after page load w/o overriding.
 if(window.attachEvent) {
-    window.attachEvent('onload', window.initPreviewCharts);
+    window.attachEvent('onload', pageLoad);
 } else {
     if(window.onload) {
         var currentOnLoad = window.onload;
         window.onload = function(evt) {
             currentOnLoad(evt);
-            window.initPreviewCharts();
+            pageLoad();
         };
     } else {
-        window.onload = window.initPreviewCharts;
+        window.onload = pageLoad;
     }
 }
