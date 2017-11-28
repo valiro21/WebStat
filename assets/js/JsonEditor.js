@@ -193,3 +193,18 @@ function refreshEditor(divClassName = "editor") {
         placeholder.appendChild(buildJsonVisualizer({2: 3, 4: 5, 1: {2: 3, 4: 11}}));
     }
 }
+
+// Add NavBar generation after page load w/o overriding.
+if(window.attachEvent) {
+    window.attachEvent('onload', refreshEditor);
+} else {
+    if(window.onload) {
+        var currentOnLoad = window.onload;
+        window.onload = function(evt) {
+            currentOnLoad(evt);
+            refreshEditor();
+        };
+    } else {
+        window.onload = refreshEditor;
+    }
+}

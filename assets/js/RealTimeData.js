@@ -61,3 +61,19 @@ function closeModal() {
     document.getElementById("chart-element-modal").style.display = "none";
     document.getElementById("modal-overlay").style.display = "none"
 }
+
+
+// Add NavBar generation after page load w/o overriding.
+if(window.attachEvent) {
+    window.attachEvent('onload', window.initTestChart);
+} else {
+    if(window.onload) {
+        var currentOnLoad = window.onload;
+        window.onload = function(evt) {
+            currentOnLoad(evt);
+            window.initTestChart();
+        };
+    } else {
+        window.onload = window.initTestChart;
+    }
+}
