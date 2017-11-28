@@ -8,13 +8,15 @@ function initNavBar(){
     var buttonNames = [
         'Home',
         'Statistic List',
-        'Entity List'
+        'Entity List',
+        'Project Report'
     ];
 
     var buttonLinks = [
         '../pages/frontPage.html',
         '../pages/statisticsDrive.html',
-        '../pages/entityDrive.html'
+        '../pages/entityDrive.html',
+        '../report/reportProject.html'
     ];
 
     // Dynamically generating the link list
