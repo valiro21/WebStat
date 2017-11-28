@@ -85,6 +85,15 @@ html {
     animation: animateopacity 0.6s;
 }
 
+.animate-top {
+    position: relative;
+
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.5s;
+    animation-name: animatetop;
+    animation-duration: 0.5s
+}
+
 @keyframes animateopacity {
     from {
         opacity: 0
@@ -106,13 +115,12 @@ html {
 }
 
 @-webkit-keyframes animatetop {
-    from {top: -300px; opacity: 0}
-    to {top: 0; opacity: 1}
+    from {top: -20%; opacity: 1}
+    to {top: 20%; opacity: 1}
 }
-
 @keyframes animatetop {
-    from {top: -300px; opacity: 0}
-    to {top: 0; opacity: 1}
+    from {top: -20%; opacity: 1}
+    to {top: 20%; opacity: 1}
 }
 
 /* Overlay */
@@ -159,16 +167,12 @@ html {
     border: 1px solid #888;
     width: 50%;
 
-    position: fixed;
+    position: fixed !important;
     left: 50%;
     top: 20%;
     transform: translate(-50%, -50%);
 
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-    -webkit-animation-name: animatetop;
-    -webkit-animation-duration: 0.4s;
-    animation-name: animatetop;
-    animation-duration: 0.4s
 }
 
 
@@ -181,10 +185,6 @@ html {
     border: 1px solid #888;
     width: 80%;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-    -webkit-animation-name: animatetop;
-    -webkit-animation-duration: 0.4s;
-    animation-name: animatetop;
-    animation-duration: 0.4s
 }
 
 /* Modal Header */
