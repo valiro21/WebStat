@@ -1,10 +1,10 @@
-function Statistic(img, url, title) {
+function Entity(img, url, title) {
     this.img = img;
     this.url = url;
     this.title = title;
 }
 
-Statistic.prototype.createDropDownEditButton = function() {
+Entity.prototype.createDropDownEditButton = function() {
     var dropDownMenu = document.createElement('div');
     dropDownMenu.setAttribute('class', 'edit');
 
@@ -21,28 +21,24 @@ Statistic.prototype.createDropDownEditButton = function() {
 
     var editButton = document.createElement('button');
     editButton.setAttribute('class', 'editButton');
+    editButton.setAttribute('onclick', 'redirectToEdit()');
     editButton.textContent = 'Edit';
-
-    var exportButton = document.createElement('button');
-    exportButton.setAttribute('class', 'editButton');
-    exportButton.textContent = 'Export';
 
     dropDownMenu.appendChild(dropDownButton);
     dropDownMenu.appendChild(dropDownContent);
     dropDownContent.appendChild(deleteButton);
     dropDownContent.appendChild(editButton);
-    dropDownContent.appendChild(exportButton);
 
     return dropDownMenu;
 };
 
-Statistic.prototype.generateElement = function() {
-    var statisticElementLink = document.createElement('a');
-    statisticElementLink.setAttribute('href', this.url);
+Entity.prototype.generateElement = function() {
+    var entityElementLink = document.createElement('a');
+    entityElementLink.setAttribute('href', this.url);
 
-    var statisticElement = document.createElement('div');
-    statisticElementLink.appendChild(statisticElement);
-    statisticElement.setAttribute('class', 'entry');
+    var entityElement = document.createElement('div');
+    entityElementLink.appendChild(entityElement);
+    entityElement.setAttribute('class', 'entry');
 
     var imgElement = document.createElement('img');
     imgElement.setAttribute('src', this.img);
@@ -58,18 +54,18 @@ Statistic.prototype.generateElement = function() {
     textElement.appendChild(title);
 
     textElement.appendChild(this.createDropDownEditButton());
-    statisticElement.appendChild(imgElement);
-    statisticElement.appendChild(textElement);
+    entityElement.appendChild(imgElement);
+    entityElement.appendChild(textElement);
 
-    return statisticElementLink;
+    return entityElementLink;
 };
 
-var StatisticsDrive = (function() {
+var EntitiesDrive = (function() {
     var instance;
 
     function createAddButton() {
         var addButtonRedirect = document.createElement('a');
-        addButtonRedirect.setAttribute('href', '../pages/StatisticConfig.html');
+        addButtonRedirect.setAttribute('href', '../pages/entity-config.html');
 
         var addButton = document.createElement('div');
         addButtonRedirect.appendChild(addButton);
@@ -86,7 +82,7 @@ var StatisticsDrive = (function() {
         textElement.setAttribute('class', 'container');
 
         var title = document.createElement('h4');
-        title.textContent = 'New Statistic';
+        title.textContent = 'New Entity';
         textElement.appendChild(title);
 
         addButton.appendChild(imgElement);
@@ -97,28 +93,28 @@ var StatisticsDrive = (function() {
     function createInstance() {
         var that = {};
 
-        that.statistics = [new Statistic('../assets/img/chart-1.png', '../pages/RealTimeData.html', 'Highest traffic'),
-            new Statistic('../assets/img/chart-2.png', '../pages/RealTimeData.html', 'Most text'),
-            new Statistic('../assets/img/chart-3.png', '../pages/RealTimeData.html', 'Data types')];
+        that.entities = [new Entity('../assets/img/youtube.png', '#', 'Youtube'),
+            new Entity('../assets/img/facebook.jpg', '#', 'Facebook'),
+            new Entity('../assets/img/twitter.jpg', '#', 'Twitter')];
 
-        that.addStatistic = function() {
+        that.addEntity = function() {
         };
 
-        that.deleteStatistic = function() {
+        that.deleteEntity = function() {
         };
 
-        that.getStatistic = function() {
+        that.getEntity = function() {
         };
 
-        that.renderStatistics = function() {
-            var statisticsElement = document.createElement('div');
-            statisticsElement.setAttribute('class', 'displayContainer');
+        that.renderEntities = function() {
+            var entitiesElement = document.createElement('div');
+            entitiesElement.setAttribute('class', 'displayContainer');
 
-            that.statistics.forEach(function(item) {
-                statisticsElement.appendChild(item.generateElement());
+            that.entities.forEach(function(item) {
+                entitiesElement.appendChild(item.generateElement());
             });
-            statisticsElement.appendChild(createAddButton());
-            document.getElementById('displayContainer').appendChild(statisticsElement);
+            entitiesElement.appendChild(createAddButton());
+            document.getElementById('displayContainer').appendChild(entitiesElement);
         };
 
         return that;
@@ -134,22 +130,25 @@ var StatisticsDrive = (function() {
     };
 })();
 
-function initStatisticsDrive() {
-    StatisticsDrive.getInstance().renderStatistics();
+function initEntitiesDrive() {
+    EntitiesDrive.getInstance().renderEntities();
 }
 
-
-// Add drive generation after page load w/o overriding.
+// Add NavBar generation after page load w/o overriding.
 if(window.attachEvent) {
-    window.attachEvent('onload', initStatisticsDrive);
+    window.attachEvent('onload', initEntitiesDrive);
 } else {
     if(window.onload) {
         var currentOnLoad = window.onload;
         window.onload = function(evt) {
             currentOnLoad(evt);
-            initStatisticsDrive();
+            initEntitiesDrive();
         };
     } else {
-        window.onload = initStatisticsDrive;
+        window.onload = initEntitiesDrive;
     }
+}
+
+function redirectToEdit() {
+    window.location.href = "../../pages/website-config.html";
 }
