@@ -5,13 +5,16 @@ var clientInfo = {
 
 function build_query(params) {
     return Object.keys(params)
-        .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
+        .map(function(key) {
+            return encodeURIComponent(key) + '=' + encodeURIComponent(params[key])
+        })
         .join('&');
 }
 
 function requestImplicitToken(api_url, clientInfo) {
     var query = build_query(clientInfo);
-    var url = api_url + '?' + query;
+
+    this.location.href = api_url + '?' + query;
 }
 
 function getParameterByName(name) {
