@@ -13,9 +13,9 @@ function initNavBar(){
     ];
 
     var buttonLinks = [
-        '../pages/frontPage.html',
-        '../pages/statisticsDrive.html',
-        '../pages/entityDrive.html',
+        '../pages/front-page.html',
+        '../pages/statistics-drive.html',
+        '../pages/entity-drive.html',
         '../report/reportProject.html'
     ];
 

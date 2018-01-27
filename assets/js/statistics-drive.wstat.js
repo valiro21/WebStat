@@ -73,7 +73,7 @@ var StatisticsDrive = (function() {
 
     function createAddButton() {
         var addButtonRedirect = document.createElement('a');
-        addButtonRedirect.setAttribute('href', '../pages/StatisticConfig.html');
+        addButtonRedirect.setAttribute('href', '../pages/statistic-config.html');
 
         var addButton = document.createElement('div');
         addButtonRedirect.appendChild(addButton);
@@ -101,9 +101,9 @@ var StatisticsDrive = (function() {
     function createInstance() {
         var that = {};
 
-        that.statistics = [new Statistic('../assets/img/chart-1.png', '../pages/RealTimeData.html', 'Highest traffic'),
-            new Statistic('../assets/img/chart-2.png', '../pages/RealTimeData.html', 'Most text'),
-            new Statistic('../assets/img/chart-3.png', '../pages/RealTimeData.html', 'Data types')];
+        that.statistics = [new Statistic('../assets/img/chart-1.png', '../pages/realtime-data.html', 'Highest traffic'),
+            new Statistic('../assets/img/chart-2.png', '../pages/realtime-data.html', 'Most text'),
+            new Statistic('../assets/img/chart-3.png', '../pages/realtime-data.html', 'Data types')];
 
         that.addStatistic = function() {
         };

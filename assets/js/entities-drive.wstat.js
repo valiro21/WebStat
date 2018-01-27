@@ -65,7 +65,7 @@ var EntitiesDrive = (function() {
 
     function createAddButton() {
         var addButtonRedirect = document.createElement('a');
-        addButtonRedirect.setAttribute('href', '../pages/EntityConfig.html');
+        addButtonRedirect.setAttribute('href', '../pages/entity-config.html');
 
         var addButton = document.createElement('div');
         addButtonRedirect.appendChild(addButton);
@@ -150,5 +150,5 @@ if(window.attachEvent) {
 }
 
 function redirectToEdit() {
-    window.location.href = "../pages/WebsiteConfig.html";
+    window.location.href = "../../pages/website-config.html";
 }
