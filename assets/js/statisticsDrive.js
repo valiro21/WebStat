@@ -1,3 +1,7 @@
+function File(name) {
+    this.title = title;
+}
+
 function Statistic(img, url, title) {
     this.img = img;
     this.url = url;
@@ -121,6 +125,23 @@ var StatisticsDrive = (function() {
             document.getElementById('displayContainer').appendChild(statisticsElement);
         };
 
+        that.loadFromDatabase = function() {
+            var request = indexedDB.open("statisticsDrive");
+
+            request.onupgradeneeded = function() {
+                // The database did not previously exist, so create object stores and indexes.
+                var db = request.result;
+                var store = db.createObjectStore("statisticsDrive", {keyPath: "id"});
+                var titleIndex = store.createIndex("by_title", "title", {unique: false});
+                var authorIndex = store.createIndex("by_author", "author");
+
+                // Populate with initial data.
+                store.put({title: "Quarry Memories", author: "Fred", isbn: 123456});
+                store.put({title: "Water Buffaloes", author: "Fred", isbn: 234567});
+                store.put({title: "Bedrock Nights", author: "Barney", isbn: 345678});
+            };
+        };
+
         return that;
     }
 
@@ -135,6 +156,7 @@ var StatisticsDrive = (function() {
 })();
 
 function initStatisticsDrive() {
+
     StatisticsDrive.getInstance().renderStatistics();
 }
 
