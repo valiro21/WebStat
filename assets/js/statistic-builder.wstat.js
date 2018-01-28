@@ -23,7 +23,7 @@ var statisticsBuilder = {
 // executes
 keyFunc = function (t) {
     try {
-        return (t['text'].length / 100 | 0);
+        return (t['text'].length / 100 | 0); // integer division hack wtf js
     }
     catch (err) {
         return null;
@@ -58,5 +58,5 @@ fetchData(
     },
     10,
     false,
-    2
+    1
 );
