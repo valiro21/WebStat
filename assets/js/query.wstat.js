@@ -78,7 +78,7 @@ function join_url(base_url, endpoint) {
 }
 
 
-function fetchData(domain, statistic_name, primary_entity_name, done_callback, delay, overrideCache) {
+function fetchData(domain, statistic_name, primary_entity_name, fetch_callback, done_callback, delay, overrideCache) {
     var entity_request_queue = [];
 
     var primary_entity = getEntity(domain['name'], primary_entity_name);
@@ -98,11 +98,18 @@ function fetchData(domain, statistic_name, primary_entity_name, done_callback, d
                     json_data["_id"] = entity["_id"];
 
                     saveEntity(statistic_name, json_data);
+                    fetch_callback(json_data);
 
                     forEachSubentity(json_data, base_entity["root"], function(entity_name, entity_id) {
-                        if(fetched_entities.indexOf(entity_id) !== -1 || (!overrideCache && hasEntity(statistic_name, entity_id))) {
+                        if(fetched_entities.indexOf(entity_id) !== -1) {
                             return;
                         }
+
+                        if (!overrideCache && hasEntity(statistic_name, entity_id)) {
+                            fetch_callback(getEntity(statistic_name, entity_id));
+                            return;
+                        }
+
                         fetched_entities.push(entity_id);
 
                         var next_entity = build_instance_entity(domain['name'], entity_name, entity_id);
@@ -116,7 +123,6 @@ function fetchData(domain, statistic_name, primary_entity_name, done_callback, d
                         }
                         else {
                             var entity = entity_request_queue.shift();
-                            console.log("Starting fetching entity " + JSON.stringify(entity));
                             saveEntity(statistic_name, entity['_id']);
                             fetchEntity(entity);
                         }
@@ -162,6 +168,7 @@ fetchData(
     },
     'test',
     'topstories',
+    function (entity) { console.log("Fetched entity: ", entity); },
     function () { console.log("Done"); },
     10,
     false
