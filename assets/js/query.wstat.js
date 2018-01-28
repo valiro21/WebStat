@@ -176,16 +176,16 @@ saveEntity('Hacker-News', primary_entity);
 saveEntity('Hacker-News', story);
 saveEntity('Hacker-News', comment);
 
-fetchData(
-    {
-        "name": 'Hacker-News',
-        "base_url": "https://hacker-news.firebaseio.com"
-    },
-    'test',
-    'topstories',
-    function (entity) { console.log("Fetched entity: ", entity); },
-    function () { console.log("Done"); },
-    10,
-    false,
-    2
-);
+// fetchData(
+//     {
+//         "name": 'Hacker-News',
+//         "base_url": "https://hacker-news.firebaseio.com"
+//     },
+//     'test',
+//     'topstories',
+//     function (entity) { console.log("Fetched entity: ", entity); },
+//     function () { console.log("Done"); },
+//     10,
+//     false,
+//     2
+// );

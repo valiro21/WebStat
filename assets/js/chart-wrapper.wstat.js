@@ -79,19 +79,35 @@ ChartWrapper.prototype.buildData = function (labels, datasets) {
     return data;
 };
 
-ChartWrapper.prototype.buildDataSingle = function (chartLabels, datasetLabel, data) {
-    var rgbColors = getRandomColors(data.length);
+ChartWrapper.prototype.buildDataSingle = function (chartLabels, datasetLabel, values) {
+    var rgbColors = getRandomColors(values.length);
 
     var borderColors = getRgbaFromRgbArray(rgbColors, BORDER_ALPHA);
     var backgroundColors = getRgbaFromRgbArray(rgbColors, BACKGROUND_ALPHA);
 
     var datasets = [{
         label: datasetLabel,
-        data: data,
+        data: values,
         backgroundColor: backgroundColors,
         borderColor: borderColors,
         borderWidth: BORDER_WIDTH
     }];
 
     return this.buildData(chartLabels, datasets);
+};
+
+ChartWrapper.prototype.buildDataFromDict = function (datasetLabel, labelFunc, data) {
+
+    var chartLabels = Object.keys(data);
+    var values = [];
+
+    chartLabels.forEach(function (t) {
+       values.push(data[t]);
+    });
+
+    chartLabels.forEach(function (_, i, arr) {
+        arr[i] = labelFunc(arr[i]);
+    });
+
+    return this.buildDataSingle(chartLabels, datasetLabel, values);
 };
