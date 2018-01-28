@@ -1,0 +1,51 @@
+#navBar {
+    z-index: 1000;
+    position:fixed;
+    top: 0;
+    width: 100%;
+    font: normal 1.1rem "Open Sans", sans-serif;
+}
+
+#navBar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+#navBar li {
+    float: left;
+}
+
+#navBar li a {
+    display: block;
+    background-color: #333;
+    border: 0;
+    color: #f9f9f9;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+#navBar li a:hover {
+    background-color: #02b8dd;
+    color: #fff;
+}
+
+@media only screen and (max-width: 500px) {
+    #navBar{
+        font-size: 8px;
+    }
+
+    #navBar li a {
+        display: block;
+        background-color: #333;
+        border: 0;
+        color: #f9f9f9;
+        text-align: center;
+        padding: 10px 12px;
+        text-decoration: none;
+    }
+}
