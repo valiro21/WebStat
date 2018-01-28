@@ -82,6 +82,7 @@ function fetchData(domain, statistic_name, primary_entity_name, done_callback, d
     var entity_request_queue = [];
 
     var primary_entity = getEntity(domain['name'], primary_entity_name);
+    var fetched_entities = [0];
     primary_entity['_id'] = 0;
 
     var start = function fetchEntity(entity) {
@@ -99,11 +100,14 @@ function fetchData(domain, statistic_name, primary_entity_name, done_callback, d
                     saveEntity(statistic_name, json_data);
 
                     forEachSubentity(json_data, base_entity["root"], function(entity_name, entity_id) {
-                        if(!overrideCache && hasEntity(statistic_name, entity_id)) {
+                        if(fetched_entities.indexOf(entity_id) !== -1 || (!overrideCache && hasEntity(statistic_name, entity_id))) {
                             return;
                         }
+                        fetched_entities.push(entity_id);
 
-                        entity_request_queue.push(build_instance_entity(domain['name'], entity_name, entity_id));
+                        var next_entity = build_instance_entity(domain['name'], entity_name, entity_id);
+                        next_entity["_parent"] = json_data["_id"];
+                        entity_request_queue.push(next_entity);
                     });
 
                     setTimeout(function() {
@@ -136,13 +140,20 @@ var primary_entity = {
 };
 
 var story = {
-    "root": JSON.parse('{"kids":["integer"], "descendants": "integer"}'),
+    "root": JSON.parse('{"kids":[{"comment": "entity"}], "descendants": "integer"}'),
     "endpoint": "/v0/item/{id}.json",
     "_type": 'story'
 };
 
+var comment = {
+    "root": JSON.parse('{"kids":[{"comment": "entity"}]}'),
+    "endpoint": "/v0/item/{id}.json",
+    "_type": "comment"
+};
+
 saveEntity('Hacker-News', primary_entity);
 saveEntity('Hacker-News', story);
+saveEntity('Hacker-News', comment);
 
 fetchData(
     {
@@ -152,6 +163,6 @@ fetchData(
     'test',
     'topstories',
     function () { console.log("Done"); },
-    20,
+    10,
     false
 );
