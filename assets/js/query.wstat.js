@@ -78,18 +78,18 @@ function join_url(base_url, endpoint) {
 }
 
 
-function fetchData(domain, statistic_name, primary_entity_name, fetch_callback, done_callback, delay, overrideCache) {
+function fetchData(domain, statistic_name, primary_entity_name, fetch_callback, done_callback, delay, overrideCache, maxDepth) {
     var entity_request_queue = [];
 
     var primary_entity = getEntity(domain['name'], primary_entity_name);
     var fetched_entities = [0];
     primary_entity['_id'] = 0;
 
-    var start = function fetchEntity(entity) {
+    var start = function fetchEntity(entity, depth) {
         var url = join_url(domain["base_url"], entity["endpoint"]);
 
         var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = (function(entity) {
+        xhttp.onreadystatechange = (function(entity, depth) {
             var base_entity = entity;
             return function () {
                 if (this.readyState === 4 && this.status === 200) {
@@ -100,42 +100,57 @@ function fetchData(domain, statistic_name, primary_entity_name, fetch_callback, 
                     saveEntity(statistic_name, json_data);
                     fetch_callback(json_data);
 
-                    forEachSubentity(json_data, base_entity["root"], function(entity_name, entity_id) {
-                        if(fetched_entities.indexOf(entity_id) !== -1) {
+                    var fetchSubentities = function(json_data, entity, depth) {
+                        if (depth === maxDepth) {
                             return;
                         }
 
-                        if (!overrideCache && hasEntity(statistic_name, entity_id)) {
-                            fetch_callback(getEntity(statistic_name, entity_id));
-                            return;
-                        }
+                        forEachSubentity(json_data, entity["root"], function(entity_name, entity_id) {
+                            if(fetched_entities.indexOf(entity_id) !== -1) {
+                                return;
+                            }
+                            fetched_entities.push(entity_id);
 
-                        fetched_entities.push(entity_id);
+                            if (!overrideCache && hasEntity(statistic_name, entity_id)) {
+                                var cachedEntity = getEntity(statistic_name, entity_id);
+                                fetch_callback(cachedEntity);
 
-                        var next_entity = build_instance_entity(domain['name'], entity_name, entity_id);
-                        next_entity["_parent"] = json_data["_id"];
-                        entity_request_queue.push(next_entity);
-                    });
+                                var abstractEntity = getEntity(domain['name'], entity_name);
+
+                                fetchSubentities(cachedEntity, abstractEntity, depth + 1);
+                                return;
+                            }
+
+                            var next_entity = build_instance_entity(domain['name'], entity_name, entity_id);
+                            next_entity["_parent"] = json_data["_id"];
+                            entity_request_queue.push([depth + 1, next_entity]);
+                        });
+                    };
+
+                    fetchSubentities(json_data, base_entity, depth);
 
                     setTimeout(function() {
                         if (entity_request_queue.length === 0) {
+                            console.log("Total of " + fetched_entities.length.toString() + " items.");
                             done_callback();
                         }
                         else {
-                            var entity = entity_request_queue.shift();
+                            var record = entity_request_queue.shift();
+                            var depth = record[0];
+                            var entity = record[1];
                             saveEntity(statistic_name, entity['_id']);
-                            fetchEntity(entity);
+                            fetchEntity(entity, depth);
                         }
                     }, delay);
                 }
             }
-        })(entity);
+        })(entity, depth);
 
         xhttp.open("GET", url, true);
         xhttp.send();
     };
 
-    start(primary_entity);
+    start(primary_entity, 0);
 }
 
 var primary_entity = {
@@ -171,5 +186,6 @@ fetchData(
     function (entity) { console.log("Fetched entity: ", entity); },
     function () { console.log("Done"); },
     10,
-    false
+    false,
+    2
 );
