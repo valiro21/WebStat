@@ -7,6 +7,31 @@ if(typeof(String.prototype.strip) === "undefined")
     };
 }
 
+function saveEntity(namespace, entity) {
+    if (entity.hasOwnProperty('_id')) {
+        localStorage.setItem(namespace + '/' + entity['_id'], JSON.stringify(entity));
+    }
+    else {
+        localStorage.setItem(namespace + '/' + entity['_type'], JSON.stringify(entity));
+    }
+}
+
+function getEntity(namespace, entity_name) {
+    var entity = localStorage.getItem(namespace + '/' + entity_name);
+
+    if (entity === undefined || entity === null) {
+        return null;
+    }
+
+    return JSON.parse(entity);
+}
+
+function hasEntity(namespace, entity_name) {
+    var entity = localStorage.getItem(namespace + '/' + entity_name);
+
+    return !(entity === undefined || entity === null);
+}
+
 function forEachSubentity(data_json, entity, callback) {
     if (Array.isArray(entity)) {
         data_json.forEach(function(val) {
@@ -36,8 +61,10 @@ function forEachSubentity(data_json, entity, callback) {
     }
 }
 
-function build_instance_entity(namespace, entity_name, entity_id) {
-    var instance_entity = getEntity(namespace, entity_name);
+function build_instance_entity(domain_namespace, entity_name, entity_id) {
+    var instance_entity = getEntity(domain_namespace, entity_name);
+    instance_entity["_id"] = entity_id;
+    instance_entity["_type"] = entity_name;
 
     var endpoint = instance_entity['endpoint'];
     endpoint = endpoint.replace("{id}", entity_id);
@@ -46,35 +73,16 @@ function build_instance_entity(namespace, entity_name, entity_id) {
     return instance_entity;
 }
 
-
-function saveEntity(namespace, entity) {
-    if (entity.hasOwnProperty('_id')) {
-        localStorage.setItem(namespace + '/' + entity['_id'], JSON.stringify(entity));
-    }
-    else {
-        localStorage.setItem(namespace + '/' + entity['_type'], JSON.stringify(entity));
-    }
-}
-
-function getEntity(namespace, entity_name) {
-    return JSON.parse(localStorage.getItem(namespace + '/' + entity_name))
-}
-
 function join_url(base_url, endpoint) {
     return base_url.strip('/') + '/' + endpoint.strip('/');
 }
 
-function sleep(ms) {
-    return new Promise(function(resolve) { setTimeout(resolve, ms)});
-}
 
-
-function fetchData(domain, statistic_name, primary_entity_name, done_callback, delay) {
+function fetchData(domain, statistic_name, primary_entity_name, done_callback, delay, overrideCache) {
     var entity_request_queue = [];
 
-    var total_entities_count = 0;
     var primary_entity = getEntity(domain['name'], primary_entity_name);
-    primary_entity['_id'] = ++total_entities_count;
+    primary_entity['_id'] = 0;
 
     var start = function fetchEntity(entity) {
         var url = join_url(domain["base_url"], entity["endpoint"]);
@@ -85,9 +93,17 @@ function fetchData(domain, statistic_name, primary_entity_name, done_callback, d
             return function () {
                 if (this.readyState === 4 && this.status === 200) {
                     var json_data = JSON.parse(this.responseText);
+                    json_data["_type"] = entity["_type"];
+                    json_data["_id"] = entity["_id"];
+
+                    saveEntity(statistic_name, json_data);
 
                     forEachSubentity(json_data, base_entity["root"], function(entity_name, entity_id) {
-                        entity_request_queue.push(build_instance_entity(domain['name'], entity_name, entity_id, ++total_entities_count));
+                        if(!overrideCache && hasEntity(statistic_name, entity_id)) {
+                            return;
+                        }
+
+                        entity_request_queue.push(build_instance_entity(domain['name'], entity_name, entity_id));
                     });
 
                     setTimeout(function() {
@@ -97,6 +113,7 @@ function fetchData(domain, statistic_name, primary_entity_name, done_callback, d
                         else {
                             var entity = entity_request_queue.shift();
                             console.log("Starting fetching entity " + JSON.stringify(entity));
+                            saveEntity(statistic_name, entity['_id']);
                             fetchEntity(entity);
                         }
                     }, delay);
@@ -106,8 +123,6 @@ function fetchData(domain, statistic_name, primary_entity_name, done_callback, d
 
         xhttp.open("GET", url, true);
         xhttp.send();
-
-        saveEntity(statistic_name, entity);
     };
 
     start(primary_entity);
@@ -137,4 +152,6 @@ fetchData(
     'test',
     'topstories',
     function () { console.log("Done"); },
-    100);
+    20,
+    false
+);
