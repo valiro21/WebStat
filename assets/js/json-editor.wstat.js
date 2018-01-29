@@ -12,7 +12,8 @@ PRIMITIVES = [
     'string',
     'number',
     'boolean',
-    'next_page'
+    'next_page',
+    'entity'
 ];
 
 function isPrimitive(type) {
@@ -140,7 +141,7 @@ function removeNode(event) {
     }
 }
 
-function toggleVisibleNode(event){
+function toggleVisibleNode(event) {
     var node = event.target.parentNode.parentNode;
     if (node.tagName === "p") {
         node = node.parentNode;
@@ -161,8 +162,7 @@ function isTerminalNode(data) {
 function buildJsonVisualizer(data, rootName = "root", rootType = "object") {
     var level = createLevel(rootName, rootType);
 
-    if (isTerminalNode(data))
-    {
+    if (isTerminalNode(data)) {
         level.removeChild(level.lastChild);
         return level;
     }
@@ -184,13 +184,49 @@ function buildJsonVisualizer(data, rootName = "root", rootType = "object") {
     return level;
 }
 
+function getNodeDetails(node) {
+    var valueNode = node.getElementsByClassName("node")[0];
+    var aNode = valueNode.getElementsByTagName("a")[0];
+    var name = aNode.getElementsByClassName("key")[0].innerText;
+    var type = aNode.getElementsByClassName("type")[0].innerText;
+
+    return [name, type];
+}
+
+function getJsonFromVisualizer(rootNode) {
+    var details = getNodeDetails(rootNode);
+    var name = details[0];
+    var type = details[1];
+
+    if (isPrimitive(type)) {
+        return details;
+    }
+
+    var typeVal = {};
+
+    for (var idx = 0; idx < rootNode.children.length; idx++) {
+        var child = rootNode.children[idx];
+
+        if(child.classList.contains("level-node")) {
+            details = getJsonFromVisualizer(child);
+            typeVal[details[0]] = details[1];
+        }
+    }
+
+    if (type === "array") {
+        typeVal = [typeVal];
+    }
+
+    return [name, typeVal];
+}
+
 function refreshEditor(divClassName = "editor") {
     var editorPlaceholders = document.getElementsByClassName(divClassName);
 
-    if (editorPlaceholders.length > 0)
-    {
+    if (editorPlaceholders.length > 0) {
         var placeholder = editorPlaceholders.item(0);
         placeholder.appendChild(buildJsonVisualizer({2: 3, 4: 5, 1: {2: 3, 4: 11}}));
+        console.log(getJsonFromVisualizer(placeholder.children[0]));
     }
 }
 
