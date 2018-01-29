@@ -1,16 +1,3 @@
-.parameter > .param-name {
-    width: 10em;
-}
-
-.parameter > .add-param {
-    width: 4em;
-}
-
-.parameter hr {
-    width: 25em;
-    border-color: white;
-}
-
-.parameters-area {
+.properties-area {
     width: 20%;
 }
