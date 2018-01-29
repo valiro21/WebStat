@@ -26,6 +26,6 @@
 }
 
 .panel-footer {
-    border-top: 1px solid transparent;
+    border-top: 1px solid #ddd;
     padding: 15px;
 }

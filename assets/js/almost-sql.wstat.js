@@ -1,4 +1,4 @@
-var aggregates = {
+let aggregates = {
     'min' : {
         init : function () {
             this._val = null;
@@ -37,6 +37,18 @@ var aggregates = {
         }
     },
 
+    'sum' : {
+        init : function () {
+            this._val = 0;
+        },
+        add : function (elem) {
+            this._val += elem;
+        },
+        getResult : function () {
+            return this._val;
+        }
+    },
+
     'count' : {
         init : function () {
             this._cnt = 0;
@@ -54,15 +66,14 @@ aggregates['cnt'] = aggregates['count'];
 aggregates['avg'] = aggregates['average'];
 
 
-function applyAggregate(arr, keyFunc, aggregate) {
-
+function applyAggregate(arr, keyValFunc, all, aggregate) {
     try {
-        var aggrObj = aggregates[aggregate];
+        let aggrObj = aggregates[aggregate];
 
         aggrObj.init();
 
         arr.forEach(function (t) {
-            aggrObj.add(keyFunc(t));
+            aggrObj.add(keyValFunc(t, all).val);
         });
 
         return aggrObj.getResult();
@@ -76,12 +87,12 @@ function applyAggregate(arr, keyFunc, aggregate) {
 //----------------------------------------------------------------------------------------------------------------------
 //------ [ GROUP BY ] --------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
-function groupBy(arr, keyFunc, aggregate, keepNull = false) {
+function groupBy(arr, keyValFunc, aggregate, keepNull = false) {
 
-    var grouped = {};
+    let grouped = {};
 
     arr.forEach(function (t) {
-        var group = keyFunc(t);
+        let group = keyValFunc(t, arr).key;
 
         if (!grouped[group]) {
             grouped[group] = [];
@@ -90,10 +101,10 @@ function groupBy(arr, keyFunc, aggregate, keepNull = false) {
         grouped[group].push(t);
     });
 
-    var ans = {};
+    let ans = {};
 
-    for (var groupKey in grouped) {
-        ans[groupKey] = applyAggregate(grouped[groupKey], keyFunc, aggregate);
+    for (let groupKey in grouped) {
+        ans[groupKey] = applyAggregate(grouped[groupKey], keyValFunc, arr, aggregate);
     }
 
     if (!keepNull) {
