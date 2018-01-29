@@ -1,0 +1,15 @@
+.trash-bin {
+    background-image: url("../icons/rubbish-bin.svg");
+    background-repeat: no-repeat;
+    background-size: 0.9em 0.9em;
+    width: 0.9em;
+    height: 0.9em;
+    display: inline-block;
+    content: "";
+    transform: translate(0, 0.2em);
+    padding-left: 0.4em;
+}
+
+.float-right {
+    float: right;
+}

@@ -32,15 +32,15 @@ function initNavBar(){
 
 // Add NavBar generation after page load w/o overriding.
 if(window.attachEvent) {
-    window.attachEvent('onload', initNavBar);
+    window.attachEvent('onload', initNavBar());
 } else {
     if(window.onload) {
         var currentOnLoad = window.onload;
-        window.onload = function(evt) {
+        window.onload = function(currentOnLoad, evt) {
             currentOnLoad(evt);
             initNavBar();
-        };
+        }.bind(null, currentOnLoad);
     } else {
-        window.onload = initNavBar;
+        window.onload = function(evt){initNavBar();};
     }
 }
