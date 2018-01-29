@@ -7,8 +7,8 @@ function initNavBar(){
 
     var buttonNames = [
         'Home',
-        'Statistic List',
-        'Entity List',
+        'Statistics Drive',
+        'Entities Drive',
         'Project Report'
     ];
 
