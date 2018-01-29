@@ -73,9 +73,12 @@ var statisticsBuilder = {
 
 
 // executes
+
+const interval = 10;
+
 keyFunc = function (t) {
     try {
-        return (t['text'].length / 100 | 0); // integer division hack wtf js
+        return (t['text'].length / interval | 0); // integer division hack wtf js
     }
     catch (err) {
         return null;
@@ -83,7 +86,7 @@ keyFunc = function (t) {
 };
 
 labelFunc = function (key) {
-    return key * 100;
+    return key * interval;
 };
 
 const testId = 'chart';
