@@ -290,25 +290,25 @@ var like = {
     "_type": "like"
 };
 
-saveEntity('Facebook', self_posts_page);
-saveEntity('Facebook', post);
-saveEntity('Facebook', post_likes);
-saveEntity('Facebook', like);
-
-fetchData(
-    {
-        "name": 'Facebook',
-        "base_url": "https://graph.facebook.com/v2.11",
-        "parameters": {"access_token": ""}
-    },
-    'test',
-    'self_posts_page',
-    function (entity) { console.log("Fetched entity: ", entity); },
-    function () { console.log("Done"); },
-    10,
-    true,
-    3
-);
+// saveEntity('Facebook', self_posts_page);
+// saveEntity('Facebook', post);
+// saveEntity('Facebook', post_likes);
+// saveEntity('Facebook', like);
+//
+// fetchData(
+//     {
+//         "name": 'Facebook',
+//         "base_url": "https://graph.facebook.com/v2.11",
+//         "parameters": {"access_token": ""}
+//     },
+//     'test',
+//     'self_posts_page',
+//     function (entity) { console.log("Fetched entity: ", entity); },
+//     function () { console.log("Done"); },
+//     10,
+//     true,
+//     3
+// );
 
 
 // # ##                        END                           # ##
