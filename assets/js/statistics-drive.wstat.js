@@ -166,6 +166,7 @@ Statistic.prototype.generateElement = function(index) {
     var statisticElement = document.createElement('div');
     statisticElement.appendChild(statisticElementLink);
     statisticElement.setAttribute('class', 'entry');
+    statisticElement.setAttribute('id' , 'entry-' + index);
 
     var imgElement = document.createElement('img');
     imgElement.setAttribute('src', this.img);
