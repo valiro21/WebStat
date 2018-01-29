@@ -8,6 +8,14 @@ function Entity(title) {
     this.title = title;
 }
 
+function OpenDomain(index) {
+    EntitiesDrive.getInstance().openDomain(index);
+}
+
+function CloseDomain() {
+    EntitiesDrive.getInstance().closeDomain();
+}
+
 Domain.prototype.createDropDownEditButton = function() {
     var dropDownMenu = document.createElement('div');
     dropDownMenu.setAttribute('class', 'edit');
@@ -15,23 +23,22 @@ Domain.prototype.createDropDownEditButton = function() {
     var dropDownButton = document.createElement('button');
     dropDownButton.setAttribute('class', 'editButton');
     dropDownButton.textContent = '...';
+    dropDownMenu.appendChild(dropDownButton);
 
     var dropDownContent = document.createElement('div');
     dropDownContent.setAttribute('class', 'editContent');
+    dropDownMenu.appendChild(dropDownContent);
 
     var editButton = document.createElement('button');
     editButton.setAttribute('class', 'editButton');
     editButton.setAttribute('onclick', 'redirectToEdit()');
     editButton.textContent = 'Edit';
-
-    dropDownMenu.appendChild(dropDownButton);
-    dropDownMenu.appendChild(dropDownContent);
     dropDownContent.appendChild(editButton);
 
     return dropDownMenu;
 };
 
-Domain.prototype.generateElement = function() {
+Domain.prototype.generateElement = function(index) {
     var domainElement = document.createElement('div');
     domainElement.setAttribute('class', 'entry');
 
@@ -39,9 +46,12 @@ Domain.prototype.generateElement = function() {
     imgElement.setAttribute('src', this.img);
     imgElement.setAttribute('height', '250px');
     imgElement.setAttribute('width', '250px');
+    imgElement.setAttribute('onclick', 'OpenDomain(' + index +')');
+    domainElement.appendChild(imgElement);
 
     var textElement = document.createElement('div');
     textElement.setAttribute('class', 'container');
+    domainElement.appendChild(textElement);
 
     var title = document.createElement('div');
     title.setAttribute('class', 'title');
@@ -49,10 +59,30 @@ Domain.prototype.generateElement = function() {
     textElement.appendChild(title);
 
     textElement.appendChild(this.createDropDownEditButton());
-    domainElement.appendChild(imgElement);
-    domainElement.appendChild(textElement);
 
     return domainElement;
+};
+
+Entity.prototype.createDropDownEditButton = function() {
+    var dropDownMenu = document.createElement('div');
+    dropDownMenu.setAttribute('class', 'edit');
+
+    var dropDownButton = document.createElement('button');
+    dropDownButton.setAttribute('class', 'editButton');
+    dropDownButton.textContent = '...';
+    dropDownMenu.appendChild(dropDownButton);
+
+    var dropDownContent = document.createElement('div');
+    dropDownContent.setAttribute('class', 'editContent');
+    dropDownMenu.appendChild(dropDownContent);
+
+    var editButton = document.createElement('button');
+    editButton.setAttribute('class', 'editButton');
+    editButton.setAttribute('onclick', 'redirectToEdit()');
+    editButton.textContent = 'Edit';
+    dropDownContent.appendChild(editButton);
+
+    return dropDownMenu;
 };
 
 Entity.prototype.generateElement = function() {
@@ -63,9 +93,11 @@ Entity.prototype.generateElement = function() {
     imgElement.setAttribute('src', 'https://images-na.ssl-images-amazon.com/images/I/31NaU1jyiUL._SL500_AC_SS350_.jpg');
     imgElement.setAttribute('height', '250px');
     imgElement.setAttribute('width', '250px');
+    entityElement.appendChild(imgElement);
 
     var textElement = document.createElement('div');
     textElement.setAttribute('class', 'container');
+    entityElement.appendChild(textElement);
 
     var title = document.createElement('div');
     title.setAttribute('class', 'title');
@@ -73,7 +105,6 @@ Entity.prototype.generateElement = function() {
     textElement.appendChild(title);
 
     textElement.appendChild(this.createDropDownEditButton());
-    entityElement.appendChild(textElement);
 
     return entityElement;
 };
@@ -110,18 +141,46 @@ var EntitiesDrive = (function() {
 
     function createInstance() {
         var that = {};
+        that.openedDomain = -1;
 
-        that.entities = [new Domain('../assets/img/youtube.png', 'Youtube', []),
+        that.entities = [new Domain('../assets/img/youtube.png', 'Youtube', [new Entity('BOOS')]),
             new Domain('../assets/img/facebook.jpg', 'Facebook', []),
             new Domain('../assets/img/twitter.jpg', 'Twitter', [])];
+
+        that.openDomain = function(index) {
+            that.openedDomain = index;
+            that.clearEntities();
+            that.renderEntities();
+        };
+
+        that.closeDomain = function() {
+            that.openedDomain = -1;
+            that.clearEntities();
+            that.renderEntities();
+        };
+
+        that.clearEntities = function() {
+            var child = document.getElementById('displayContainerChild');
+            document.getElementById('displayContainer').removeChild(child);
+        };
 
         that.renderEntities = function() {
             var entitiesElement = document.createElement('div');
             entitiesElement.setAttribute('class', 'displayContainer');
+            entitiesElement.setAttribute('id', 'displayContainerChild');
 
-            that.entities.forEach(function(item) {
-                entitiesElement.appendChild(item.generateElement());
-            });
+            var index = 0;
+            if (that.openedDomain !== -1) {
+                that.entities[that.openedDomain].entities.forEach(function (item) {
+                    entitiesElement.appendChild(item.generateElement(index));
+                    index++;
+                });
+            } else {
+                that.entities.forEach(function (item) {
+                    entitiesElement.appendChild(item.generateElement(index));
+                    index++;
+                });
+            }
             entitiesElement.appendChild(createAddButton());
             document.getElementById('displayContainer').appendChild(entitiesElement);
         };

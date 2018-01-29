@@ -4,19 +4,20 @@ let statisticsBuilder = {
     data: null,
     chart: null,
     intervalId: null,
+    keyValFunc: null,
     labelFunc: null,
     keepNull: false,
 
     /**
      *
-     * @param keyFunc {function}
+     * @param keyValFunc {function}
      * @param labelFunc {function}
      * @param aggregate some bullshit structure...
      * @param chartWrapper {ChartWrapper}
      * @param refreshRate {int}
      */
-    init: function (keyFunc, labelFunc, aggregate, chartWrapper, refreshRate = 1000) {
-        this.keyFunc = keyFunc;
+    init: function (keyValFunc, labelFunc, aggregate, chartWrapper, refreshRate = 1000) {
+        this.keyValFunc = keyValFunc;
         this.labelFunc = labelFunc;
         this.aggregate = aggregate;
         this.entities = [];
@@ -44,13 +45,12 @@ let statisticsBuilder = {
     },
 
     buildData: function () {
-        this.data = groupBy(this.entities, this.keyFunc, this.aggregate, this.keepNull);
+        this.data = groupBy(this.entities, this.keyValFunc, this.aggregate, this.keepNull);
     },
 
     refresh: function () {
 
         this.buildData();
-        console.log(this.data);
 
         this.chart.buildDataFromDict(
             'Random bullshit',
@@ -59,15 +59,6 @@ let statisticsBuilder = {
         );
 
         this.chart.update();
-
-        // console.log(this.chart.data.labels);
-        // console.log(this.chart.data.datasets[0]);
-        // console.log(this.chart.data.datasets[0].data);
-        // statisticsBuilder.chart.chart.data.datasets[0].data.push(getRandomInt(1, 100000));
-        // this.chart.data.labels = ['1', '2', '3'];
-        // this.chart.data.datasets[0].data = [getRandomInt(1,100), getRandomInt(1,100), getRandomInt(1,100)];
-        // console.log(statisticsBuilder.chart.chart.datasets[0].data[0]);
-
     }
 };
 
@@ -76,24 +67,60 @@ let statisticsBuilder = {
 
 const interval = 10;
 
-keyFunc = function (t) {
+// keyFunc = function (t) {
+//     try {
+//         return (t['text'].length / interval | 0); // integer division hack wtf js
+//     }
+//     catch (err) {
+//         return null;
+//     }
+// };
+
+getFromEntities = function (entities, type, id) {
+    let ans = null;
+
+    for (let i = 0; i < entities.length; ++i) {
+        let t = entities[i];
+
+        if (t._type === type && t._id === id){
+            return t;
+        }
+    }
+    return ans;
+};
+
+keyValFunc = function (t, all) {
     try {
-        return (t['text'].length / interval | 0); // integer division hack wtf js
+        if (t._type !== "post_likes")
+            return {key:null, val:null};
+
+        let parentFullId = t._parent;
+        let temp = parentFullId.split("/");
+
+        let parentType = temp[0];
+        let parentId = temp[1];
+
+        let ent = getFromEntities(all, parentType, parentId);
+        return {key : ent.created_time, val : t.data.length};
     }
     catch (err) {
-        return null;
+        return {key:null, val:null};
     }
 };
 
 labelFunc = function (key) {
-    return key * interval;
+    return key;
 };
+
+// labelFunc = function (key) {
+//     return key * interval;
+// };
 
 const testId = 'chart';
 const testType = 'bar';
 
 let chartWrapper = new ChartWrapper(testId, testType, null, null);
-statisticsBuilder.init(keyFunc, labelFunc, 'count', chartWrapper, 1000);
+statisticsBuilder.init(keyValFunc, labelFunc, 'sum', chartWrapper, 1000);
 
 //----------------------------------------------------------------------------------------------------------------------
 //------ [ Hacker News ] -----------------------------------------------------------------------------------------------
@@ -137,7 +164,7 @@ fetchData(
         "name": 'Facebook',
         "base_url": "https://graph.facebook.com/v2.11",
         "parameters": {
-            "access_token": "EAACEdEose0cBAIXZC9lOnL8JcRNcNfLQTimURGpZCnLHIxrSlSvCihPWnty6fKZCuEmnQdqq0gBrZAIoq8UGhfZAXZBRV1R8pZA4fOoYrituULD6mG8UNsPBKoeev1u91j1xctjDo8bMKhrKgplZAX80UPqSHbkfqa4qDmp6dEZB1D1KUZAmdpGiw2AHjhljSaYJIZD"
+            "access_token": "EAACEdEose0cBAAwH1BjgX1MMvnPHZCuCy4tpZCgqNGXXzZBZA7GhtWQb4PJvV93R24Be3x3dcxUpQ9ygWcD4ffU6CixGTXHI9xNiZASRUhTmtatozmZCtNzNAxDQRyiyopw9nL5iSRqrNeI1aZCBXOVF0EgS67vhwz6o6faU6BKmrdhRioDHsBm9FbKDsa77qAZD"
         }
     },
     'test',

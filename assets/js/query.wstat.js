@@ -47,18 +47,6 @@ function forEachEntityLink(data_json, entity, callback) {
     }
 }
 
-function build_instance_entity(domain_namespace, entity_name, entity_id) {
-    var instance_entity = getEntity(domain_namespace, entity_name);
-    instance_entity["_id"] = entity_id;
-    instance_entity["_type"] = entity_name;
-
-    var endpoint = instance_entity['endpoint'];
-    endpoint = endpoint.replace("{id}", entity_id);
-    instance_entity['endpoint'] = endpoint;
-
-    return instance_entity;
-}
-
 function hasId(id, entity_name, taken_ids) {
     for (var i = 0; i < taken_ids.length; i++) {
         if(taken_ids[i][0] === entity_name && taken_ids[i][1] === id) {
@@ -81,6 +69,80 @@ function generate_random_id(entity_name, taken_ids) {
 function fetchData(domain, statistic_name, primary_entity_name, fetch_callback, done_callback, delay, overrideCache, maxDepth) {
     var entity_request_queue = [];
 
+    function handleEntity(json_data, entity, depth) {
+        if (depth === maxDepth) {
+            return;
+        }
+
+        json_data["_type"] = entity["_type"];
+        json_data["_id"] = entity["_id"];
+        if (entity.hasOwnProperty("_parent")) {
+            json_data["_parent"] = entity["_parent"];
+        }
+
+        saveEntity(statistic_name, json_data);
+        fetch_callback(json_data);
+
+        var handleChildEntity = function (entity_name, entity_id, entity_type) {
+            var next_entity = getEntity(domain["name"], entity_name);
+
+            if (entity_type === "entity") {
+                var id = getEntityId(entity_id, next_entity["root"]);
+                if (id === null) {
+                    id = generate_random_id(entity_name, fetched_entities);
+                    next_entity["properties"] = [];
+                }
+
+                next_entity["_id"] = id;
+                fetched_entities.push([entity_name, id]);
+                next_entity["_parent"] = join_url(entity["_type"], entity["_id"]);
+
+                handleEntity(entity_id, next_entity, depth);
+                return
+            }
+            else if (entity_type === "entity_url") {
+                next_entity["_id"] = generate_random_id(entity_name, fetched_entities);
+
+                entity_id = entity_id.slice(Math.max(0, entity_id.indexOf('?')));
+                next_entity["endpoint"] = next_entity["endpoint"] + entity_id;
+            }
+            else {
+                next_entity["_id"] = entity_id;
+                var endpoint = next_entity['endpoint'];
+                next_entity['endpoint'] = endpoint.replace("{id}", entity_id) + '?' +
+                                          build_query(domain["parameters"]);
+            }
+
+            if (fetched_entities.indexOf([entity_name, entity_id]) !== -1) {
+                return;
+            }
+            fetched_entities.push([entity_name, entity_id]);
+            next_entity["_parent"] = join_url(entity["_type"], entity["_id"]);
+
+            if (!overrideCache && hasEntity(statistic_name, entity_id)) {
+                var cachedEntity = getEntity(statistic_name, entity_id);
+
+                var abstractEntity = getEntity(domain['name'], entity_name);
+
+                handleEntity(cachedEntity, abstractEntity, depth + 1);
+            }
+            else {
+                if (depth + 1 === maxDepth) {
+                    return;
+                }
+                entity_request_queue.push([depth + 1, next_entity]);
+            }
+        };
+
+        forEachEntityLink(json_data, entity["root"], handleChildEntity);
+
+        depth++;
+        entity["properties"].forEach(function (entity_name) {
+            handleChildEntity(entity_name, entity["_id"], "entity_id");
+        });
+        depth--;
+    }
+
     var primary_entity = getEntity(domain['name'], primary_entity_name);
     primary_entity["endpoint"] = primary_entity["endpoint"] + '?' + build_query(domain["parameters"]);
     var fetched_entities = [[primary_entity_name, 0]];
@@ -90,114 +152,27 @@ function fetchData(domain, statistic_name, primary_entity_name, fetch_callback, 
         var url = join_url(domain["base_url"], entity["endpoint"]);
 
         var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = (function(entity, depth) {
-            var base_entity = entity;
-            return function () {
-                if (this.readyState === 4 && this.status === 200) {
-                    var json_data = JSON.parse(this.responseText);
-                    json_data["_type"] = entity["_type"];
-                    json_data["_id"] = entity["_id"];
+        xhttp.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+                var json_data = JSON.parse(this.responseText);
 
-                    saveEntity(statistic_name, json_data);
-                    fetch_callback(json_data);
+                handleEntity(json_data, entity, depth);
 
-                    var fetchEntityLinks = function(json_data, entity, depth) {
-                        if (depth === maxDepth) {
-                            return;
-                        }
+                setTimeout(function () {
+                    if (entity_request_queue.length === 0) {
+                        console.log("Total of " + fetched_entities.length.toString() + " items.");
+                        done_callback();
+                    }
+                    else {
+                        var record = entity_request_queue.shift();
+                        var depth = record[0];
+                        var entity = record[1];
 
-                        var handleEntity = function(entity_name, entity_id, entity_type) {
-                            if (entity_type === "entity") {
-                                fetch_callback(entity_id);
-                                entity_id = getEntityId(entity_id, getEntity(domain["name"], entity_name)["root"]);
-                            }
-
-                            var entity_id_is_generated = false;
-                            if (entity_id !== null) {
-                                if(fetched_entities.indexOf([entity_name, entity_id]) !== -1) {
-                                    return;
-                                }
-                                fetched_entities.push([entity_name, entity_id]);
-
-                                if (!overrideCache && hasEntity(statistic_name, entity_id)) {
-                                    var cachedEntity = getEntity(statistic_name, entity_id);
-                                    fetch_callback(cachedEntity);
-
-                                    var abstractEntity = getEntity(domain['name'], entity_name);
-
-                                    if (entity_id !== null && entity_type !== "entity_url") {
-                                        abstractEntity["properties"].forEach(function (entity_name) {
-                                            depth++;
-                                            if (depth === maxDepth) {
-                                                depth--;
-                                                return;
-                                            }
-                                            handleEntity(entity_name, entity_id);
-                                            depth--;
-                                        });
-                                    }
-
-                                    fetchEntityLinks(cachedEntity, abstractEntity, depth + 1);
-                                    return;
-                                }
-                            }
-                            else {
-                                entity_id = generate_random_id(entity_name, fetched_entities);
-                                entity_id_is_generated = true;
-                            }
-
-                            var next_entity = build_instance_entity(domain['name'], entity_name, entity_id);
-                            next_entity["_parent"] = join_url(entity["_type"], entity["_id"]);
-
-                            if (entity_type === "entity_url") {
-                                entity_id = entity_id.slice(Math.max(0, entity_id.indexOf('?')));
-
-                                next_entity["endpoint"] = next_entity["endpoint"] + entity_id;
-                                next_entity["_id"] = generate_random_id(entity_name, fetched_entities);
-                                entity_id_is_generated = true;
-                            }
-
-                            if(entity_type !== "entity" && (entity_type === "entity_url" || !entity_id_is_generated)) {
-                                if (entity_type !== "entity_url") {
-                                    next_entity["endpoint"] = next_entity["endpoint"] + '?' + build_query(domain["parameters"])
-                                }
-
-                                entity_request_queue.push([depth + 1, next_entity]);
-                            }
-
-                            if (!entity_id_is_generated) {
-                                next_entity["properties"].forEach(function (entity_name) {
-                                    depth++;
-                                    if (depth === maxDepth) {
-                                        depth--;
-                                        return;
-                                    }
-                                    handleEntity(entity_name, entity_id);
-                                    depth--;
-                                });
-                            }
-                        };
-
-                        forEachEntityLink(json_data, entity["root"], handleEntity);
-                    };
-
-                    fetchEntityLinks(json_data, base_entity, depth);
-
-                    setTimeout(function() {
-                        if (entity_request_queue.length === 0) {
-                            console.log("Total of " + fetched_entities.length.toString() + " items.");
-                            done_callback();
-                        }
-                        else {
-                            var record = entity_request_queue.shift();
-                            var depth = record[0];
-                            var entity = record[1];
-                            fetchEntity(entity, depth);
-                        }
-                    }, delay);
-                }
+                        fetchEntity(entity, depth);
+                    }
+                }, delay);
             }
-        })(entity, depth);
+        };
 
         xhttp.open("GET", url, true);
         xhttp.send();
@@ -297,7 +272,7 @@ fetchData(
     {
         "name": 'Facebook',
         "base_url": "https://graph.facebook.com/v2.11",
-        "parameters": {"access_token": "EAACEdEose0cBAIXZC9lOnL8JcRNcNfLQTimURGpZCnLHIxrSlSvCihPWnty6fKZCuEmnQdqq0gBrZAIoq8UGhfZAXZBRV1R8pZA4fOoYrituULD6mG8UNsPBKoeev1u91j1xctjDo8bMKhrKgplZAX80UPqSHbkfqa4qDmp6dEZB1D1KUZAmdpGiw2AHjhljSaYJIZD"}
+        "parameters": {"access_token": ""}
     },
     'test',
     'self_posts_page',

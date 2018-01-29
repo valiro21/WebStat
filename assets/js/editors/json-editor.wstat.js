@@ -220,7 +220,7 @@ function getJsonFromVisualizer(rootNode) {
     return [name, typeVal];
 }
 
-function refreshEditor(divClassName = "editor") {
+function refreshEditor(divClassName = "editors") {
     var editorPlaceholders = document.getElementsByClassName(divClassName);
 
     if (editorPlaceholders.length > 0) {
@@ -238,17 +238,17 @@ function refreshEditor(divClassName = "editor") {
     }
 }
 
-// Add NavBar generation after page load w/o overriding.
+
 if(window.attachEvent) {
     window.attachEvent('onload', refreshEditor);
 } else {
     if(window.onload) {
         var currentOnLoad = window.onload;
-        window.onload = function(evt) {
+        window.onload = function(currentOnLoad, evt) {
             currentOnLoad(evt);
             refreshEditor();
-        };
+        }.bind(null, currentOnLoad);
     } else {
-        window.onload = refreshEditor;
+        window.onload = function(evt){refreshEditor();};
     }
 }
