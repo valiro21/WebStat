@@ -214,6 +214,9 @@ function fetchData(domain, statistic_name, primary_entity_name, fetch_callback, 
 
                                 entity_request_queue.push([depth + 1, next_entity]);
                             }
+                            else {
+                                fetch_callback(next_entity);
+                            }
 
                             if (!entity_id_is_generated) {
                                 next_entity["properties"].forEach(function (entity_name) {
@@ -285,7 +288,7 @@ saveEntity('Hacker-News', primary_entity);
 saveEntity('Hacker-News', story);
 saveEntity('Hacker-News', comment);
 
-fetchData(
+/*fetchData(
     {
         "name": 'Hacker-News',
         "base_url": "https://hacker-news.firebaseio.com"
@@ -297,7 +300,7 @@ fetchData(
     10,
     false,
     2
-);
+);*/
 
 
 // # ##                        END                           # ##
@@ -355,7 +358,7 @@ saveEntity('Facebook', like);
     function () { console.log("Done"); },
     10,
     true,
-    2
+    3
 );*/
 
 
