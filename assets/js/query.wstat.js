@@ -18,10 +18,10 @@ function getEntityId(data_json, entity) {
 }
 
 
-function forEachEntityLink(domain, data_json, entity, callback) {
+function forEachEntityLink(data_json, entity, callback) {
     if (Array.isArray(entity)) {
         data_json.forEach(function(val) {
-            forEachEntityLink(domain, val, entity[0], callback);
+            forEachEntityLink(val, entity[0], callback);
         });
         return;
     }
@@ -37,15 +37,11 @@ function forEachEntityLink(domain, data_json, entity, callback) {
         var child_entity = entity[key];
 
         if (child_entity === "entity_id" || child_entity === "entity" || child_entity === "entity_url") {
-            if (child_entity === "entity") {
-                data_json = getEntityId(data_json, getEntity(domain["name"], key)["root"]);
-            }
-
             callback(key, data_json, child_entity);
         }
         else if (data_json.hasOwnProperty(key)) {
             if (typeof(child_entity) === "object") {
-                forEachEntityLink(domain, data_json[key], child_entity, callback);
+                forEachEntityLink(data_json[key], child_entity, callback);
             }
         }
     }
@@ -111,6 +107,11 @@ function fetchData(domain, statistic_name, primary_entity_name, fetch_callback, 
                         }
 
                         var handleEntity = function(entity_name, entity_id, entity_type) {
+                            if (entity_type === "entity") {
+                                fetch_callback(entity_id);
+                                entity_id = getEntityId(entity_id, getEntity(domain["name"], entity_name)["root"]);
+                            }
+
                             var entity_id_is_generated = false;
                             if (entity_id !== null) {
                                 if(fetched_entities.indexOf([entity_name, entity_id]) !== -1) {
@@ -163,9 +164,6 @@ function fetchData(domain, statistic_name, primary_entity_name, fetch_callback, 
 
                                 entity_request_queue.push([depth + 1, next_entity]);
                             }
-                            else {
-                                fetch_callback(next_entity);
-                            }
 
                             if (!entity_id_is_generated) {
                                 next_entity["properties"].forEach(function (entity_name) {
@@ -180,7 +178,7 @@ function fetchData(domain, statistic_name, primary_entity_name, fetch_callback, 
                             }
                         };
 
-                        forEachEntityLink(domain, json_data, entity["root"], handleEntity);
+                        forEachEntityLink(json_data, entity["root"], handleEntity);
                     };
 
                     fetchEntityLinks(json_data, base_entity, depth);
@@ -299,7 +297,7 @@ fetchData(
     {
         "name": 'Facebook',
         "base_url": "https://graph.facebook.com/v2.11",
-        "parameters": {"access_token": ""}
+        "parameters": {"access_token": "EAACEdEose0cBAIXZC9lOnL8JcRNcNfLQTimURGpZCnLHIxrSlSvCihPWnty6fKZCuEmnQdqq0gBrZAIoq8UGhfZAXZBRV1R8pZA4fOoYrituULD6mG8UNsPBKoeev1u91j1xctjDo8bMKhrKgplZAX80UPqSHbkfqa4qDmp6dEZB1D1KUZAmdpGiw2AHjhljSaYJIZD"}
     },
     'test',
     'self_posts_page',
@@ -309,6 +307,7 @@ fetchData(
     true,
     3
 );
+
 
 
 // # ##                        END                           # ##

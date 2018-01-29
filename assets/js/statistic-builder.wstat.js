@@ -1,4 +1,4 @@
-var statisticsBuilder = {
+let statisticsBuilder = {
 
     entities: [],
     data: null,
@@ -95,27 +95,62 @@ const testType = 'bar';
 let chartWrapper = new ChartWrapper(testId, testType, null, null);
 statisticsBuilder.init(keyFunc, labelFunc, 'count', chartWrapper, 1000);
 
+//----------------------------------------------------------------------------------------------------------------------
+//------ [ Hacker News ] -----------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
+// saveEntity('Hacker-News', primary_entity);
+// saveEntity('Hacker-News', story);
+// saveEntity('Hacker-News', comment);
+//
+// fetchData(
+//     {
+//         "name": 'Hacker-News',
+//         "base_url": "https://hacker-news.firebaseio.com"
+//     },
+//     'test',
+//     'topstories',
+//     function (entity) {
+//         // console.log(entity);
+//         statisticsBuilder.add(entity);
+//     },
+//     function () {
+//         statisticsBuilder.finalize();
+//     },
+//     10,
+//     false,
+//     2
+// );
+
+//----------------------------------------------------------------------------------------------------------------------
+//------ [ Facebook ] --------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
+
 localStorage.clear();
 
-saveEntity('Hacker-News', primary_entity);
-saveEntity('Hacker-News', story);
-saveEntity('Hacker-News', comment);
+saveEntity('Facebook', self_posts_page);
+saveEntity('Facebook', post);
+saveEntity('Facebook', post_likes);
+saveEntity('Facebook', like);
 
 fetchData(
     {
-        "name": 'Hacker-News',
-        "base_url": "https://hacker-news.firebaseio.com"
+        "name": 'Facebook',
+        "base_url": "https://graph.facebook.com/v2.11",
+        "parameters": {
+            "access_token": "EAACEdEose0cBAIXZC9lOnL8JcRNcNfLQTimURGpZCnLHIxrSlSvCihPWnty6fKZCuEmnQdqq0gBrZAIoq8UGhfZAXZBRV1R8pZA4fOoYrituULD6mG8UNsPBKoeev1u91j1xctjDo8bMKhrKgplZAX80UPqSHbkfqa4qDmp6dEZB1D1KUZAmdpGiw2AHjhljSaYJIZD"
+        }
     },
     'test',
-    'topstories',
+    'self_posts_page',
     function (entity) {
-        // console.log(entity);
+        console.log("Fetched entity: ", entity);
         statisticsBuilder.add(entity);
     },
     function () {
+        console.log("Done");
         statisticsBuilder.finalize();
     },
     10,
-    false,
-    2
+    true,
+    3
 );

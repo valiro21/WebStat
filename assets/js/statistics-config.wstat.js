@@ -1,14 +1,14 @@
 
-var chartWrappers = [];
+let chartWrappers = [];
 
 // Test data ------------------------------------------------------------------------------
 
 
-var testData = [12, 19, 3, 5, 2, 3];
-var testLabels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"];
-var testDatasetLabel = '# of votes';
-var testIds = [];
-var testTypes = ['bar', 'pie', 'doughnut', 'line'];
+let testData = [12, 19, 3, 5, 2, 3];
+let testLabels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"];
+let testDatasetLabel = '# of votes';
+let testIds = [];
+let testTypes = ['bar', 'pie', 'doughnut', 'line'];
 
 // Functions ------------------------------------------------------------------------------
 
@@ -20,9 +20,9 @@ function initPreviewCharts() {
     Chart.defaults.global.legend.display = false;
 
     testTypes.forEach(function (t) {
-        var id = t + '-chart';
+        let id = t + '-chart';
 
-        var options = {
+        let options = {
             events: [] // do not show pop-ups
         };
 
@@ -37,12 +37,12 @@ function initPreviewCharts() {
 }
 
 function setSelectedChart(id) {
-    var elem = document.getElementById(id);
+    let elem = document.getElementById(id);
     elem.setAttribute('selected', 'selected');
 }
 
 function setUnselectedChart(id) {
-    var elem = document.getElementById(id);
+    let elem = document.getElementById(id);
     elem.removeAttribute('selected');
 }
 
@@ -58,9 +58,9 @@ function selectChart(id) {
 }
 
 function toArray(obj) {
-    var array = [];
+    let array = [];
     // iterate backwards ensuring that length is an UInt32
-    for (var i = obj.length >>> 0; i--;) {
+    for (let i = obj.length >>> 0; i--;) {
         array[i] = obj[i];
     }
     return array;
@@ -69,7 +69,7 @@ function toArray(obj) {
 function pageLoad() {
     window.initPreviewCharts();
 
-    var charts = toArray(document.getElementsByClassName('chart-preview'));
+    let charts = toArray(document.getElementsByClassName('chart-preview'));
 
     charts.forEach(function(item, index) {
         item.addEventListener('click', function(){
@@ -83,7 +83,7 @@ if(window.attachEvent) {
     window.attachEvent('onload', pageLoad);
 } else {
     if(window.onload) {
-        var currentOnLoad = window.onload;
+        let currentOnLoad = window.onload;
         window.onload = function(evt) {
             currentOnLoad(evt);
             pageLoad();
