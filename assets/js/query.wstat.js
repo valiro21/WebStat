@@ -172,9 +172,9 @@ var comment = {
     "_type": "comment"
 };
 
-saveEntity('Hacker-News', primary_entity);
-saveEntity('Hacker-News', story);
-saveEntity('Hacker-News', comment);
+// saveEntity('Hacker-News', primary_entity);
+// saveEntity('Hacker-News', story);
+// saveEntity('Hacker-News', comment);
 
 // fetchData(
 //     {

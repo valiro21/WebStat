@@ -1,11 +1,11 @@
 // Constants ------------------------------------------------------------------------------
 
-var BACKGROUND_ALPHA = 0.2;
+const BACKGROUND_ALPHA = 0.2;
 
-var BORDER_ALPHA = 1.0;
-var BORDER_WIDTH = 1.0;
+const BORDER_ALPHA = 1.0;
+const BORDER_WIDTH = 1.0;
 
-var CHART_TYPES = ['pie', 'bar', 'doughnut', 'line', 'radar'];
+const CHART_TYPES = ['pie', 'bar', 'doughnut', 'line', 'radar'];
 
 // Class implementation -------------------------------------------------------------------
 
@@ -42,10 +42,10 @@ ChartWrapper.prototype.fullRefresh = function () {
 // Random changes ------------------------------------------------------------------------------------------
 
 ChartWrapper.prototype.changeDataRandom = function (min, max) {
-    var dsIndex = getRandomInt(0, this.data.datasets.length - 1);
-    var ds = this.data.datasets[dsIndex];
+    let dsIndex = getRandomInt(0, this.data.datasets.length - 1);
+    let ds = this.data.datasets[dsIndex];
 
-    var dataIndex = getRandomInt(0, ds.data.length - 1);
+    let dataIndex = getRandomInt(0, ds.data.length - 1);
 
     this.setData(dsIndex, dataIndex, min, max);
     this.update();
@@ -69,23 +69,65 @@ ChartWrapper.prototype.setType = function (newType) {
 // Data builders ------------------------------------------------------------------------------------------
 
 ChartWrapper.prototype.buildData = function (labels, datasets) {
-    var data = {
+
+    // questionable copy mechanism that doesn't entirely refresh chart
+    let copy = function (dest, src) {
+        for (let k in src) {
+            dest[k] = src[k];
+        }
+    };
+
+    let copyRec2 = function (dest, src) {
+        for (let k in src) {
+            copy(dest[k], src[k]);
+        }
+    };
+
+    let data = {
         labels: labels,
         datasets: datasets
     };
-
+    
     this.data = data;
+
+    try {
+        copy(this.chart.data.labels, labels);
+        copyRec2(this.chart.data.datasets, datasets);
+    }
+    catch (err) {
+        this.chart.data = data;
+    }
 
     return data;
 };
 
 ChartWrapper.prototype.buildDataSingle = function (chartLabels, datasetLabel, values) {
-    var rgbColors = getRandomColors(values.length);
 
-    var borderColors = getRgbaFromRgbArray(rgbColors, BORDER_ALPHA);
-    var backgroundColors = getRgbaFromRgbArray(rgbColors, BACKGROUND_ALPHA);
+    let backgroundColors = null;
+    let borderColors = null;
 
-    var datasets = [{
+
+    // TODO: colorsFunc as argument, generator for colors, based on values
+
+    try {
+        backgroundColors = this.chart.data.datasets[0].backgroundColor;
+        borderColors = this.chart.data.datasets[0].borderColor;
+
+        console.log("COLORS: ");
+        console.log(backgroundColors);
+        console.log(borderColors);
+
+        if (backgroundColors.length < values.length || borderColors.length < values.length) {
+            throw "Empty colors";
+        }
+    }
+    catch (err) {
+        let rgbColors = getRandomColors(values.length);
+        borderColors = getRgbaFromRgbArray(rgbColors, BORDER_ALPHA);
+        backgroundColors = getRgbaFromRgbArray(rgbColors, BACKGROUND_ALPHA);
+    }
+
+    let datasets = [{
         label: datasetLabel,
         data: values,
         backgroundColor: backgroundColors,
@@ -98,8 +140,8 @@ ChartWrapper.prototype.buildDataSingle = function (chartLabels, datasetLabel, va
 
 ChartWrapper.prototype.buildDataFromDict = function (datasetLabel, labelFunc, data) {
 
-    var chartLabels = Object.keys(data);
-    var values = [];
+    let chartLabels = Object.keys(data);
+    let values = [];
 
     chartLabels.forEach(function (t) {
        values.push(data[t]);
