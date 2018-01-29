@@ -1,38 +1,3 @@
-if(typeof(String.prototype.strip) === "undefined")
-{
-    String.prototype.strip = function(character)
-    {
-        var regexp = new RegExp("^" + character + "+|" + character + "+$");
-        return String(this).replace(regexp, '').replace(regexp, '');
-    };
-}
-
-function saveEntity(namespace, entity) {
-    if (entity.hasOwnProperty('_id')) {
-        localStorage.setItem(join_url(namespace, join_url(entity["_type"], entity['_id'])), JSON.stringify(entity));
-    }
-    else {
-        localStorage.setItem(join_url(namespace, entity["_type"]), JSON.stringify(entity));
-    }
-}
-
-function getEntity(namespace, entity_name) {
-    var entity = localStorage.getItem(namespace + '/' + entity_name);
-
-    if (entity === undefined || entity === null) {
-        return null;
-    }
-
-    return JSON.parse(entity);
-}
-
-function hasEntity(namespace, entity_name) {
-    var entity = localStorage.getItem(namespace + '/' + entity_name);
-
-    return !(entity === undefined || entity === null);
-}
-
-
 function getEntityId(data_json, entity) {
     if (typeof(entity) !== "object") {
         return null;
@@ -98,10 +63,6 @@ function build_instance_entity(domain_namespace, entity_name, entity_id) {
     return instance_entity;
 }
 
-function join_url(base_url, endpoint) {
-    return base_url.toString().strip('/') + '/' + endpoint.toString().strip('/');
-}
-
 function hasId(id, entity_name, taken_ids) {
     for (var i = 0; i < taken_ids.length; i++) {
         if(taken_ids[i][0] === entity_name && taken_ids[i][1] === id) {
@@ -118,18 +79,6 @@ function generate_random_id(entity_name, taken_ids) {
     }
 
     return x;
-}
-
-function build_query(params) {
-    if(params === undefined || params === null || params.length === 0) {
-        return "";
-    }
-
-    return Object.keys(params)
-        .map(function(key) {
-            return encodeURIComponent(key) + '=' + encodeURIComponent(params[key])
-        })
-        .join('&');
 }
 
 
@@ -346,7 +295,7 @@ saveEntity('Facebook', post);
 saveEntity('Facebook', post_likes);
 saveEntity('Facebook', like);
 
-/*fetchData(
+fetchData(
     {
         "name": 'Facebook',
         "base_url": "https://graph.facebook.com/v2.11",
@@ -359,7 +308,7 @@ saveEntity('Facebook', like);
     10,
     true,
     3
-);*/
+);
 
 
 // # ##                        END                           # ##
