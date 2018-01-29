@@ -42,6 +42,11 @@ function moveToNewFolder(fileIndex) {
     document.getElementById('displayContainer').removeChild(child);
 }
 
+function deleteModal() {
+    var child = document.getElementById('folderModal');
+    document.getElementById('displayContainer').removeChild(child);
+}
+
 function openFolderManagement(index) {
     statistics = StatisticsDrive.getInstance().statistics;
 
@@ -51,6 +56,13 @@ function openFolderManagement(index) {
 
     var modalContent = document.createElement('div');
     modalContent.setAttribute('class', 'modalContent');
+
+    var modalCloseButton = document.createElement('button');
+    modalCloseButton.setAttribute('onclick', 'deleteModal()');
+    modalCloseButton.setAttribute('style', 'float: right;');
+    modalCloseButton.textContent='x';
+
+    modalContent.appendChild(modalCloseButton);
 
     var i;
     for (i = 0; i < statistics.length; i++) {

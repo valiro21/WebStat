@@ -1,4 +1,4 @@
-var statisticsBuilder = {
+let statisticsBuilder = {
 
     entities: [],
     data: null,
