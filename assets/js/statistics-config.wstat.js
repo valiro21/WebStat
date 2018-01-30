@@ -17,10 +17,6 @@ function buildOptionElem(value, text) {
     return newElem;
 }
 
-
-
-
-
 const DOMAIN_SELECT_ID = "domain";
 const ENTITY_SELECT_ID = "entity";
 const KEY_SELECT_ID    = "key";
@@ -29,17 +25,23 @@ const VALUE_SELECT_ID  = "value";
 function getCurrentOptionValue(elem) {
     return elem.options[elem.selectedIndex].value;
 }
-
 function getCurrentEntity() {
     let e = document.getElementById(ENTITY_SELECT_ID);
     return getCurrentOptionValue(e);
 }
-
 function getCurrentDomain() {
     let e = document.getElementById(DOMAIN_SELECT_ID);
     return getCurrentOptionValue(e);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+function getAllKeys(domain, entity) {
+    return {values: [], texts: []} // TODO
+}
+function getAllValues(domain, entity) {
+    return {values: [], texts: []} // TODO
+}
+//----------------------------------------------------------------------------------------------------------------------
 function buildSelect(elemId, values, texts) {
     let e = document.getElementById(elemId);
 
@@ -57,14 +59,6 @@ function buildSelect(elemId, values, texts) {
     }
 }
 
-function getAllKeys(domain, entity) {
-    return {values: [], texts: []} // TODO
-}
-function getAllValues(domain, entity) {
-    return {values: [], texts: []} // TODO
-}
-
-
 function buildKeys(domain, entity) {
     let keys = getAllKeys(domain, entity);
     let keyNames = keys.values;
@@ -81,6 +75,8 @@ function buildValues(domain, entity) {
     buildSelect(KEY_SELECT_ID, valueNames, valueTexts);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
+
 function buildEntityDetails(domain, entity) {
     buildKeys(domain, entity);
     buildValues(domain, entity);
@@ -92,6 +88,7 @@ function buildEntitiesSelect(newDomain) {
     buildSelect(ENTITY_SELECT_ID, entities, entities);
 }
 
+//----------------------------------------------------------------------------------------------------------------------
 function onEntityChange(newEntity) {
     if (!newEntity) {
         let e = document.getElementById(ENTITY_SELECT_ID);
@@ -102,7 +99,7 @@ function onEntityChange(newEntity) {
 
     return buildEntityDetails(getCurrentDomain(), newEntity);
 }
-
+//----------------------------------------------------------------------------------------------------------------------
 function onDomainChange(newDomain) {
     if (!newDomain) {
         let e = document.getElementById(DOMAIN_SELECT_ID);
@@ -113,7 +110,7 @@ function onDomainChange(newDomain) {
 
     return buildEntitiesSelect(newDomain);
 }
-
+//----------------------------------------------------------------------------------------------------------------------
 function onStatisticsConfigLoad() {
     let domains = getAllDomains();
 
@@ -121,7 +118,13 @@ function onStatisticsConfigLoad() {
 
     document.getElementById(DOMAIN_SELECT_ID).onchange(); // works
 }
-
+//----------------------------------------------------------------------------------------------------------------------
+function onFormSubmit() {
+    // TODO
+}
+//----------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 if(window.attachEvent) {
     window.attachEvent('onload', onStatisticsConfigLoad);
 } else {
