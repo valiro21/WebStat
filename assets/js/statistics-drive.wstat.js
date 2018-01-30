@@ -32,15 +32,17 @@ function deleteFolder(index) {
     addContextListeners();
 }
 
-function moveToFolder(fileIndex, folderIndex) {
+function moveToFolder(folderIndex) {
+    var fileIndex = parseInt(document.getElementsByClassName('openedby')[0].getAttribute('id'));
     StatisticsDrive.getInstance().moveToFolder(fileIndex, folderIndex);
     var child = document.getElementById('folderModal');
     document.getElementById('displayContainer').removeChild(child);
     addContextListeners();
 }
 
-function moveToNewFolder(fileIndex) {
+function moveToNewFolder() {
     var title = document.getElementById('folderName').value;
+    var fileIndex = parseInt(document.getElementsByClassName('openedby')[0].getAttribute('id'));
     StatisticsDrive.getInstance().moveToNewFolder(fileIndex, title);
     var child = document.getElementById('folderModal');
     document.getElementById('displayContainer').removeChild(child);
@@ -82,7 +84,7 @@ function openFolderManagement(index) {
             var folderIndex = i;
 
             var folderButton = document.createElement('button');
-            folderButton.setAttribute('onClick', 'moveToFolder(' + index + ',' + folderIndex + ')');
+            folderButton.setAttribute('onClick', 'moveToFolder(' + folderIndex +')');
             folderButton.textContent = folder.title;
             modalContent.appendChild(folderButton);
         }
@@ -177,7 +179,7 @@ Statistic.prototype.generateElement = function(index) {
     var statisticElement = document.createElement('div');
     statisticElement.appendChild(statisticElementLink);
     statisticElement.setAttribute('class', 'entry');
-    statisticElement.setAttribute('id' , 'entry-' + index);
+    statisticElement.setAttribute('oncontextmenu', 'openEntryMenu('+index+')');
 
     var imgElement = document.createElement('img');
     imgElement.setAttribute('src', this.img);
@@ -348,8 +350,6 @@ var StatisticsDrive = (function() {
 function closeMenu(menuId){
     var menu = document.getElementById(menuId);
     menu.style.display = "";
-    menu.style.left = "";
-    menu.style.top = "";
 }
 
 function openMenu(menuId, event){
@@ -357,6 +357,11 @@ function openMenu(menuId, event){
     menu.style.display = "block";
     menu.style.left = (event.pageX - 10)+"px";
     menu.style.top = (event.pageY - 10)+"px";
+}
+
+function openEntryMenu(index){
+    var openedBy = document.getElementsByClassName('openedby')[0];
+    openedBy.setAttribute('id', index);
 }
 
 function addContextListeners(){
