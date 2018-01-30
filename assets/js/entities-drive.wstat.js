@@ -17,6 +17,14 @@ function CloseDomain() {
     EntitiesDrive.getInstance().closeDomain();
 }
 
+function redirectToEdit(dName, title) {
+    window.location.href = '../../pages/entity-config.html?domain_name=' + dName + '&entity_name=' + title;
+}
+
+function redirectToEditDomain(dName) {
+    window.location.href = '../../pages/domain-config.html?domain_name=' + dName;
+}
+
 Domain.prototype.convertToJson = function() {
     var jSon = {};
     jSon['img'] = this.img;
@@ -34,7 +42,7 @@ Entity.prototype.convertToJson = function() {
 };
 
 
-Domain.prototype.createDropDownEditButton = function() {
+Domain.prototype.createDropDownEditButton = function(dName) {
     var dropDownMenu = document.createElement('div');
     dropDownMenu.setAttribute('class', 'edit');
 
@@ -49,7 +57,7 @@ Domain.prototype.createDropDownEditButton = function() {
 
     var editButton = document.createElement('button');
     editButton.setAttribute('class', 'editButton');
-    editButton.setAttribute('onclick', 'redirectToEdit()');
+    editButton.setAttribute('onclick', 'redirectToEditDomain(\''+ dName +'\')');
     editButton.textContent = 'Edit';
     dropDownContent.appendChild(editButton);
 
@@ -76,12 +84,12 @@ Domain.prototype.generateElement = function(index) {
     title.textContent = this.title;
     textElement.appendChild(title);
 
-    textElement.appendChild(this.createDropDownEditButton());
+    textElement.appendChild(this.createDropDownEditButton(this.title));
 
     return domainElement;
 };
 
-Entity.prototype.createDropDownEditButton = function() {
+Entity.prototype.createDropDownEditButton = function(dName, title) {
     var dropDownMenu = document.createElement('div');
     dropDownMenu.setAttribute('class', 'edit');
 
@@ -96,14 +104,14 @@ Entity.prototype.createDropDownEditButton = function() {
 
     var editButton = document.createElement('button');
     editButton.setAttribute('class', 'editButton');
-    editButton.setAttribute('onclick', 'redirectToEdit()');
+    editButton.setAttribute('onclick', 'redirectToEdit(\''+ dName + '\',\'' + title + '\')');
     editButton.textContent = 'Edit';
     dropDownContent.appendChild(editButton);
 
     return dropDownMenu;
 };
 
-Entity.prototype.generateElement = function() {
+Entity.prototype.generateElement = function(domainName) {
     var entityElement = document.createElement('div');
     entityElement.setAttribute('class', 'entry');
 
@@ -122,7 +130,7 @@ Entity.prototype.generateElement = function() {
     title.textContent = this.title;
     textElement.appendChild(title);
 
-    textElement.appendChild(this.createDropDownEditButton());
+    textElement.appendChild(this.createDropDownEditButton(domainName, this.title));
 
     return entityElement;
 };
@@ -217,7 +225,7 @@ var EntitiesDrive = (function() {
             var index = 0;
             if (that.openedDomain !== -1) {
                 that.entities[that.openedDomain].entities.forEach(function (item) {
-                    entitiesElement.appendChild(item.generateElement(index));
+                    entitiesElement.appendChild(item.generateElement(that.entities[that.openedDomain].title, index));
                     index++;
                 });
             } else {
@@ -262,8 +270,4 @@ if(window.attachEvent) {
     } else {
         window.onload = function(evt){initEntitiesDrive();};
     }
-}
-
-function redirectToEdit() {
-    window.location.href = "../../pages/domain-config.html";
 }
