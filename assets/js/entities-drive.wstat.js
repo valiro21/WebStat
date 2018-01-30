@@ -8,35 +8,6 @@ function Entity(title) {
     this.title = title;
 }
 
-function newEntity(entityTitle, domainTitle) {
-    var dDomainGot = localStorage.getItem(domainTitle).split(',');
-
-    var i;
-    var newD = new Domain(dDomainGot[dDomainGot.length - 1], item, []);
-    for (i = 0; i < dDomainGot.length - 1; i++) {
-        newD.entities.push(new Entity(dDomainGot[i]));
-    }
-    newD.entities.push(new Entity(entityTitle));
-
-    var entities = [];
-    for (i = 0; i < newD.entities.length; i++) {
-        entities.push(newD.entities[i].title);
-    }
-    entities.push(newD.img);
-    localStorage.setItem(newD.title, entities);
-}
-
-function listEntities(domainTitle) {
-    var dDomainGot = localStorage.getItem(domainTitle).split(',');
-
-    var i;
-    var entityList = [];
-    for (i = 0; i < dDomainGot.length - 1; i++) {
-        entityList.entities.push(dDomainGot[i]);
-    }
-    return entityList;
-}
-
 
 function OpenDomain(index) {
     EntitiesDrive.getInstance().openDomain(index);
@@ -270,18 +241,18 @@ function initEntitiesDrive() {
     EntitiesDrive.getInstance().renderEntities();
 }
 
-// Add NavBar generation after page load w/o overriding.
+
 if(window.attachEvent) {
     window.attachEvent('onload', initEntitiesDrive);
 } else {
     if(window.onload) {
         var currentOnLoad = window.onload;
-        window.onload = function(evt) {
+        window.onload = function(currentOnLoad, evt) {
             currentOnLoad(evt);
             initEntitiesDrive();
-        };
+        }.bind(null, currentOnLoad);
     } else {
-        window.onload = initEntitiesDrive;
+        window.onload = function(evt){initEntitiesDrive();};
     }
 }
 
