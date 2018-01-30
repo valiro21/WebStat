@@ -26,6 +26,15 @@ function forEachEntityLink(data_json, entity, callback) {
         return;
     }
 
+    if(typeof(entity) === "string") {
+        if (entity.startsWith("entity")) {
+            var entity_type = entity.slice(0, entity.indexOf(" "));
+            var entity_name = entity.slice(entity.indexOf(' ') + 1);
+
+            callback(entity_name, data_json, entity_type);
+        }
+    }
+
     if (typeof(entity) !== "object") {
         return;
     }
@@ -33,13 +42,10 @@ function forEachEntityLink(data_json, entity, callback) {
     var keys = Object.keys(entity);
 
     for (var idx = 0; idx < keys.length; idx++) {
-        var key = keys[idx];
-        var child_entity = entity[key];
+        if (data_json.hasOwnProperty(key)) {
+            var key = keys[idx];
+            var child_entity = entity[key];
 
-        if (child_entity === "entity_id" || child_entity === "entity" || child_entity === "entity_url") {
-            callback(key, data_json, child_entity);
-        }
-        else if (data_json.hasOwnProperty(key)) {
             if (typeof(child_entity) === "object") {
                 forEachEntityLink(data_json[key], child_entity, callback);
             }
@@ -84,7 +90,7 @@ function fetchData(domain, statistic_name, primary_entity_name, fetch_callback, 
         fetch_callback(json_data);
 
         var handleChildEntity = function (entity_name, entity_id, entity_type) {
-            var next_entity = getEntity(domain["name"], entity_name);
+            var next_entity = getEntity(domain["name"], entity_name, null);
 
             if (entity_type === "entity") {
                 var id = getEntityId(entity_id, next_entity["root"]);
@@ -119,10 +125,12 @@ function fetchData(domain, statistic_name, primary_entity_name, fetch_callback, 
             fetched_entities.push([entity_name, entity_id]);
             next_entity["_parent"] = join_url(entity["_type"], entity["_id"]);
 
-            if (!overrideCache && hasEntity(statistic_name, entity_id)) {
-                var cachedEntity = getEntity(statistic_name, entity_id);
+            if (!overrideCache && hasEntity(statistic_name, entity_name, entity_id)) {
+                var cachedEntity = getEntity(statistic_name, entity_name, entity_id);
 
-                var abstractEntity = getEntity(domain['name'], entity_name);
+                var abstractEntity = getEntity(domain['name'], entity_name, null);
+                abstractEntity["_id"] = cachedEntity["_id"];
+                abstractEntity["_parent"] = cachedEntity["_parent"];
 
                 handleEntity(cachedEntity, abstractEntity, depth + 1);
             }
@@ -143,7 +151,7 @@ function fetchData(domain, statistic_name, primary_entity_name, fetch_callback, 
         depth--;
     }
 
-    var primary_entity = getEntity(domain['name'], primary_entity_name);
+    var primary_entity = getEntity(domain['name'], primary_entity_name, null);
     primary_entity["endpoint"] = primary_entity["endpoint"] + '?' + build_query(domain["parameters"]);
     var fetched_entities = [[primary_entity_name, 0]];
     primary_entity['_id'] = 0;
@@ -186,21 +194,21 @@ function fetchData(domain, statistic_name, primary_entity_name, fetch_callback, 
 // # ##                    HACKER NEWS                       # ##
 
 var primary_entity = {
-    "root": JSON.parse('[{"story": "entity_id"}]'),
+    "root": JSON.parse('["entity_id story"]'),
     "endpoint": "/v0/topstories.json",
     "properties": [],
     "_type": 'topstories'
 };
 
 var story = {
-    "root": JSON.parse('{"kids":[{"comment": "entity_id"}], "descendants": "integer"}'),
+    "root": JSON.parse('{"kids":["entity_id comment"], "descendants": "integer"}'),
     "endpoint": "/v0/item/{id}.json",
     "properties": [],
     "_type": 'story'
 };
 
 var comment = {
-    "root": JSON.parse('{"kids":[{"comment": "entity_id"}]}'),
+    "root": JSON.parse('{"kids":["entity_id comment"]}'),
     "endpoint": "/v0/item/{id}.json",
     "properties": [],
     "_type": "comment"
@@ -210,7 +218,7 @@ saveEntity('Hacker-News', primary_entity);
 saveEntity('Hacker-News', story);
 saveEntity('Hacker-News', comment);
 
-/*fetchData(
+fetchData(
     {
         "name": 'Hacker-News',
         "base_url": "https://hacker-news.firebaseio.com"
@@ -222,7 +230,7 @@ saveEntity('Hacker-News', comment);
     10,
     false,
     2
-);*/
+);
 
 
 // # ##                        END                           # ##
@@ -234,8 +242,8 @@ saveEntity('Hacker-News', comment);
 
 var self_posts_page = {
     "root": JSON.parse('{' +
-        '"data": [{"post": "entity"}],' +
-        '"paging": {"next": {"self_posts_page": "entity_url"}}' +
+        '"data": ["entity post"],' +
+        '"paging": {"next": "entity_url self_posts_page"}' +
         '}'),
     "endpoint": "/me/posts",
     "properties": [],
@@ -250,7 +258,7 @@ var post = {
 };
 
 var post_likes = {
-    "root": JSON.parse('{"data": [{"like": "entity"}]}'),
+    "root": JSON.parse('{"data": ["entity like"]}'),
     "endpoint": "/{id}/likes",
     "properties": [],
     "_type": "post_likes"
@@ -268,7 +276,7 @@ saveEntity('Facebook', post);
 saveEntity('Facebook', post_likes);
 saveEntity('Facebook', like);
 
-fetchData(
+/*fetchData(
     {
         "name": 'Facebook',
         "base_url": "https://graph.facebook.com/v2.11",
@@ -281,7 +289,7 @@ fetchData(
     10,
     true,
     3
-);
+);*/
 
 
 

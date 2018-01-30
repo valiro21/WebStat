@@ -43,8 +43,13 @@ function saveEntity(namespace, entity) {
     }
 }
 
-function getEntity(namespace, entity_name) {
-    var entity = localStorage.getItem(namespace + '/' + entity_name);
+function getEntity(namespace, entity_name, entity_id) {
+    var location = join_url(namespace, entity_name);
+    if(entity_id !== null) {
+        location = join_url(location, entity_id);
+    }
+
+    var entity = localStorage.getItem(location);
 
     if (entity === undefined || entity === null) {
         return null;
@@ -53,8 +58,13 @@ function getEntity(namespace, entity_name) {
     return JSON.parse(entity);
 }
 
-function hasEntity(namespace, entity_name) {
-    var entity = localStorage.getItem(namespace + '/' + entity_name);
+function hasEntity(namespace, entity_name, entity_id) {
+    var location = join_url(namespace, entity_name);
+    if(entity_id !== null) {
+        location = join_url(location, entity_id);
+    }
+
+    var entity = localStorage.getItem(location);
 
     return !(entity === undefined || entity === null);
 }
