@@ -10,7 +10,7 @@ function createNewListItem(item) {
     return node;
 }
 
-function addNewEntry(listNode, elementName) {
+function addListEntry(listNode, elementName) {
     listNode.appendChild(createNewListItem(elementName));
 }
 
@@ -21,9 +21,16 @@ function attachEditor() {
         var from = document.getElementById(elem.getAttribute('data-from'));
         elem.addEventListener('click', function(event) {
             event.preventDefault();
-            addNewEntry(list, from.value);
+            addListEntry(list, from.value);
             from.value = "";
         });
+    });
+}
+
+function addAdhocEntry(value) {
+    document.querySelectorAll('[data-to]', '[data-from]').forEach(function(elem) {
+        var list = document.getElementById(elem.getAttribute('data-to'));
+        addListEntry(list, value);
     });
 }
 

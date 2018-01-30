@@ -19,20 +19,24 @@ function openFolder(index) {
     var folder = StatisticsDrive.getInstance().getContentByIndex(index);
     StatisticsDrive.getInstance().navigateFolder(folder);
     StatisticsDrive.getInstance().renderStatistics();
+    addContextListeners();
 }
 
 function goUpFolder() {
     StatisticsDrive.getInstance().goUpFolder();
+    addContextListeners();
 }
 
 function deleteFolder(index) {
     StatisticsDrive.getInstance().deleteFolder(index);
+    addContextListeners();
 }
 
 function moveToFolder(fileIndex, folderIndex) {
     StatisticsDrive.getInstance().moveToFolder(fileIndex, folderIndex);
     var child = document.getElementById('folderModal');
     document.getElementById('displayContainer').removeChild(child);
+    addContextListeners();
 }
 
 function moveToNewFolder(fileIndex) {
@@ -40,6 +44,13 @@ function moveToNewFolder(fileIndex) {
     StatisticsDrive.getInstance().moveToNewFolder(fileIndex, title);
     var child = document.getElementById('folderModal');
     document.getElementById('displayContainer').removeChild(child);
+    addContextListeners();
+}
+
+function makeNewFolder() {
+    var title = document.getElementById('folderName').value;
+    StatisticsDrive.getInstance().makeNewFolder(title);
+    addContextListeners();
 }
 
 function deleteModal() {
@@ -84,12 +95,12 @@ function openFolderManagement(index) {
 
     var newFolderSubmit = document.createElement('input');
     newFolderSubmit.setAttribute('type', 'submit');
-    newFolderSubmit.textContent = 'Move to New Folder';
+    newFolderSubmit.textContent = 'New Folder';
 
     newFolderForm.appendChild(folderName);
     newFolderForm.appendChild(newFolderSubmit);
 
-    newFolderForm.setAttribute('onsubmit', 'moveToNewFolder(' + index + ');return false');
+    newFolderForm.setAttribute('onsubmit', 'makeNewFolder();return false');
 
     modalContent.appendChild(newFolderForm);
 
@@ -225,28 +236,18 @@ var StatisticsDrive = (function() {
 
     function createAddButton() {
         var addButtonRedirect = document.createElement('a');
-        addButtonRedirect.setAttribute('href', '../pages/statistic-config.html');
+        addButtonRedirect.setAttribute('onclick', 'goUpFolder()');
 
         var addButton = document.createElement('div');
         addButtonRedirect.appendChild(addButton);
 
-        addButton.setAttribute('class', 'addButton');
+        addButton.setAttribute('class', 'backButton');
 
-        var imgElement = document.createElement('img');
-        imgElement.setAttribute('src', '../assets/img/cross.png');
+        var imgElement = document.createElement('i');
+        imgElement.setAttribute('class', 'fa fa-undo');
         imgElement.setAttribute('style', 'margin-top: 50px');
-        imgElement.setAttribute('height', '150px');
-        imgElement.setAttribute('width', '150px');
-
-        var textElement = document.createElement('div');
-        textElement.setAttribute('class', 'container');
-
-        var title = document.createElement('h4');
-        title.textContent = 'New Statistic';
-        textElement.appendChild(title);
 
         addButton.appendChild(imgElement);
-        addButton.appendChild(textElement);
         return addButtonRedirect;
     }
 
@@ -289,6 +290,12 @@ var StatisticsDrive = (function() {
         that.moveToNewFolder = function(index, title) {
             that.statistics.push(new Folder(title, [that.statistics[index]]));
             that.statistics.splice(index, 1);
+            that.clearStatistics();
+            that.renderStatistics();
+        };
+
+        that.makeNewFolder = function(title) {
+            that.statistics.push(new Folder(title, []));
             that.clearStatistics();
             that.renderStatistics();
         };
@@ -352,9 +359,20 @@ function openMenu(menuId, event){
     menu.style.top = (event.pageY - 10)+"px";
 }
 
+function addContextListeners(){
+    var entries = document.getElementsByClassName('entry');
+    for (var entry of entries) {
+        entry.addEventListener("contextmenu", function(event){
+            event.preventDefault();
+            openMenu('entryMenu', event);
+            closeMenu('contextMenu');
+            event.stopPropagation();
+        }, false);
+    }
+}
+
 function initStatisticsDrive() {
     StatisticsDrive.getInstance().renderStatistics();
-    var entries = document.getElementsByClassName('entry');
     var htmlTag = document.getElementsByTagName("html")[0];
     htmlTag.addEventListener("click", function(event){
         closeMenu('entryMenu');
@@ -375,20 +393,19 @@ function initStatisticsDrive() {
         event.stopPropagation();
     }, false);
 
-    for (var entry of entries) {
-        entry.addEventListener("contextmenu", function(event){
-            event.preventDefault();
-            openMenu('entryMenu', event);
-            closeMenu('contextMenu');
-            event.stopPropagation();
-        }, false);
-    }
-
     var entryMenu = document.getElementById('entryMenu');
     entryMenu.addEventListener('contextmenu', function(event){
         event.preventDefault();
         event.stopPropagation();
     });
+
+    var contextMenu = document.getElementById('contextMenu');
+    contextMenu.addEventListener('click', function(event){
+        closeMenu('contextMenu');
+        event.stopPropagation();
+    }, false);
+
+    addContextListeners();
 }
 
 

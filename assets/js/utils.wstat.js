@@ -69,6 +69,18 @@ function hasEntity(namespace, entity_name, entity_id) {
     return !(entity === undefined || entity === null);
 }
 
+function saveDomain(domain_name, domain) {
+    localStorage.setItem(join_url("domain", domain_name), JSON.stringify(domain));
+}
+
+function getDomain(domain_name) {
+    var domain = localStorage.getItem(join_url("domain", domain_name));
+    if(domain === undefined) {
+        domain = null;
+    }
+    return JSON.parse(domain);
+}
+
 function newEntity(domainTitle, entityTitle) {
     var dDomainGot = localStorage.getItem(domainTitle);
 
