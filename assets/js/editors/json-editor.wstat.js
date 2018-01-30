@@ -208,7 +208,9 @@ function createNodeTypeSelector(includeKeyInput) {
     });
 
     var addBtn = createButton('Add');
+    addBtn.setAttribute('class','entity-button');
     var cancelBtn = createButton('Cancel');
+    cancelBtn.setAttribute('class','entity-button');
 
     addBtn.addEventListener('click', function (event) {
         event.preventDefault();

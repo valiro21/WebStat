@@ -1,0 +1,121 @@
+html{
+    height: 100%;
+}
+
+.properties-area {
+    width: 20%;
+}
+
+body {
+    background-color: #fff;
+    color: #3e454c;
+    font: 1.2rem Arial, Helvetica, sans-serif;
+    border: 0;
+    height: auto;
+}
+
+form{
+    height: 80%;
+
+}
+
+.entity-input{
+    width: 70%;
+    margin: 0 auto;
+}
+
+.form-line input{
+    display: block;
+    width: 100%;
+    outline: none;
+    padding: 7px;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    background: transparent;
+    margin-bottom: 10px;
+    font: 16px Arial, Helvetica, sans-serif;
+}
+
+
+
+.modal {
+    display: none;
+    position: fixed; /* Stay in place */
+    z-index: 101; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+#parameters{
+    background-color: #fefefe;
+    margin: auto;
+    border: 1px solid #888;
+    width: 30%;
+    z-index: 101;
+}
+
+i{
+    float: right;
+}
+
+.form-align{
+    margin: 0 auto;
+    width: 80%;
+    box-shadow: 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12), 0 2px 4px -1px rgba(0,0,0,.2);
+    height: auto;
+    padding-bottom: 2em;
+}
+
+
+.editor{
+    width: 50%;
+    margin: 0 auto;
+}
+
+.form-footer{
+    padding-top: 1em;
+    width: 70%;
+    margin: 0 auto;
+
+}
+
+.form-footer input[type="button"]{
+    background-color: #333;
+    border: none;
+    color: white;
+    padding: 1em 1.2em;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+#form-submit{
+    float: right;
+}
+
+.panel-footer > input[type="text"]{
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    background: transparent;
+    font: 14px Arial, Helvetica, sans-serif;
+}
+
+.panel-footer > button {
+    font-size: 12px;
+    border: none;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    padding: 0.3em 0.5em;
+    float: right;
+}

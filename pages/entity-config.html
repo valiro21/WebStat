@@ -6,18 +6,17 @@
     <title>WStat</title>
     <script src="../assets/js/navbar.wstat.js"></script>
     <script src="../assets/js/utils.wstat.js"></script>
+    <script src="../assets/js/entity-config.js"></script>
     <script src="../assets/js/editors/dynamic-elements.wstat.js"></script>
     <script src="../assets/js/editors/dynamic-list.wstat.js"></script>
     <script src="../assets/js/editors/json-editor.wstat.js"></script>
     <link rel="stylesheet" href="../assets/css/reset.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/navbar.css">
     <link rel="stylesheet" href="../assets/css/panel.css">
-    <link rel="stylesheet" href="../assets/css/setup.css">
     <link rel="stylesheet" href="../assets/css/utils.css">
-    <link rel="stylesheet" href="../assets/css/entity.css">
-
+    <link rel="stylesheet" href="../assets/css/entity-config.css">
     <link rel="stylesheet" href="../assets/css/json-editor.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 
@@ -25,32 +24,39 @@
     </header>
 
     <form>
-        <div class="body">
-            <div class="form-align">
-                <label for="EntityAlias">Entity Name: </label>
-                <input id="EntityAlias" name="EntityAlias" type="text" autocomplete="true" />
-                <br>
-                <label for="Endpoint">Entity URI: </label>
-                <input id="Endpoint" name="Endpoint" type="text" />
-                <br>
-                <div class="panel panel-default properties-area">
-                    <div class="panel-heading">Parameters</div>
-                    <div class="panel-body">
-                        <ul id="properties">
-                        </ul>
+        <div class="form-align">
+            <div class="entity-input">
+                <div class="form-line">
+                    <input id="EntityAlias" name="EntityAlias" type="text" autocomplete="true" placeholder="Entity Name" />
+                </div>
+                <div class="form-line">
+                    <input id="Endpoint" name="Endpoint" type="text" placeholder="Entity URI" />
+                </div>
+            </div>
+            <div class="modal">
+                <div class="panel panel-default properties-area" id="parameters">
+                    <div class="panel-heading">
+                        <span>Parameters</span>
+                        <a onclick="closeModal()">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </a>
                     </div>
+                    <div class="panel-body">
+                        <ul id="properties" ></ul>
 
+                    </div>
                     <div class="panel-footer">
                         <input id="property-name" placeholder="value" name="ParameterValue" type="text" autocomplete="true" />
                         <button class="add-param" data-from="property-name" data-to="properties">Add</button>
                     </div>
                 </div>
-
-                <div class="form-content">
-                    <div class="">
-                        <div class="editor"></div>
-                    </div>
-                </div>
+            </div>
+            <div class="form-content">
+                <div class="editor"></div>
+            </div>
+            <div class="form-footer">
+                <input type="button" value="Parameters" id="params-edit" onclick="openModal()">
+                <input type="button" value="Submit" id="form-submit">
             </div>
         </div>
     </form>
