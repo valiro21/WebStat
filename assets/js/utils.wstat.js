@@ -1,3 +1,12 @@
+function Domain(img, title, entities) {
+    this.img = img;
+    this.title = title;
+    this.entities = entities;
+}
+
+function Entity(title) {
+    this.title = title;
+}
 
 function deepCopy(obj) {
     return JSON.parse(JSON.stringify(obj));
