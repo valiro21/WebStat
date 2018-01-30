@@ -1,10 +1,14 @@
 
 function getAllDomains() {
-    return ['Facebook', 'Domain2', "wtfDomain"] // TODO
+    console.log(listDomains());
+
+    return listDomains();
 }
 
 function getAllEntitiesByDomain(domain) {
-    return ['Entity1', 'likes', 'stuff'] // TODO
+    console.log(listEntities(domain));
+
+    return listEntities(domain);
 }
 
 
@@ -131,12 +135,8 @@ function onFormSubmit() {
         statisticData[inputs[i].name] = inputs[i].value;
     }
 
-    let getSelName = function (t) {
-        return t.name;
-    };
-    let getSelVal = function (t) {
-        return t.value;
-    };
+    let getSelName = function (t) {return t.name;};
+    let getSelVal = function (t) {return t.value;};
 
     for (let i = 0; i < selects.length; ++i) {
         let sel = selects[i];
@@ -148,7 +148,9 @@ function onFormSubmit() {
     }
 
     let key = getUniqueStatisticKey(statisticData);
-    localStorage.setItem(key, statisticData);
+    localStorage.setItem(key, JSON.stringify(statisticData));
+
+    console.log("Saved statistic", key);
 }
 //----------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------

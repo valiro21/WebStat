@@ -1,3 +1,5 @@
+const CHART_ID = 'chart';
+
 let statisticsBuilder = {
 
     entities: [],
@@ -62,7 +64,96 @@ let statisticsBuilder = {
     }
 };
 
+function initStatistic(data) {
+    let accessToken = statisticData['access-token'];
+    let statisticName = statisticData['statistic-name'];
+    let domain = statisticData['domain'];
+    let entity = statisticData['entity'];
+    let chartType = statisticData['chart-type'];
+    let updateInterval = statisticData['update-interval'];
+    let keyStr = statisticData['key'];
+    let valStr = statisticData['value'];
+    let labelStr = statisticData['label'];
+    let aggrStr = statisticData['aggr-func'];
 
+    let buildKeyValFunc = function (keyStr, valStr) {
+        return function (t, all) {
+            try {
+                return {key: t[keyStr], val: t[valStr]};
+            }
+            catch (err) {
+                return {key: null, val: null};
+            }
+
+        }
+    };
+
+    let buildLabelFunc = function (labelStr) {
+        return function (key) {
+            return key; // TODO
+        }
+    };
+
+    let keyValFunc = buildKeyValFunc(keyStr, valStr);
+    let labelFunc = buildLabelFunc(labelStr);
+
+
+    let chartWrapper = new ChartWrapper(CHART_ID, chartType, null, null);
+    statisticsBuilder.init(keyValFunc, labelFunc, aggrStr, chartWrapper, updateInterval);
+
+
+    saveEntity('Facebook', self_posts_page);
+    saveEntity('Facebook', post);
+    saveEntity('Facebook', post_likes);
+    saveEntity('Facebook', like);
+
+    console.log(domain);
+    let domainData = getDomain(domain);
+    console.log('DOMAIN:', domainData);
+
+    if (accessToken) {
+        domainData['parameters']['access_token'] = accessToken;
+    }
+
+    fetchData(
+        domainData,
+        statisticName,
+        entity,
+        function (ent) {
+            console.log("Add", ent);
+            statisticsBuilder.add(ent);
+        },
+        function () {
+            console.log("Finalized statistic.");
+            statisticsBuilder.finalize();
+        },
+        10,
+        true, // TODO change to false
+        3
+    )
+    // fetchData(
+    //     {
+    //         "name": 'Facebook',
+    //         "base_url": "https://graph.facebook.com/v2.11",
+    //         "parameters": {
+    //             "access_token": "EAACEdEose0cBAAwH1BjgX1MMvnPHZCuCy4tpZCgqNGXXzZBZA7GhtWQb4PJvV93R24Be3x3dcxUpQ9ygWcD4ffU6CixGTXHI9xNiZASRUhTmtatozmZCtNzNAxDQRyiyopw9nL5iSRqrNeI1aZCBXOVF0EgS67vhwz6o6faU6BKmrdhRioDHsBm9FbKDsa77qAZD"
+    //         }
+    //     },
+    //     'test',
+    //     'self_posts_page',
+    //     function (entity) {
+    //         console.log("Fetched entity: ", entity);
+    //         statisticsBuilder.add(entity);
+    //     },
+    //     function () {
+    //         console.log("Done");
+    //         statisticsBuilder.finalize();
+    //     },
+    //     10,
+    //     true,
+    //     3
+    // );
+}
 // executes
 
 const interval = 10;
@@ -116,26 +207,13 @@ labelFunc = function (key) {
 //     return key * interval;
 // };
 
-const testId = 'chart';
-const testType = 'bar';
+// const testId = 'chart';
+// const testType = 'bar';
 
-// magic
-let statisticData = {};
-
-// let accessToken = statisticData['access-token'];
-// let statisticName = statisticData['statistic-name'];
-// let domain = statisticData['domain'];
-// let entity = statisticData['entity'];
-// let chartType = statisticData['chart-type'];
-// let updateInterval = statisticData['update-interval'];
-// let keyStr = statisticData['key'];
-// let valStr = statisticData['value'];
-// let labelStr = statisticData['label'];
-// let aggrStr = statisticData['aggr-func'];
-
-
-let chartWrapper = new ChartWrapper(testId, testType, null, null);
-statisticsBuilder.init(keyValFunc, labelFunc, 'sum', chartWrapper, 1000);
+let statisticData = localStorage.getItem('stat');
+statisticData = JSON.parse(statisticData);
+console.log(statisticData);
+initStatistic(statisticData);
 
 //----------------------------------------------------------------------------------------------------------------------
 //------ [ Hacker News ] -----------------------------------------------------------------------------------------------
@@ -169,32 +247,10 @@ statisticsBuilder.init(keyValFunc, labelFunc, 'sum', chartWrapper, 1000);
 
 // localStorage.clear();
 
-saveEntity('Facebook', self_posts_page);
-saveEntity('Facebook', post);
-saveEntity('Facebook', post_likes);
-saveEntity('Facebook', like);
+// saveEntity('Facebook', self_posts_page);
+// saveEntity('Facebook', post);
+// saveEntity('Facebook', post_likes);
+// saveEntity('Facebook', like);
 
-console.log("DOMAIN:", getDomain('Facebook'));
+// console.log("DOMAIN:", getDomain('Facebook'));
 
-fetchData(
-    {
-        "name": 'Facebook',
-        "base_url": "https://graph.facebook.com/v2.11",
-        "parameters": {
-            "access_token": "EAACEdEose0cBAAwH1BjgX1MMvnPHZCuCy4tpZCgqNGXXzZBZA7GhtWQb4PJvV93R24Be3x3dcxUpQ9ygWcD4ffU6CixGTXHI9xNiZASRUhTmtatozmZCtNzNAxDQRyiyopw9nL5iSRqrNeI1aZCBXOVF0EgS67vhwz6o6faU6BKmrdhRioDHsBm9FbKDsa77qAZD"
-        }
-    },
-    'test',
-    'self_posts_page',
-    function (entity) {
-        console.log("Fetched entity: ", entity);
-        statisticsBuilder.add(entity);
-    },
-    function () {
-        console.log("Done");
-        statisticsBuilder.finalize();
-    },
-    10,
-    true,
-    3
-);

@@ -6,6 +6,7 @@
     <title>WStat</title>
     <script src="../assets/js/navbar.wstat.js"></script>
     <script src="../assets/js/random.wstat.js"></script>
+    <script src="../assets/js/utils.wstat.js"></script>
     <script src="../assets/js/Chart.bundle.min.js"></script>
     <script src="../assets/js/chart-wrapper.wstat.js"></script>
     <script src="../assets/js/statistics-config.wstat.js"></script>
@@ -19,156 +20,175 @@
 <header>
 </header>
 
-<form id="form">
-    <!--Statistic name-->
-    <label for="statistic-name">Statistic name:</label>
-    <input id="statistic-name" name="statistic-name" type="text" autocomplete="true" />
+<div class="form-align">
+    <form id="form">
+        <!--Statistic name-->
+        <div class="form-line">
+            <label for="statistic-name">Statistic name:</label>
+            <input id="statistic-name" name="statistic-name" type="text" autocomplete="true" placeholder="Statistic Name" />
+        </div>
+        <!--Domain-->
+        <div class="form-line">
+        <label for="domain">Domain:</label>
+        <select id="domain" name="domain" onchange="onDomainChange()">
+            <!--Add options with JS here-->
+            <!--<option value="none">None</option>-->
+        </select>
+        </div>
 
-    <!--Domain-->
-    <label for="domain">Domain:</label>
-    <select id="domain" name="domain" onchange="onDomainChange()">
-        <!--Add options with JS here-->
-        <!--<option value="none">None</option>-->
-    </select>
+        <!--Entity-->
+        <div class="form-line">
+        <label for="entity">Entity:</label>
+        <select id="entity" name="entity" onchange="onEntityChange()">
+            <!--Add options with JS here-->
+            <!--<option value="none">None</option>-->
+        </select>
+        </div>
 
-    <!--Entity-->
-    <label for="entity">Entity:</label>
-    <select id="entity" name="entity" onchange="onEntityChange()">
-        <!--Add options with JS here-->
-        <!--<option value="none">None</option>-->
-    </select>
+        <!--Access token-->
+        <div class="form-line">
+        <label for="access-token">Access token:</label>
+        <input id="access-token" name="access-token" type="text" autocomplete="true" placeholder="Access Token"/>
+        </div>
+        <!--Chart type-->
+        <div class="form-line">
+        <label for="chart-type">Chart type:</label>
+        <select id="chart-type" name="chart-type">
+            <option value="bar" >Bar chart</option>
+            <option value="pie" >Pie chart</option>
+            <option value="line">Line chart</option>
+        </select>
+        </div>
+        <!--Update interval-->
+        <div class="form-line">
+        <label for="update-interval">Update interval (ms):</label>
+        <input id="update-interval" name="update-interval" type="number" value="5000" min="-1" step="1"/>
+        </div>
+        <!--Key-->
+        <div class="form-line">
+        <label for="key">Key:</label>
+            <input id="key" name="key" type="text" placeholder="Insert key field name here..."/>
 
-    <!--Access token-->
-    <label for="access-token">Access token:</label>
-    <input id="access-token" name="access-token" type="text" autocomplete="true" />
+        <!--<select id="key" name="key">-->
+            <!--Add options with JS here-->
+            <!--<option value="none">None</option>-->
+            <!--<option value="custom">Custom...</option>-->
+        <!--</select>-->
 
-    <!--Chart type-->
-    <label for="chart-type">Chart type:</label>
-    <select id="chart-type" name="chart-type">
-        <option value="bar" >Bar chart</option>
-        <option value="pie" >Pie chart</option>
-        <option value="line">Line chart</option>
-    </select>
+        </div>
 
-    <!--Update interval-->
-    <label for="update-interval">Update interval (ms):</label>
-    <input id="update-interval" name="update-interval" type="number" value="5000" min="-1" step="1"/>
-
-    <!--Key-->
-    <label for="key">Key:</label>
-    <select id="key" name="key">
-        <!--Add options with JS here-->
-        <!--<option value="none">None</option>-->
-        <option value="custom">Custom...</option>
-    </select>
-
-    <!--Value-->
-    <label for="value">Value:</label>
-    <select id="value" name="value">
-        <!--Add options with JS here-->
-        <option value="equals-key">Same as key</option>
-        <option value="custom">Custom...</option>
-    </select>
-
-    <!--Label-->
-    <label for="label">Label:</label>
-    <select id="label" name="label">
-        <!--Add options with JS here-->
-        <option value="equals-key">Same as key</option>
-        <option value="custom">Custom...</option>
-    </select>
-
-    <!--Aggregate function-->
-    <label for="aggr-func">Aggregate function:</label>
-    <select id="aggr-func" name="aggr-func">
-        <!--Add options with JS here-->
-        <option value="min">Min</option>
-        <option value="max">Max</option>
-        <option value="avg">Average</option>
-        <option value="count">Count</option>
-        <option value="sum">Sum</option>
-        <option value="custom">Custom...</option>
-    </select>
-
-    <!--Submit-->
-    <button type="button" onclick="onFormSubmit()" >Submit</button>
+        <!--Value-->
+        <div class="form-line">
+        <label for="value">Value:</label>
+            <input id="value" name="value" type="text" placeholder="Insert value field name here..."/>
+        <!--<select id="value" name="value">-->
+            <!--Add options with JS here-->
+            <!--<option value="equals-key">Same as key</option>-->
+            <!--<option value="custom">Custom...</option>-->
+        <!--</select>-->
+        </div>
+        <!--Label-->
+        <div class="form-line">
+        <label for="label">Label:</label>
+        <select id="label" name="label">
+            <!--Add options with JS here-->
+            <option value="equals-key">Same as key</option>
+            <option value="custom">Custom...</option>
+        </select>
+        </div>
+        <!--Aggregate function-->
+        <div class="form-line">
+        <label for="aggr-func">Aggregate function:</label>
+        <select id="aggr-func" name="aggr-func">
+            <!--Add options with JS here-->
+            <option value="min">Min</option>
+            <option value="max">Max</option>
+            <option value="avg">Average</option>
+            <option value="count">Count</option>
+            <option value="sum">Sum</option>
+            <option value="custom">Custom...</option>
+        </select>
+        </div>
+        <!--Submit-->
+        <div class="form-line">
+        <button type="button" onclick="onFormSubmit()" >Submit</button>
+        </div>
 
 
+        <!--<div class="setup-step">-->
+            <!--<a name="Charts"></a>-->
 
-    <!--<div class="setup-step">-->
-        <!--<a name="Charts"></a>-->
-
-        <!--<div class="setup-step-body">-->
-            <!--<div class="form-content">-->
-                <!--<div class="form-align charts-align">-->
-                    <!--<div class="chart-preview"><canvas id="bar-chart"></canvas></div>-->
-                    <!--<div class="chart-preview"><canvas id="pie-chart"></canvas></div>-->
-                    <!--<div class="chart-preview"><canvas id="doughnut-chart"></canvas></div>-->
-                    <!--<div class="chart-preview"><canvas id="line-chart"></canvas></div>-->
-                    <!--<br>-->
+            <!--<div class="setup-step-body">-->
+                <!--<div class="form-content">-->
+                    <!--<div class="form-align charts-align">-->
+                        <!--<div class="chart-preview"><canvas id="bar-chart"></canvas></div>-->
+                        <!--<div class="chart-preview"><canvas id="pie-chart"></canvas></div>-->
+                        <!--<div class="chart-preview"><canvas id="doughnut-chart"></canvas></div>-->
+                        <!--<div class="chart-preview"><canvas id="line-chart"></canvas></div>-->
+                        <!--<br>-->
+                    <!--</div>-->
                 <!--</div>-->
+            <!--</div>-->
+
+            <!--<div class="setup-step-footer">-->
+                <!--<a href='#General' class="back">-->
+                    <!--<p>General</p>-->
+                <!--</a>-->
+                <!--<a href="#Variables" class="next">-->
+                    <!--<p>Variables</p>-->
+                <!--</a>-->
             <!--</div>-->
         <!--</div>-->
 
-        <!--<div class="setup-step-footer">-->
-            <!--<a href='#General' class="back">-->
-                <!--<p>General</p>-->
-            <!--</a>-->
-            <!--<a href="#Variables" class="next">-->
-                <!--<p>Variables</p>-->
-            <!--</a>-->
-        <!--</div>-->
-    <!--</div>-->
+        <!--<div class="setup-step finish">-->
+            <!--<a name="Variables"></a>-->
 
-    <!--<div class="setup-step finish">-->
-        <!--<a name="Variables"></a>-->
-
-        <!--<div class="setup-step-body">-->
-            <!--<div class="form-content">-->
-                <!--<div class="entity-form">-->
-                    <!--<label>Entity:</label>-->
-                    <!--<input type="text" autocomplete="true" />-->
-                    <!--<br>-->
-                    <!--<br>-->
-                    <!--<label>Parameters</label>-->
-                    <!--<div class="parameters">-->
-                        <!--<input class="param-name" placeholder="name" name="ParameterName" type="text" autocomplete="true" />-->
-                        <!--<input placeholder="value" name="ParameterValue" type="text" autocomplete="true" />-->
-                        <!--<input class="add-param" type="button" value="Add">-->
+            <!--<div class="setup-step-body">-->
+                <!--<div class="form-content">-->
+                    <!--<div class="entity-form">-->
+                        <!--<label>Entity:</label>-->
+                        <!--<input type="text" autocomplete="true" />-->
                         <!--<br>-->
-                    <!--</div>-->
-
-                    <!--<br>-->
-                    <!--<br>-->
-                    <!--<label>Filters</label>-->
-                    <!--<div class="parameters">-->
-                        <!--<input class="param-name" placeholder="condition" name="ParameterName" type="text" autocomplete="true" />-->
-                        <!--<input class="add-param" type="button" value="Add">-->
                         <!--<br>-->
+                        <!--<label>Parameters</label>-->
+                        <!--<div class="parameters">-->
+                            <!--<input class="param-name" placeholder="name" name="ParameterName" type="text" autocomplete="true" />-->
+                            <!--<input placeholder="value" name="ParameterValue" type="text" autocomplete="true" />-->
+                            <!--<input class="add-param" type="button" value="Add">-->
+                            <!--<br>-->
+                        <!--</div>-->
+
+                        <!--<br>-->
+                        <!--<br>-->
+                        <!--<label>Filters</label>-->
+                        <!--<div class="parameters">-->
+                            <!--<input class="param-name" placeholder="condition" name="ParameterName" type="text" autocomplete="true" />-->
+                            <!--<input class="add-param" type="button" value="Add">-->
+                            <!--<br>-->
+                        <!--</div>-->
+                        <!--<br>-->
+                        <!--<label>Map function:</label>-->
+                        <!--<input type="text" autocomplete="true" />-->
+                        <!--<br>-->
+                        <!--<br>-->
+                        <!--<label>Aggregate function:</label>-->
+                        <!--<select>-->
+                            <!--<option>Max</option>-->
+                            <!--<option>Min</option>-->
+                            <!--<option>Sum</option>-->
+                            <!--<option>StdDev</option>-->
+                            <!--<option>Count</option>-->
+                        <!--</select>-->
+                        <!--<br>-->
+                        <!--<br>-->
+                        <!--<label>Group by function:</label>-->
+                        <!--<input type="text" />-->
                     <!--</div>-->
-                    <!--<br>-->
-                    <!--<label>Map function:</label>-->
-                    <!--<input type="text" autocomplete="true" />-->
-                    <!--<br>-->
-                    <!--<br>-->
-                    <!--<label>Aggregate function:</label>-->
-                    <!--<select>-->
-                        <!--<option>Max</option>-->
-                        <!--<option>Min</option>-->
-                        <!--<option>Sum</option>-->
-                        <!--<option>StdDev</option>-->
-                        <!--<option>Count</option>-->
-                    <!--</select>-->
-                    <!--<br>-->
-                    <!--<br>-->
-                    <!--<label>Group by function:</label>-->
-                    <!--<input type="text" />-->
                 <!--</div>-->
             <!--</div>-->
+
         <!--</div>-->
-
-    <!--</div>-->
-</form>
-
+    </form>
+</div>
 </body>
 </html>
