@@ -290,31 +290,58 @@ function createAddFieldButton() {
 // # ##                        END                           # ##
 // ##############################################################
 
-function getEntityFromVisualizer(rootNode) {
-    var details = getNodeDetails(rootNode);
-    var name = details[0];
-    var type = details[1];
-
-    if (isPrimitive(type)) {
-        return details;
-    }
-
-    var typeVal = {};
-
-    for (var idx = 0; idx < rootNode.children.length; idx++) {
-        var child = rootNode.children[idx];
-
-        if(child.classList.contains("level-node")) {
-            details = getJsonFromVisualizer(child);
-            typeVal[details[0]] = details[1];
+function getFirstLevelByTagName(node, tagName) {
+    var children = [];
+    for(var childIdx = 0; childIdx < node.children.length; childIdx++) {
+        if(node.children[childIdx].nodeName === tagName) {
+            children.push(node.children[childIdx]);
         }
     }
+    return children;
+}
 
-    if (type === "array") {
-        typeVal = [typeVal];
+function getEntityFromVisualizer(rootNode) {
+    var children = rootNode.getElementsByClassName('children');
+    if (children.length === 0) {
+        return rootNode.getElementsByClassName('value')[0].innerHTML;
     }
+    else {
+        var header = rootNode.getElementsByClassName('header')[0];
+        var value = header.getElementsByClassName('value')[0].innerHTML;
+        children = getFirstLevelByTagName(children[0], 'DIV');
 
-    return [name, typeVal];
+        var entity = {};
+        if (value === '{}') {
+            for (var i = 0; i < children.length; i++) {
+                var child = children[i];
+                header = child.getElementsByClassName('header')[0];
+                var key = header.getElementsByClassName('key')[0].innerHTML;
+
+                var value_entity = getEntityFromVisualizer(child);
+                entity[key] = value_entity;
+                if (value_entity === null) {
+                    return null;
+                }
+            }
+        }
+        else if (value === '[]') {
+            if(children.length === 0) {
+                entity = null;
+            }
+            else {
+                var array_entity = getEntityFromVisualizer(children[0]);
+                if(array_entity === null) {
+                    return null;
+                }
+                entity = [array_entity];
+            }
+        }
+        else {
+            entity = null;
+        }
+
+        return entity;
+    }
 }
 
 function createVisualizer(key, value) {
@@ -357,16 +384,16 @@ function refreshEditor() {
     var editorPlaceholders = document.getElementsByClassName("editor");
 
     if (editorPlaceholders.length > 0) {
-/*        var domain_name = getParameterByName("domain_name");
+        var domain_name = getParameterByName("domain_name");
         var entity_name = getParameterByName("entity_name");
 
-        var entity = {};
+        var entity = null;
         if (entity_name !== undefined && entity_name !== null) {
             entity = getEntity(domain_name, entity_name);
-        }*/
+        }
 
         var placeholder = editorPlaceholders.item(0);
-        placeholder.appendChild(createVisualizerFromEntity({"a": []}));
+        placeholder.appendChild(createVisualizerFromEntity(entity));
     }
 }
 
