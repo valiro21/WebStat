@@ -293,6 +293,12 @@ var StatisticsDrive = (function() {
             that.renderStatistics();
         };
 
+        that.makeNewFolder = function(title) {
+            that.statistics.push(new Folder(title, []));
+            that.clearStatistics();
+            that.renderStatistics();
+        };
+
         that.deleteFolder = function(index) {
             that.statistics.splice(index, 1);
             that.clearStatistics();
