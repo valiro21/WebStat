@@ -173,18 +173,23 @@ var EntitiesDrive = (function() {
             localStorage.setItem(item.title, entities);
         });*/
 
-        var dNamesGot = localStorage.getItem('drive_dNames').split(',');
+        var dNamesGot = localStorage.getItem('drive_dNames');
 
-        dNamesGot.forEach(function(item) {
-            var dDomainGot = localStorage.getItem(item).split(',');
-            var newD = new Domain(dDomainGot[dDomainGot.length - 1], item, []);
-            for (var i = 0; i < dDomainGot.length - 1; i++) {
-                newD.entities.push(new Entity(dDomainGot[i]));
-            }
-            that.entities.push(newD);
-        });
+        if(dNamesGot !== null) {
 
+            dNamesGot = dNamesGot.split(',');
 
+            dNamesGot.forEach(function (item) {
+                var dDomainGot = localStorage.getItem(item).split(',');
+                var newD = new Domain(dDomainGot[dDomainGot.length - 1], item, []);
+                for (var i = 0; i < dDomainGot.length - 1; i++) {
+                    newD.entities.push(new Entity(dDomainGot[i]));
+                }
+                that.entities.push(newD);
+            });
+        } else {
+            that.entities = [new Domain('yes.jpg', 'Facebook', [new Entity('DA')])];
+        }
 
         that.openDomain = function(index) {
             that.openedDomain = index;

@@ -1,4 +1,142 @@
 
+function getAllDomains() {
+    return ['Facebook', 'Domain2', "wtfDomain"] // TODO
+}
+
+function getAllEntitiesByDomain(domain) {
+    return ['Entity1', 'likes', 'stuff'] // TODO
+}
+
+
+function buildOptionElem(value, text) {
+    let newElem = document.createElement("option");
+    let textElem = document.createTextNode(text);
+    newElem.setAttribute('value', value);
+    newElem.appendChild(textElem);
+
+    return newElem;
+}
+
+
+
+
+
+const DOMAIN_SELECT_ID = "domain";
+const ENTITY_SELECT_ID = "entity";
+const KEY_SELECT_ID    = "key";
+const VALUE_SELECT_ID  = "value";
+
+function getCurrentOptionValue(elem) {
+    return elem.options[elem.selectedIndex].value;
+}
+
+function getCurrentEntity() {
+    let e = document.getElementById(ENTITY_SELECT_ID);
+    return getCurrentOptionValue(e);
+}
+
+function getCurrentDomain() {
+    let e = document.getElementById(DOMAIN_SELECT_ID);
+    return getCurrentOptionValue(e);
+}
+
+function buildSelect(elemId, values, texts) {
+    let e = document.getElementById(elemId);
+
+    if (values.length !== texts.length) {
+        throw "Names and texts lengths not matching!";
+    }
+
+    while (e.firstChild) {
+        e.removeChild(e.firstChild);
+    }
+
+    for (let i = 0; i < values.length; ++i) {
+        let newElem = buildOptionElem(values[i], texts[i]);
+        e.appendChild(newElem);
+    }
+}
+
+function getAllKeys(domain, entity) {
+    return {values: [], texts: []} // TODO
+}
+function getAllValues(domain, entity) {
+    return {values: [], texts: []} // TODO
+}
+
+
+function buildKeys(domain, entity) {
+    let keys = getAllKeys(domain, entity);
+    let keyNames = keys.values;
+    let keyTexts = keys.texts;
+
+    buildSelect(KEY_SELECT_ID, keyNames, keyTexts);
+}
+
+function buildValues(domain, entity) {
+    let values = getAllValues(domain, entity);
+    let valueNames = values.values;
+    let valueTexts = values.texts;
+
+    buildSelect(KEY_SELECT_ID, valueNames, valueTexts);
+}
+
+function buildEntityDetails(domain, entity) {
+    buildKeys(domain, entity);
+    buildValues(domain, entity);
+}
+
+function buildEntitiesSelect(newDomain) {
+    let entities = getAllEntitiesByDomain(newDomain);
+
+    buildSelect(ENTITY_SELECT_ID, entities, entities);
+}
+
+function onEntityChange(newEntity) {
+    if (!newEntity) {
+        let e = document.getElementById(ENTITY_SELECT_ID);
+        let newEntity = e.options[e.selectedIndex].value;
+
+        return onEntityChange(newEntity);
+    }
+
+    return buildEntityDetails(getCurrentDomain(), newEntity);
+}
+
+function onDomainChange(newDomain) {
+    if (!newDomain) {
+        let e = document.getElementById(DOMAIN_SELECT_ID);
+        let newDomain = e.options[e.selectedIndex].value;
+
+        return onDomainChange(newDomain);
+    }
+
+    return buildEntitiesSelect(newDomain);
+}
+
+function onStatisticsConfigLoad() {
+    let domains = getAllDomains();
+
+    buildSelect(DOMAIN_SELECT_ID, domains, domains);
+
+    document.getElementById(DOMAIN_SELECT_ID).onchange(); // works
+}
+
+if(window.attachEvent) {
+    window.attachEvent('onload', onStatisticsConfigLoad);
+} else {
+    if(window.onload) {
+        let currentOnLoad = window.onload;
+        window.onload = function(currentOnLoad, evt) {
+            currentOnLoad(evt);
+            onStatisticsConfigLoad();
+        }.bind(null, currentOnLoad);
+    } else {
+        window.onload = function(evt){onStatisticsConfigLoad();};
+    }
+}
+
+/*
 let chartWrappers = [];
 
 // Test data ------------------------------------------------------------------------------
@@ -12,9 +150,8 @@ let testTypes = ['bar', 'pie', 'doughnut', 'line'];
 
 // Functions ------------------------------------------------------------------------------
 
-/**
- * Initializes charts with mock-up data
- */
+
+// Initializes charts with mock-up data
 function initPreviewCharts() {
 
     Chart.defaults.global.legend.display = false;
@@ -92,3 +229,4 @@ if(window.attachEvent) {
         window.onload = pageLoad;
     }
 }
+*/
