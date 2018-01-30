@@ -6,10 +6,10 @@
     <title>WStat</title>
     <script src="../assets/js/navbar.wstat.js"></script>
     <script src="../assets/js/utils.wstat.js"></script>
-    <script src="../assets/js/entity-config.wstat.js"></script>
     <script src="../assets/js/editors/dynamic-elements.wstat.js"></script>
     <script src="../assets/js/editors/dynamic-list.wstat.js"></script>
     <script src="../assets/js/editors/json-editor.wstat.js"></script>
+    <script src="../assets/js/entity-config.wstat.js"></script>
     <link rel="stylesheet" href="../assets/css/reset.css">
     <link rel="stylesheet" href="../assets/css/navbar.css">
     <link rel="stylesheet" href="../assets/css/panel.css">
@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="modal">
-            <div class="panel panel-default properties-area" id="parameters">
+            <div class="panel panel-default properties-area" id="parameters-panel">
                 <div class="panel-heading">
                     <span>Parameters</span>
                     <a onclick="closeModal()">
@@ -45,8 +45,8 @@
 
                 </div>
                 <div class="panel-footer">
-                    <input id="property-name" placeholder="value" name="ParameterValue" type="text" autocomplete="true" />
-                    <button class="add-param" data-from="property-name" data-to="properties">Add</button>
+                    <input id="parameter-name" placeholder="value" name="ParameterValue" type="text" autocomplete="true" />
+                    <button class="add-param" data-from="parameter-name" data-to="properties">Add</button>
                 </div>
             </div>
         </div>

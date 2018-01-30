@@ -17,6 +17,7 @@ function buildOptionElem(value, text) {
     return newElem;
 }
 
+const FORM_ID          = "form";
 const DOMAIN_SELECT_ID = "domain";
 const ENTITY_SELECT_ID = "entity";
 const KEY_SELECT_ID    = "key";
@@ -120,7 +121,31 @@ function onStatisticsConfigLoad() {
 }
 //----------------------------------------------------------------------------------------------------------------------
 function onFormSubmit() {
-    // TODO
+    let form = document.getElementById(FORM_ID);
+    let inputs = form.getElementsByTagName('input');
+    let selects = form.getElementsByTagName('select');
+
+    let statisticData = {};
+
+    for (let i = 0; i < inputs.length; ++i) {
+        statisticData[inputs[i].name] = inputs[i].value;
+        // console.log(inputs[i].name, inputs[i].value);
+    }
+
+    let getSelName = function (t) {
+        return t.name;
+    };
+    let getSelVal = function (t) {
+        return t.value;
+    };
+
+    for (let i = 0; i < selects.length; ++i) {
+        let sel = selects[i];
+        statisticData[getSelName(sel)] = getSelVal(sel);
+    }
+
+    console.log(statisticData);
+
 }
 //----------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------

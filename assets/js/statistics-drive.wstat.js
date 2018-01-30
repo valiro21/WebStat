@@ -225,28 +225,18 @@ var StatisticsDrive = (function() {
 
     function createAddButton() {
         var addButtonRedirect = document.createElement('a');
-        addButtonRedirect.setAttribute('href', '../pages/statistic-config.html');
+        addButtonRedirect.setAttribute('onclick', 'goUpFolder()');
 
         var addButton = document.createElement('div');
         addButtonRedirect.appendChild(addButton);
 
-        addButton.setAttribute('class', 'addButton');
+        addButton.setAttribute('class', 'backButton');
 
-        var imgElement = document.createElement('img');
-        imgElement.setAttribute('src', '../assets/img/cross.png');
+        var imgElement = document.createElement('i');
+        imgElement.setAttribute('class', 'fa fa-undo');
         imgElement.setAttribute('style', 'margin-top: 50px');
-        imgElement.setAttribute('height', '150px');
-        imgElement.setAttribute('width', '150px');
-
-        var textElement = document.createElement('div');
-        textElement.setAttribute('class', 'container');
-
-        var title = document.createElement('h4');
-        title.textContent = 'New Statistic';
-        textElement.appendChild(title);
 
         addButton.appendChild(imgElement);
-        addButton.appendChild(textElement);
         return addButtonRedirect;
     }
 

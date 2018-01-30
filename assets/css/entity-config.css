@@ -52,7 +52,7 @@ form{
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-#parameters{
+#parameters-panel{
     background-color: #fefefe;
     margin: auto;
     border: 1px solid #888;
