@@ -19,20 +19,24 @@ function openFolder(index) {
     var folder = StatisticsDrive.getInstance().getContentByIndex(index);
     StatisticsDrive.getInstance().navigateFolder(folder);
     StatisticsDrive.getInstance().renderStatistics();
+    addContextListeners();
 }
 
 function goUpFolder() {
     StatisticsDrive.getInstance().goUpFolder();
+    addContextListeners();
 }
 
 function deleteFolder(index) {
     StatisticsDrive.getInstance().deleteFolder(index);
+    addContextListeners();
 }
 
 function moveToFolder(fileIndex, folderIndex) {
     StatisticsDrive.getInstance().moveToFolder(fileIndex, folderIndex);
     var child = document.getElementById('folderModal');
     document.getElementById('displayContainer').removeChild(child);
+    addContextListeners();
 }
 
 function moveToNewFolder(fileIndex) {
@@ -40,11 +44,13 @@ function moveToNewFolder(fileIndex) {
     StatisticsDrive.getInstance().moveToNewFolder(fileIndex, title);
     var child = document.getElementById('folderModal');
     document.getElementById('displayContainer').removeChild(child);
+    addContextListeners();
 }
 
 function makeNewFolder() {
     var title = document.getElementById('folderName').value;
     StatisticsDrive.getInstance().makeNewFolder(title);
+    addContextListeners();
 }
 
 function deleteModal() {
@@ -353,9 +359,20 @@ function openMenu(menuId, event){
     menu.style.top = (event.pageY - 10)+"px";
 }
 
+function addContextListeners(){
+    var entries = document.getElementsByClassName('entry');
+    for (var entry of entries) {
+        entry.addEventListener("contextmenu", function(event){
+            event.preventDefault();
+            openMenu('entryMenu', event);
+            closeMenu('contextMenu');
+            event.stopPropagation();
+        }, false);
+    }
+}
+
 function initStatisticsDrive() {
     StatisticsDrive.getInstance().renderStatistics();
-    var entries = document.getElementsByClassName('entry');
     var htmlTag = document.getElementsByTagName("html")[0];
     htmlTag.addEventListener("click", function(event){
         closeMenu('entryMenu');
@@ -376,20 +393,19 @@ function initStatisticsDrive() {
         event.stopPropagation();
     }, false);
 
-    for (var entry of entries) {
-        entry.addEventListener("contextmenu", function(event){
-            event.preventDefault();
-            openMenu('entryMenu', event);
-            closeMenu('contextMenu');
-            event.stopPropagation();
-        }, false);
-    }
-
     var entryMenu = document.getElementById('entryMenu');
     entryMenu.addEventListener('contextmenu', function(event){
         event.preventDefault();
         event.stopPropagation();
     });
+
+    var contextMenu = document.getElementById('contextMenu');
+    contextMenu.addEventListener('click', function(event){
+        closeMenu('contextMenu');
+        event.stopPropagation();
+    }, false);
+
+    addContextListeners();
 }
 
 
