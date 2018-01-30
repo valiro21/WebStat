@@ -118,7 +118,8 @@ function initStatistic(data) {
     console.log('DOMAIN:', domainData);
 
     if (accessToken) {
-        domainData['parameters']['access_token'] = accessToken;
+        domainData['parameters']['access_token'] = "EAACEdEose0cBAGBcAweGAGGbJWJG8ZBPicTgTlIy0Hz4Gx0VmG5Qz8rmjbMK8GZBmToqk4pi5hay3teqvZB6sunavViVGnLflp9WoZATQQq0jp9Pf3dEzegqZCeGxWeCmUTWJL2GDNlZBDr0H6eVlRJERHvnboidxwfRKRPXtV9oemtmPZClamzktZB5LNEwctQZD";
+        // domainData['parameters']['access_token'] = accessToken;
     }
 
     fetchData(
