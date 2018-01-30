@@ -35,7 +35,7 @@ function onSubmit() {
         // newDomain(domain_name);
     }
 
-    saveDomain(domain_name);
+    saveDomain(domain_name, domain);
 
     window.location = "./entity-drive.html";
 }
