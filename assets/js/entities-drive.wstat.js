@@ -171,6 +171,34 @@ var EntitiesDrive = (function() {
         return divContainer;
     }
 
+    function createDomainAddButton() {
+        var divContainer = document.createElement('div');
+        divContainer.setAttribute('class', 'entry');
+        var addButtonRedirect = document.createElement('a');
+        addButtonRedirect.setAttribute('href', '../pages/domain-config.html');
+
+        var addButton = document.createElement('div');
+        addButtonRedirect.appendChild(addButton);
+
+        addButton.setAttribute('class', 'addButton');
+
+        var imgElement = document.createElement('img');
+        imgElement.setAttribute('src', '../assets/img/cross.png');
+
+
+        var textElement = document.createElement('div');
+        textElement.setAttribute('class', 'container');
+
+        var title = document.createElement('h4');
+        title.textContent = 'New Entity';
+        textElement.appendChild(title);
+
+        addButton.appendChild(imgElement);
+
+        divContainer.appendChild(addButtonRedirect);
+        return divContainer;
+    }
+
     function createInstance() {
         var that = {};
         that.openedDomain = -1;
@@ -241,6 +269,8 @@ var EntitiesDrive = (function() {
             }
             if (that.openedDomain !== -1) {
                 entitiesElement.appendChild(createAddButton(that.entities[that.openedDomain].title));
+            } else {
+                entitiesElement.appendChild(createDomainAddButton());
             }
             document.getElementById('displayContainer').appendChild(entitiesElement);
         };
