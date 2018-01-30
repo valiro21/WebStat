@@ -88,7 +88,7 @@ function newEntity(domainTitle, entityTitle) {
         dDomainGot = dDomainGot.split(',');
 
         var i;
-        var newD = new Domain(dDomainGot[dDomainGot.length - 1], item, []);
+        var newD = new Domain(dDomainGot[dDomainGot.length - 1], domainTitle, []);
         for (i = 0; i < dDomainGot.length - 1; i++) {
             newD.entities.push(new Entity(dDomainGot[i]));
         }
@@ -108,13 +108,13 @@ function newEntity(domainTitle, entityTitle) {
 function listEntities(domainTitle) {
     var dDomainGot = localStorage.getItem(domainTitle);
 
-    if(dDomainGot !== null) {
+    if(dDomainGot !== null && dDomainGot !== '') {
         dDomainGot = dDomainGot.split(',');
 
         var i;
         var entityList = [];
         for (i = 0; i < dDomainGot.length - 1; i++) {
-            entityList.entities.push(dDomainGot[i]);
+            entityList.push(dDomainGot[i]);
         }
     } else {
         entityList = [];
@@ -124,14 +124,15 @@ function listEntities(domainTitle) {
 
 function newDomain(title) {
     var domains = listDomains();
-    domains.push(new Domain('yes.jpg', title, []));
+    domains.push(title);
 
     localStorage.setItem('drive_dNames', domains);
+    localStorage.setItem(title, ['yeees.jpg']);
 }
 
 function listDomains() {
     var dNamesGot = localStorage.getItem('drive_dNames');
-    if(dNamesGot !== null) {
+    if(dNamesGot !== null && dNamesGot !== '') {
         dNamesGot = dNamesGot.split(',');
         return dNamesGot;
     } else {
