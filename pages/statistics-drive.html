@@ -14,6 +14,8 @@
     <script src="../assets/js/navbar.wstat.js"></script>
 </head>
 <body>
+    <header>
+    </header>
     <div class="menu" id="entryMenu">
         <div class="menu-item">
             <i class="fa fa-arrows" aria-hidden="true"></i>
@@ -35,18 +37,20 @@
 
     <div class="menu" id="contextMenu">
         <div class="menu-item">
-            <i class="fa fa-area-chart" aria-hidden="true"></i>
-            <span class="menu-text">New Statistic</span>
+            <a href="statistic-config.html">
+                <i class="fa fa-area-chart" aria-hidden="true"></i>
+                <span class="menu-text">New Statistic</span>
+            </a>
         </div>
         <div class="menu-item">
-            <i class="fa fa-folder" aria-hidden="true"></i>
-            <span class="menu-text">New Folder</span>
+            <a onclick="openFolderManagement()">
+                <i class="fa fa-folder" aria-hidden="true"></i>
+                <span class="menu-text">New Folder</span>
+            </a>
         </div>
     </div>
 
     <div id="wrapper">
-        <header>
-        </header>
         <div>
             <button onclick="goUpFolder()">
                 GoUp
