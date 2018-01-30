@@ -26,7 +26,8 @@ function onSubmit() {
     for(var idx = 0; idx < parametersList.length; idx++) {
         var parameter = parametersList[idx];
 
-        parameters[parameter.innerHTML] = "";
+        var p = parameter.firstChild;
+        parameters[p.innerHTML] = "";
     }
 
     domain["parameters"] = parameters;

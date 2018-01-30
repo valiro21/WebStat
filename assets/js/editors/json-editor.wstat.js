@@ -116,6 +116,8 @@ function createArrayNode(key) {
 }
 
 function createLeafNode(key, value) {
+    var upperNode = createLine();
+
     var node = createHeader();
     if (key !== null) {
         node.appendChild(createKeyNode(key));
@@ -138,7 +140,9 @@ function createLeafNode(key, value) {
     }
 
     node.appendChild(removeNode);
-    return node;
+
+    upperNode.appendChild(node);
+    return upperNode;
 }
 
 // # ##                        END                           # ##
