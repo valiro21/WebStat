@@ -1,7 +1,10 @@
 function createNewListItem(item) {
     var node = document.createElement('li');
+    node.style = "display: inline";
 
-    var textNode = document.createTextNode(item);
+    var textNode = document.createElement('p');
+    textNode.innerHTML = item;
+    textNode.style = "display: inline-block";
     var deleteButtonNode = createRemoveButton(node, null);
 
     node.appendChild(textNode);
@@ -10,7 +13,7 @@ function createNewListItem(item) {
     return node;
 }
 
-function addNewEntry(listNode, elementName) {
+function addListEntry(listNode, elementName) {
     listNode.appendChild(createNewListItem(elementName));
 }
 
@@ -21,9 +24,16 @@ function attachEditor() {
         var from = document.getElementById(elem.getAttribute('data-from'));
         elem.addEventListener('click', function(event) {
             event.preventDefault();
-            addNewEntry(list, from.value);
+            addListEntry(list, from.value);
             from.value = "";
         });
+    });
+}
+
+function addAdhocEntry(value) {
+    document.querySelectorAll('[data-to]', '[data-from]').forEach(function(elem) {
+        var list = document.getElementById(elem.getAttribute('data-to'));
+        addListEntry(list, value);
     });
 }
 

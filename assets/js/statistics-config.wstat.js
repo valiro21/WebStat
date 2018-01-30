@@ -129,7 +129,6 @@ function onFormSubmit() {
 
     for (let i = 0; i < inputs.length; ++i) {
         statisticData[inputs[i].name] = inputs[i].value;
-        // console.log(inputs[i].name, inputs[i].value);
     }
 
     let getSelName = function (t) {
@@ -144,8 +143,14 @@ function onFormSubmit() {
         statisticData[getSelName(sel)] = getSelVal(sel);
     }
 
-    console.log(statisticData);
+    function getUniqueStatisticKey(data) {
+        return data['statistic-name']; // bullshit, temporary
+    }
 
+    let key = getUniqueStatisticKey(statisticData);
+    localStorage.setItem(key, JSON.stringify(statisticData));
+
+    console.log("Saved statistic", key);
 }
 //----------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
