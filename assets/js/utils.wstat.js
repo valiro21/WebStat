@@ -59,7 +59,7 @@ function hasEntity(namespace, entity_name) {
     return !(entity === undefined || entity === null);
 }
 
-function newEntity(entityTitle, domainTitle) {
+function newEntity(domainTitle, entityTitle) {
     var dDomainGot = localStorage.getItem(domainTitle).split(',');
 
     var i;
