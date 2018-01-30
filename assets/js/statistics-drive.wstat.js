@@ -42,6 +42,11 @@ function moveToNewFolder(fileIndex) {
     document.getElementById('displayContainer').removeChild(child);
 }
 
+function makeNewFolder() {
+    var title = document.getElementById('folderName').value;
+    StatisticsDrive.getInstance().makeNewFolder(title);
+}
+
 function deleteModal() {
     var child = document.getElementById('folderModal');
     document.getElementById('displayContainer').removeChild(child);
@@ -84,12 +89,12 @@ function openFolderManagement(index) {
 
     var newFolderSubmit = document.createElement('input');
     newFolderSubmit.setAttribute('type', 'submit');
-    newFolderSubmit.textContent = 'Move to New Folder';
+    newFolderSubmit.textContent = 'New Folder';
 
     newFolderForm.appendChild(folderName);
     newFolderForm.appendChild(newFolderSubmit);
 
-    newFolderForm.setAttribute('onsubmit', 'moveToNewFolder(' + index + ');return false');
+    newFolderForm.setAttribute('onsubmit', 'makeNewFolder();return false');
 
     modalContent.appendChild(newFolderForm);
 
