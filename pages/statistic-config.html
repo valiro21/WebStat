@@ -19,7 +19,7 @@
 <header>
 </header>
 
-<form method="post" action="realtime-data.html">
+<form id="form">
     <!--Statistic name-->
     <label for="statistic-name">Statistic name:</label>
     <input id="statistic-name" name="statistic-name" type="text" autocomplete="true" />
@@ -91,7 +91,7 @@
     </select>
 
     <!--Submit-->
-    <input type="submit" value="Submit">
+    <button type="button" onclick="onFormSubmit()" >Submit</button>
 
 
 
