@@ -16,12 +16,20 @@ function initEditor() {
         var entity_name = getParameterByName("entity_name");
 
         var entity = null;
-        if (entity_name !== undefined && entity_name !== null) {
-            entity = getEntity(domain_name, entity_name);
+        if (domain_name !== undefined && entity_name !== null) {
+            entity = getEntity(domain_name, entity_name, null);
+
+            if(entity !== null) {
+                document.getElementById("EntityAlias").value = entity["_type"];
+                document.getElementById("Endpoint").value = entity["endpoint"];
+                entity["properties"].forEach(function (value) {
+                    addAdhocEntry(value);
+                });
+            }
         }
 
         var placeholder = editorPlaceholders.item(0);
-        placeholder.appendChild(createVisualizerFromEntity(entity));
+        placeholder.appendChild(createVisualizerFromEntity(entity === null ? null : entity["root"]));
     }
 
     var refresh = function () {
@@ -68,9 +76,10 @@ function onSubmit() {
         var propertiesList = document.getElementById("properties").children;
         var properties = [];
         for(var idx = 0; idx < propertiesList.length; idx++) {
-            var property = propertiesList[property];
+            var property = propertiesList[idx];
 
-            properties.push(property.innerHTML);
+            var p = property.firstChild;
+            properties.push(p.innerHTML);
         }
 
         entity["properties"] = properties;
@@ -80,7 +89,9 @@ function onSubmit() {
             newEntity(domain_name, entity_name);
         }
 
-        saveEntity(domain_name, entity_name);
+        saveEntity(domain_name, entity);
+
+        window.location = './entity-drive.html';
     }
 }
 

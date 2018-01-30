@@ -1,8 +1,10 @@
 function createNewListItem(item) {
     var node = document.createElement('li');
+    node.style = "display: inline";
 
     var textNode = document.createElement('p');
     textNode.innerHTML = item;
+    textNode.style = "display: inline-block";
     var deleteButtonNode = createRemoveButton(node, null);
 
     node.appendChild(textNode);
