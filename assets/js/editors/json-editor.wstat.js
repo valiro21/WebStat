@@ -77,9 +77,17 @@ function createExpandableNode(key, objectType) {
     });
 
     var entityType = createValueNode(objectType);
-    var removeNode = createRemoveButton(node, function() {
+    var confirm_method = function() {
         return confirm("Do you really want to remove the node and all of it's content?");
-    });
+    };
+
+    var removeNode;
+    if (key === null) {
+        removeNode = createSwapRemoveButton(node, createAddNodeButton(), confirm_method);
+    }
+    else {
+        removeNode = createRemoveButton(node, confirm_method);
+    }
 
     header.appendChild(expandArrow);
     if (key !== null) {
@@ -174,7 +182,11 @@ function createNodeTypeSelector(includeKeyInput) {
         while (entity_selector.firstChild) {
             entity_selector.removeChild(entity_selector.firstChild);
         }
-        // entity_selector.appendChild(createOption("Test"));
+
+        var domain = getParameterByName('domain_name');
+        listEntities(domain).forEach(function(entity) {
+            entity_selector.appendChild(createOption(entity));
+        });
     };
 
     entity_selector.addEventListener('click', refresh);
@@ -196,17 +208,16 @@ function createNodeTypeSelector(includeKeyInput) {
     });
 
     var addBtn = createButton('Add');
+    addBtn.setAttribute('class','entity-button');
     var cancelBtn = createButton('Cancel');
+    cancelBtn.setAttribute('class','entity-button');
 
     addBtn.addEventListener('click', function (event) {
         event.preventDefault();
 
-        if (includeKeyInput) {
-            if(keyNode.value === "") {
-                alert("You can't insert an element with an empty key.")
-                return;
-            }
-            node.parentNode.appendChild(createAddFieldButton());
+        if (includeKeyInput && keyNode.value === "") {
+            alert("You can't insert an element with an empty key.")
+            return;
         }
 
         if (select.value === "object") {
@@ -227,6 +238,10 @@ function createNodeTypeSelector(includeKeyInput) {
             }
 
             node.replaceWith(createLeafNode(!includeKeyInput ? null : keyNode.value, value));
+        }
+
+        if (includeKeyInput) {
+            node.parentNode.appendChild(createAddFieldButton());
         }
     });
 
@@ -281,31 +296,58 @@ function createAddFieldButton() {
 // # ##                        END                           # ##
 // ##############################################################
 
-function getEntityFromVisualizer(rootNode) {
-    var details = getNodeDetails(rootNode);
-    var name = details[0];
-    var type = details[1];
-
-    if (isPrimitive(type)) {
-        return details;
-    }
-
-    var typeVal = {};
-
-    for (var idx = 0; idx < rootNode.children.length; idx++) {
-        var child = rootNode.children[idx];
-
-        if(child.classList.contains("level-node")) {
-            details = getJsonFromVisualizer(child);
-            typeVal[details[0]] = details[1];
+function getFirstLevelByTagName(node, tagName) {
+    var children = [];
+    for(var childIdx = 0; childIdx < node.children.length; childIdx++) {
+        if(node.children[childIdx].nodeName === tagName) {
+            children.push(node.children[childIdx]);
         }
     }
+    return children;
+}
 
-    if (type === "array") {
-        typeVal = [typeVal];
+function getEntityFromVisualizer(rootNode) {
+    var children = rootNode.getElementsByClassName('children');
+    if (children.length === 0) {
+        return rootNode.getElementsByClassName('value')[0].innerHTML;
     }
+    else {
+        var header = rootNode.getElementsByClassName('header')[0];
+        var value = header.getElementsByClassName('value')[0].innerHTML;
+        children = getFirstLevelByTagName(children[0], 'DIV');
 
-    return [name, typeVal];
+        var entity = {};
+        if (value === '{}') {
+            for (var i = 0; i < children.length; i++) {
+                var child = children[i];
+                header = child.getElementsByClassName('header')[0];
+                var key = header.getElementsByClassName('key')[0].innerHTML;
+
+                var value_entity = getEntityFromVisualizer(child);
+                entity[key] = value_entity;
+                if (value_entity === null) {
+                    return null;
+                }
+            }
+        }
+        else if (value === '[]') {
+            if(children.length === 0) {
+                entity = null;
+            }
+            else {
+                var array_entity = getEntityFromVisualizer(children[0]);
+                if(array_entity === null) {
+                    return null;
+                }
+                entity = [array_entity];
+            }
+        }
+        else {
+            entity = null;
+        }
+
+        return entity;
+    }
 }
 
 function createVisualizer(key, value) {
@@ -344,23 +386,66 @@ function createVisualizerFromEntity(entity) {
     return createVisualizer(null, entity);
 }
 
-function refreshEditor(divClassName = "editor") {
-    var editorPlaceholders = document.getElementsByClassName(divClassName);
+function refreshEditor() {
+    var editorPlaceholders = document.getElementsByClassName("editor");
 
     if (editorPlaceholders.length > 0) {
-/*        var domain_name = getParameterByName("domain_name");
+        var domain_name = getParameterByName("domain_name");
         var entity_name = getParameterByName("entity_name");
 
-        var entity = {};
+        var entity = null;
         if (entity_name !== undefined && entity_name !== null) {
             entity = getEntity(domain_name, entity_name);
-        }*/
+        }
 
         var placeholder = editorPlaceholders.item(0);
-        placeholder.appendChild(createVisualizerFromEntity({"a": []}));
+        placeholder.appendChild(createVisualizerFromEntity(entity));
     }
 }
 
+function onSubmit() {
+    var editorPlaceholders = document.getElementsByClassName("editor");
+
+    if (editorPlaceholders.length > 0) {
+        var placeholder = editorPlaceholders.item(0);
+        var visualizer = placeholder.children[0];
+        var entity_root = getEntityFromVisualizer(visualizer);
+        if(entity_root === null) {
+            alert("Entity is invalid.");
+            return;
+        }
+
+        var domain_name = getParameterByName("domain_name");
+        var entity_name = getParameterByName("entity_name");
+
+        var create_new_entity = false;
+        if (entity_name === null) {
+            entity_name = document.getElementById("EntityAlias").value;
+            create_new_entity = true;
+        }
+
+        var entity = {};
+        entity["root"] = entity_root;
+        entity["endpoint"] = document.getElementById("Endpoint").value;
+
+        var propertiesList = document.getElementById("properties").children;
+        var properties = [];
+        for(var idx = 0; idx < propertiesList.length; idx++) {
+            var property = propertiesList[property];
+
+            properties.push(property.innerHTML);
+        }
+
+        entity["properties"] = properties;
+        entity["_type"] = entity_name;
+
+        if (create_new_entity) {
+            newEntity(domain_name, entity_name);
+        }
+
+        saveEntity(domain_name, entity_name);
+    }
+}
 
 if(window.attachEvent) {
     window.attachEvent('onload', refreshEditor);

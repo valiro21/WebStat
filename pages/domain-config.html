@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WStat</title>
+    <script src="../assets/js/navbar.wstat.js"></script>
+    <script src="../assets/js/editors/dynamic-elements.wstat.js"></script>
+    <script src="../assets/js/editors/dynamic-list.wstat.js"></script>
+    <link rel="stylesheet" href="../assets/css/reset.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/navbar.css">
+    <link rel="stylesheet" href="../assets/css/setup.css">
+</head>
+<body>
+    <header>
+    </header>
+    
+    <form>
+        <label for="WebsiteAlias">Website Name: </label>
+        <input id="WebsiteAlias" name="WebsiteAlias" type="text" autocomplete="true" />
+        <br>
+        <br>
+        <label for="WebsiteHostname">Request uri: </label>
+        <input id="WebsiteHostname" name="WebsiteHostname" type="url" autocomplete="true" />
+
+        <div class="panel panel-default parameter-area">
+            <div class="panel-heading">Parameters</div>
+            <div class="panel-body">
+                <ul id="parameters">
+                </ul>
+            </div>
+
+            <div class="panel-footer">
+                <input id="parameter-name" placeholder="value" type="text" autocomplete="true" />
+                <button class="add-param" data-from="parameter-name" data-to="parameters">Add</button>
+            </div>
+        </div>
+    </form>
+
+</body>
+</html>

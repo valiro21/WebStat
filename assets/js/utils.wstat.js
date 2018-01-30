@@ -43,8 +43,13 @@ function saveEntity(namespace, entity) {
     }
 }
 
-function getEntity(namespace, entity_name) {
-    var entity = localStorage.getItem(namespace + '/' + entity_name);
+function getEntity(namespace, entity_name, entity_id) {
+    var location = join_url(namespace, entity_name);
+    if(entity_id !== null) {
+        location = join_url(location, entity_id);
+    }
+
+    var entity = localStorage.getItem(location);
 
     if (entity === undefined || entity === null) {
         return null;
@@ -53,8 +58,42 @@ function getEntity(namespace, entity_name) {
     return JSON.parse(entity);
 }
 
-function hasEntity(namespace, entity_name) {
-    var entity = localStorage.getItem(namespace + '/' + entity_name);
+function hasEntity(namespace, entity_name, entity_id) {
+    var location = join_url(namespace, entity_name);
+    if(entity_id !== null) {
+        location = join_url(location, entity_id);
+    }
+
+    var entity = localStorage.getItem(location);
 
     return !(entity === undefined || entity === null);
+}
+
+function newEntity(domainTitle, entityTitle) {
+    var dDomainGot = localStorage.getItem(domainTitle).split(',');
+
+    var i;
+    var newD = new Domain(dDomainGot[dDomainGot.length - 1], item, []);
+    for (i = 0; i < dDomainGot.length - 1; i++) {
+        newD.entities.push(new Entity(dDomainGot[i]));
+    }
+    newD.entities.push(new Entity(entityTitle));
+
+    var entities = [];
+    for (i = 0; i < newD.entities.length; i++) {
+        entities.push(newD.entities[i].title);
+    }
+    entities.push(newD.img);
+    localStorage.setItem(newD.title, entities);
+}
+
+function listEntities(domainTitle) {
+    var dDomainGot = localStorage.getItem(domainTitle).split(',');
+
+    var i;
+    var entityList = [];
+    for (i = 0; i < dDomainGot.length - 1; i++) {
+        entityList.entities.push(dDomainGot[i]);
+    }
+    return entityList;
 }

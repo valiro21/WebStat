@@ -8,6 +8,7 @@ function Entity(title) {
     this.title = title;
 }
 
+
 function OpenDomain(index) {
     EntitiesDrive.getInstance().openDomain(index);
 }
@@ -15,6 +16,23 @@ function OpenDomain(index) {
 function CloseDomain() {
     EntitiesDrive.getInstance().closeDomain();
 }
+
+Domain.prototype.convertToJson = function() {
+    var jSon = {};
+    jSon['img'] = this.img;
+    jSon['title'] = this.title;
+    this.entities.forEach(function(entry) {
+        jSon['entities'].push(entry.convertToJson());
+    });
+    return jSon;
+};
+
+Entity.prototype.convertToJson = function() {
+    var jSon = {};
+    jSon['title'] = this.title;
+    return jSon;
+};
+
 
 Domain.prototype.createDropDownEditButton = function() {
     var dropDownMenu = document.createElement('div');
@@ -143,9 +161,30 @@ var EntitiesDrive = (function() {
         var that = {};
         that.openedDomain = -1;
 
-        that.entities = [new Domain('../assets/img/youtube.png', 'Youtube', [new Entity('BOOS')]),
-            new Domain('../assets/img/facebook.jpg', 'Facebook', []),
-            new Domain('../assets/img/twitter.jpg', 'Twitter', [])];
+        that.entities = [];
+
+        /*that.entities.forEach(function(item) {
+            var entities = [];
+            var i;
+            for (i = 0; i < item.entities.length; i++) {
+                entities.push(item.entities[i].title);
+            }
+            entities.push(item.img);
+            localStorage.setItem(item.title, entities);
+        });*/
+
+        var dNamesGot = localStorage.getItem('drive_dNames').split(',');
+
+        dNamesGot.forEach(function(item) {
+            var dDomainGot = localStorage.getItem(item).split(',');
+            var newD = new Domain(dDomainGot[dDomainGot.length - 1], item, []);
+            for (var i = 0; i < dDomainGot.length - 1; i++) {
+                newD.entities.push(new Entity(dDomainGot[i]));
+            }
+            that.entities.push(newD);
+        });
+
+
 
         that.openDomain = function(index) {
             that.openedDomain = index;
@@ -202,21 +241,21 @@ function initEntitiesDrive() {
     EntitiesDrive.getInstance().renderEntities();
 }
 
-// Add NavBar generation after page load w/o overriding.
+
 if(window.attachEvent) {
     window.attachEvent('onload', initEntitiesDrive);
 } else {
     if(window.onload) {
         var currentOnLoad = window.onload;
-        window.onload = function(evt) {
+        window.onload = function(currentOnLoad, evt) {
             currentOnLoad(evt);
             initEntitiesDrive();
-        };
+        }.bind(null, currentOnLoad);
     } else {
-        window.onload = initEntitiesDrive;
+        window.onload = function(evt){initEntitiesDrive();};
     }
 }
 
 function redirectToEdit() {
-    window.location.href = "../../pages/website-config.html";
+    window.location.href = "../../pages/domain-config.html";
 }
