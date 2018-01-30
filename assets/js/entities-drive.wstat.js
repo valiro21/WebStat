@@ -130,9 +130,10 @@ Entity.prototype.generateElement = function() {
 var EntitiesDrive = (function() {
     var instance;
 
-    function createAddButton() {
+    function createAddButton(domainName) {
+
         var addButtonRedirect = document.createElement('a');
-        addButtonRedirect.setAttribute('href', '../pages/entity-config.html');
+        addButtonRedirect.setAttribute('href', '../pages/entity-config.html?domain_name=' + domainName);
 
         var addButton = document.createElement('div');
         addButtonRedirect.appendChild(addButton);
@@ -225,7 +226,9 @@ var EntitiesDrive = (function() {
                     index++;
                 });
             }
-            entitiesElement.appendChild(createAddButton());
+            if (that.openedDomain !== -1) {
+                entitiesElement.appendChild(createAddButton(that.entities[that.openedDomain].title));
+            }
             document.getElementById('displayContainer').appendChild(entitiesElement);
         };
 
