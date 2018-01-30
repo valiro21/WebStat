@@ -70,30 +70,42 @@ function hasEntity(namespace, entity_name, entity_id) {
 }
 
 function newEntity(domainTitle, entityTitle) {
-    var dDomainGot = localStorage.getItem(domainTitle).split(',');
+    var dDomainGot = localStorage.getItem(domainTitle);
 
-    var i;
-    var newD = new Domain(dDomainGot[dDomainGot.length - 1], item, []);
-    for (i = 0; i < dDomainGot.length - 1; i++) {
-        newD.entities.push(new Entity(dDomainGot[i]));
-    }
-    newD.entities.push(new Entity(entityTitle));
+    if(dDomainGot !== null) {
+        dDomainGot = dDomainGot.split(',');
 
-    var entities = [];
-    for (i = 0; i < newD.entities.length; i++) {
-        entities.push(newD.entities[i].title);
+        var i;
+        var newD = new Domain(dDomainGot[dDomainGot.length - 1], item, []);
+        for (i = 0; i < dDomainGot.length - 1; i++) {
+            newD.entities.push(new Entity(dDomainGot[i]));
+        }
+        newD.entities.push(new Entity(entityTitle));
+
+        var entities = [];
+        for (i = 0; i < newD.entities.length; i++) {
+            entities.push(newD.entities[i].title);
+        }
+        entities.push(newD.img);
+        localStorage.setItem(newD.title, entities);
+        return true;
     }
-    entities.push(newD.img);
-    localStorage.setItem(newD.title, entities);
+    return false;
 }
 
 function listEntities(domainTitle) {
-    var dDomainGot = localStorage.getItem(domainTitle).split(',');
+    var dDomainGot = localStorage.getItem(domainTitle);
 
-    var i;
-    var entityList = [];
-    for (i = 0; i < dDomainGot.length - 1; i++) {
-        entityList.entities.push(dDomainGot[i]);
+    if(dDomainGot !== null) {
+        dDomainGot = dDomainGot.split(',');
+
+        var i;
+        var entityList = [];
+        for (i = 0; i < dDomainGot.length - 1; i++) {
+            entityList.entities.push(dDomainGot[i]);
+        }
+    } else {
+        entityList = [];
     }
     return entityList;
 }

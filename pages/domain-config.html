@@ -17,12 +17,14 @@
     </header>
     
     <form>
-        <label for="WebsiteAlias">Website Name: </label>
-        <input id="WebsiteAlias" name="WebsiteAlias" type="text" autocomplete="true" />
-        <br>
-        <br>
-        <label for="WebsiteHostname">Request uri: </label>
-        <input id="WebsiteHostname" name="WebsiteHostname" type="url" autocomplete="true" />
+        <div class="entity-input">
+            <div class="form-line">
+                <input id="DomainAlias" name="WebsiteAlias" type="text" autocomplete="true" placeholder="Domain Name"/>
+            </div>
+            <div class="form-line">
+                <input id="DomainHostname" name="WebsiteHostname" type="url" autocomplete="true" placeholder="Domain Basename"/>
+            </div>
+        </div>
 
         <div class="panel panel-default parameter-area">
             <div class="panel-heading">Parameters</div>
