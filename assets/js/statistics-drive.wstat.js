@@ -263,6 +263,37 @@ var StatisticsDrive = (function() {
             new Statistic('../assets/img/chart-3.png', '../pages/realtime-data.html', 'Data types'),
             new Folder('Test', [new Statistic('../assets/img/chart-3.png', '../pages/realtime-data.html', 'Data types')])];
 
+        that.stocare = function(path, folder) {
+            var toStore = [];
+
+            for (var i = 0; i < folder.length; i++) {
+                if(folder[i].type === 'Folder') {
+                    var newPath = path + folder[i].title + '/';
+                    toStore.push(newPath);
+                    that.stocare(newPath, folder[i].content);
+                } else {
+                    toStore.push(folder[i].title);
+                }
+            }
+
+            localStorage.setItem(path, toStore);
+        };
+
+        that.citire = function(path) {
+            var statisticsDrive = [];
+            var currentFolder = localStorage.getItem(path).split(',');
+
+            for (var i = 0; i < currentFolder.length; i++) {
+                if(currentFolder[i][currentFolder[i].length - 1] === '/') {
+                    var newPath = currentFolder[i].split('/');
+                    statisticsDrive.push(new Folder(newPath[newPath.length - 2], that.citire(currentFolder[i])));
+                } else {
+                    statisticsDrive.push(new Statistic('yee.jpg', 'main.html', currentFolder[i]))
+                }
+            }
+            return statisticsDrive;
+        };
+
         that.addStatistic = function() {
         };
 
@@ -294,18 +325,21 @@ var StatisticsDrive = (function() {
             that.statistics.splice(index, 1);
             that.clearStatistics();
             that.renderStatistics();
+            that.stocare('sDrive/', that.statistics);
         };
 
         that.makeNewFolder = function(title) {
             that.statistics.push(new Folder(title, []));
             that.clearStatistics();
             that.renderStatistics();
+            that.stocare('sDrive/', that.statistics);
         };
 
         that.deleteFolder = function(index) {
             that.statistics.splice(index, 1);
             that.clearStatistics();
             that.renderStatistics();
+            that.stocare('sDrive/', that.statistics);
         };
 
         that.moveToFolder = function(fileIndex, folderIndex) {
@@ -313,6 +347,7 @@ var StatisticsDrive = (function() {
             that.statistics.splice(fileIndex, 1);
             that.clearStatistics();
             that.renderStatistics();
+            that.stocare('sDrive/', that.statistics);
         };
 
         that.renderStatistics = function() {

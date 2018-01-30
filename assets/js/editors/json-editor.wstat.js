@@ -209,6 +209,8 @@ function createNodeTypeSelector(includeKeyInput) {
                 entity_addons.classList.add("closed");
             }
         }
+        
+        entity_selector.appendChild(createOption("$self$"));
     });
 
     var addBtn = createButton('Add');
@@ -316,7 +318,8 @@ function getFirstLevelByTagName(node, tagName) {
 function getEntityFromVisualizer(rootNode) {
     var children = rootNode.getElementsByClassName('children');
     if (children.length === 0) {
-        return rootNode.getElementsByClassName('value')[0].innerHTML;
+        var entity_name = document.getElementById("EntityAlias").value;
+        return rootNode.getElementsByClassName('value')[0].innerHTML.replace("$self$", entity_name);
     }
     else {
         var header = rootNode.getElementsByClassName('header')[0];
