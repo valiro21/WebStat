@@ -209,12 +209,9 @@ function createNodeTypeSelector(includeKeyInput) {
     addBtn.addEventListener('click', function (event) {
         event.preventDefault();
 
-        if (includeKeyInput) {
-            if(keyNode.value === "") {
-                alert("You can't insert an element with an empty key.")
-                return;
-            }
-            node.parentNode.appendChild(createAddFieldButton());
+        if (includeKeyInput && keyNode.value === "") {
+            alert("You can't insert an element with an empty key.")
+            return;
         }
 
         if (select.value === "object") {
@@ -235,6 +232,10 @@ function createNodeTypeSelector(includeKeyInput) {
             }
 
             node.replaceWith(createLeafNode(!includeKeyInput ? null : keyNode.value, value));
+        }
+
+        if (includeKeyInput) {
+            node.parentNode.appendChild(createAddFieldButton());
         }
     });
 
