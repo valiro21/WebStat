@@ -257,5 +257,5 @@ if(window.attachEvent) {
 }
 
 function redirectToEdit() {
-    window.location.href = "../../pages/website-config.html";
+    window.location.href = "../../pages/domain-config.html";
 }
