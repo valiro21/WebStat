@@ -17,6 +17,7 @@ function buildOptionElem(value, text) {
     return newElem;
 }
 
+const FORM_ID          = "form";
 const DOMAIN_SELECT_ID = "domain";
 const ENTITY_SELECT_ID = "entity";
 const KEY_SELECT_ID    = "key";
@@ -120,7 +121,9 @@ function onStatisticsConfigLoad() {
 }
 //----------------------------------------------------------------------------------------------------------------------
 function onFormSubmit() {
-    // TODO
+    let form = document.getElementById(FORM_ID);
+
+    console.log(form.elements);
 }
 //----------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
