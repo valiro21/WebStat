@@ -42,8 +42,8 @@ function forEachEntityLink(data_json, entity, callback) {
     var keys = Object.keys(entity);
 
     for (var idx = 0; idx < keys.length; idx++) {
+        var key = keys[idx];
         if (data_json.hasOwnProperty(key)) {
-            var key = keys[idx];
             var child_entity = entity[key];
 
             if (typeof(child_entity) === "object") {
@@ -218,7 +218,7 @@ saveEntity('Hacker-News', primary_entity);
 saveEntity('Hacker-News', story);
 saveEntity('Hacker-News', comment);
 
-fetchData(
+/*fetchData(
     {
         "name": 'Hacker-News',
         "base_url": "https://hacker-news.firebaseio.com"
@@ -230,7 +230,7 @@ fetchData(
     10,
     false,
     2
-);
+);*/
 
 
 // # ##                        END                           # ##
@@ -276,7 +276,7 @@ saveEntity('Facebook', post);
 saveEntity('Facebook', post_likes);
 saveEntity('Facebook', like);
 
-/*fetchData(
+fetchData(
     {
         "name": 'Facebook',
         "base_url": "https://graph.facebook.com/v2.11",
@@ -288,8 +288,8 @@ saveEntity('Facebook', like);
     function () { console.log("Done"); },
     10,
     true,
-    3
-);*/
+    4
+);
 
 
 
