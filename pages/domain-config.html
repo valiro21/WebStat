@@ -7,38 +7,59 @@
     <script src="../assets/js/navbar.wstat.js"></script>
     <script src="../assets/js/editors/dynamic-elements.wstat.js"></script>
     <script src="../assets/js/editors/dynamic-list.wstat.js"></script>
+    <script src="../assets/js/domain-config.wstat.js"></script>
     <link rel="stylesheet" href="../assets/css/reset.css">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/navbar.css">
     <link rel="stylesheet" href="../assets/css/setup.css">
+    <link rel="stylesheet" href="../assets/css/panel.css">
+    <link rel="stylesheet" href="../assets/css/utils.css">
+    <link rel="stylesheet" href="../assets/css/domain-config.css">
+    <link rel="stylesheet" href="../assets/css/entity-config.css">
+    <link rel="stylesheet" href="../assets/css/json-editor.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <header>
     </header>
     
-    <form>
+    <div class="form-align">
         <div class="entity-input">
             <div class="form-line">
-                <input id="DomainAlias" name="WebsiteAlias" type="text" autocomplete="true" placeholder="Domain Name"/>
+                <input id="DomainAlias" type="text" autocomplete="true" placeholder="Domain Name"/>
             </div>
             <div class="form-line">
-                <input id="DomainHostname" name="WebsiteHostname" type="url" autocomplete="true" placeholder="Domain Basename"/>
+                <input id="DomainHostname" type="url" autocomplete="true" placeholder="Domain Basename"/>
             </div>
         </div>
 
-        <div class="panel panel-default parameter-area">
-            <div class="panel-heading">Parameters</div>
-            <div class="panel-body">
-                <ul id="parameters">
-                </ul>
-            </div>
+        <div class="modal">
+            <div class="panel panel-default parameter-area" id="parameters-panel">
+                <div class="panel-heading">
+                    <span>Parameters</span>
+                    <a onclick="closeModal()">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </a>
+                </div>
 
-            <div class="panel-footer">
-                <input id="parameter-name" placeholder="value" type="text" autocomplete="true" />
-                <button class="add-param" data-from="parameter-name" data-to="parameters">Add</button>
+                <div class="panel-body">
+                    <ul id="parameters">
+                    </ul>
+                </div>
+
+                <div class="panel-footer">
+                    <input id="parameter-name" placeholder="value" type="text" autocomplete="true" />
+                    <button class="add-param" data-from="parameter-name" data-to="parameters">Add</button>
+                </div>
             </div>
         </div>
-    </form>
+        <div class="form-content">
+        </div>
+        <div class="form-footer">
+            <input type="button" value="Parameters" id="params-edit" onclick="openModal()">
+            <input type="button" value="Submit" id="form-submit" onclick="onSubmit()">
+        </div>
+    </div>
 
 </body>
 </html>
