@@ -1,5 +1,16 @@
 const CHART_ID = 'chart';
 
+
+// newEntity('Hacker_News', 'topstories');
+// newEntity('Hacker_News', 'story');
+// newEntity('Hacker_News', 'comment');
+//
+// saveEntity('Hacker_News', primary_entity);
+// saveEntity('Hacker_News', story);
+// saveEntity('Hacker_News', comment);
+
+// console.log("EXECUTED HACKER NEWS");
+
 let statisticsBuilder = {
 
     entities: [],
@@ -77,16 +88,29 @@ function initStatistic(data) {
     let labelStr = data['label'];
     let aggrStr = data['aggr-func'];
 
-    let buildKeyValFunc = function (keyStr, valStr) {
-        return function (t, all) {
-            try {
-                return {key: t[keyStr], val: t[valStr]};
+    let buildKeyValFunc = function (keyStr, customKeyFunc, valStr) {
+        if (keyStr) {
+            return function (t, all) {
+                try {
+                    return {key: t[keyStr], val: t[valStr]};
+                }
+                catch (err) {
+                    return {key: null, val: null};
+                }
             }
-            catch (err) {
-                return {key: null, val: null};
+        }
+        else {
+            return function (t, all) {
+                try {
+                    return {key: Function(customKeyFunc)(t, all), val: t[valStr]};
+                }
+                catch (err) {
+                    return {key: null, val: null}
+                }
             }
 
         }
+
     };
 
     let buildLabelFunc = function (labelStr) {
@@ -113,13 +137,13 @@ function initStatistic(data) {
     // newEntity('Facebook', 'like');
     // saveEntity('Facebook', like);
 
-    console.log(domain);
+    // console.log(domain);
     let domainData = getDomain(domain);
-    console.log('DOMAIN:', domainData);
+    // console.log('DOMAIN:', domainData);
 
     if (accessToken) {
-        domainData['parameters']['access_token'] = "EAACEdEose0cBAGBcAweGAGGbJWJG8ZBPicTgTlIy0Hz4Gx0VmG5Qz8rmjbMK8GZBmToqk4pi5hay3teqvZB6sunavViVGnLflp9WoZATQQq0jp9Pf3dEzegqZCeGxWeCmUTWJL2GDNlZBDr0H6eVlRJERHvnboidxwfRKRPXtV9oemtmPZClamzktZB5LNEwctQZD";
-        // domainData['parameters']['access_token'] = accessToken;
+        // domainData['parameters']['access_token'] = "EAACEdEose0cBAGBcAweGAGGbJWJG8ZBPicTgTlIy0Hz4Gx0VmG5Qz8rmjbMK8GZBmToqk4pi5hay3teqvZB6sunavViVGnLflp9WoZATQQq0jp9Pf3dEzegqZCeGxWeCmUTWJL2GDNlZBDr0H6eVlRJERHvnboidxwfRKRPXtV9oemtmPZClamzktZB5LNEwctQZD";
+        domainData['parameters']['access_token'] = accessToken;
     }
 
     fetchData(
@@ -267,9 +291,15 @@ else {
 //----------------------------------------------------------------------------------------------------------------------
 //------ [ Hacker News ] -----------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
-// saveEntity('Hacker-News', primary_entity);
-// saveEntity('Hacker-News', story);
-// saveEntity('Hacker-News', comment);
+// newEntity('Facebook', 'self_posts_page');
+// saveEntity('Facebook', self_posts_page);
+// newEntity('Facebook', 'post');
+// saveEntity('Facebook', post);
+// newEntity('Facebook', 'post_likes');
+// saveEntity('Facebook', post_likes);
+// newEntity('Facebook', 'like');
+// saveEntity('Facebook', like);
+
 //
 // fetchData(
 //     {

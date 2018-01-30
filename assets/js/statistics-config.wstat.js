@@ -47,7 +47,7 @@ function getAllValues(domain, entity) {
     return {values: [], texts: []} // TODO
 }
 //----------------------------------------------------------------------------------------------------------------------
-function buildSelect(elemId, values, texts) {
+function buildSelect(elemId, values, texts, extraVal, extraText) {
     let e = document.getElementById(elemId);
 
     if (values.length !== texts.length) {
@@ -60,6 +60,11 @@ function buildSelect(elemId, values, texts) {
 
     for (let i = 0; i < values.length; ++i) {
         let newElem = buildOptionElem(values[i], texts[i]);
+        e.appendChild(newElem);
+    }
+
+    if (extraVal && extraText) {
+        let newElem = buildOptionElem(extraVal, extraText);
         e.appendChild(newElem);
     }
 }
@@ -151,6 +156,8 @@ function onFormSubmit() {
     localStorage.setItem(key, JSON.stringify(statisticData));
 
     console.log("Saved statistic", key);
+
+    window.location.href = "realtime-data.html?statistic=" + key;
 }
 //----------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
