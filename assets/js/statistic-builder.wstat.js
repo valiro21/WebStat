@@ -119,6 +119,21 @@ labelFunc = function (key) {
 const testId = 'chart';
 const testType = 'bar';
 
+// magic
+let statisticData = {};
+
+// let accessToken = statisticData['access-token'];
+// let statisticName = statisticData['statistic-name'];
+// let domain = statisticData['domain'];
+// let entity = statisticData['entity'];
+// let chartType = statisticData['chart-type'];
+// let updateInterval = statisticData['update-interval'];
+// let keyStr = statisticData['key'];
+// let valStr = statisticData['value'];
+// let labelStr = statisticData['label'];
+// let aggrStr = statisticData['aggr-func'];
+
+
 let chartWrapper = new ChartWrapper(testId, testType, null, null);
 statisticsBuilder.init(keyValFunc, labelFunc, 'sum', chartWrapper, 1000);
 
@@ -152,12 +167,14 @@ statisticsBuilder.init(keyValFunc, labelFunc, 'sum', chartWrapper, 1000);
 //------ [ Facebook ] --------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
 
-localStorage.clear();
+// localStorage.clear();
 
 saveEntity('Facebook', self_posts_page);
 saveEntity('Facebook', post);
 saveEntity('Facebook', post_likes);
 saveEntity('Facebook', like);
+
+console.log("DOMAIN:", getDomain('Facebook'));
 
 fetchData(
     {
