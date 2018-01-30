@@ -42,10 +42,6 @@ function initEditor() {
         listEntities(domain).forEach(function(entity) {
             entity_selector.appendChild(createOption(entity));
         });
-
-        if(entity === null) {
-            entity_selector.appendChild(createOption("$self$"));
-        }
     };
 
     document.getElementById("parameter-name").addEventListener('click', refresh);

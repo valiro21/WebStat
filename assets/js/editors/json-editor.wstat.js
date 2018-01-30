@@ -209,6 +209,8 @@ function createNodeTypeSelector(includeKeyInput) {
                 entity_addons.classList.add("closed");
             }
         }
+        
+        entity_selector.appendChild(createOption("$self$"));
     });
 
     var addBtn = createButton('Add');
