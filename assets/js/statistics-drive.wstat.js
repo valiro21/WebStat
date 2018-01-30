@@ -34,6 +34,8 @@ function deleteFolder(index) {
 
 function moveToFolder(folderIndex) {
     var fileIndex = parseInt(document.getElementsByClassName('openedby')[0].getAttribute('id'));
+    if(fileIndex === folderIndex) return;
+
     StatisticsDrive.getInstance().moveToFolder(fileIndex, folderIndex);
     var child = document.getElementById('folderModal');
     document.getElementById('displayContainer').removeChild(child);
@@ -78,7 +80,8 @@ function openFolderManagement(index) {
     modalContent.appendChild(modalCloseButton);
 
     for (var i = 0; i < statistics.length; i++) {
-        if (statistics[i].type === 'Folder' && i !== index) {
+        var fileIndex = parseInt(document.getElementsByClassName('openedby')[0].getAttribute('id'));
+        if (statistics[i].type === 'Folder' && i !== fileIndex) {
             var folder = statistics[i];
             var folderIndex = i;
 
@@ -209,6 +212,7 @@ Folder.prototype.generateElement = function(index) {
 
     var folderElement = document.createElement('div');
     folderElement.setAttribute('class', 'entry');
+    folderElement.setAttribute('oncontextmenu', 'openEntryMenu('+index+')');
 
     var imgElement = document.createElement('img');
     imgElement.setAttribute('src', 'https://n6-img-fp.akamaized.net/free-vector/folder_1459-2304.jpg?size=338&ext=jpg');
