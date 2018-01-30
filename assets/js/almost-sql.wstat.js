@@ -110,6 +110,8 @@ function groupBy(arr, keyValFunc, aggregate, keepNull = false) {
     if (!keepNull) {
         if (ans[null])
             delete ans[null];
+        if (ans[undefined])
+            delete ans[undefined];
     }
     return ans;
 }

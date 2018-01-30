@@ -115,11 +115,16 @@ Entity.prototype.generateElement = function(domainName) {
     var entityElement = document.createElement('div');
     entityElement.setAttribute('class', 'entry');
 
+    var aElement = document.createElement('a');
+
     var imgElement = document.createElement('img');
     imgElement.setAttribute('src', '../assets/img/default.png');
     imgElement.setAttribute('height', '250px');
     imgElement.setAttribute('width', '250px');
-    entityElement.appendChild(imgElement);
+    var link ='../../wstat/pages/entity-config.html?domain_name=' + domainName + '&entity_name=' + this.title;
+    aElement.setAttribute('href', link);
+    aElement.appendChild(imgElement);
+    entityElement.appendChild(aElement);
 
     var textElement = document.createElement('div');
     textElement.setAttribute('class', 'container');
