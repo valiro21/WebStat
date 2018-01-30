@@ -107,6 +107,7 @@ function initStatistic(data) {
     saveEntity('Facebook', post_likes);
     saveEntity('Facebook', like);
 
+    console.log(domain);
     let domainData = getDomain(domain);
     console.log('DOMAIN:', domainData);
 
@@ -186,15 +187,13 @@ labelFunc = function (key) {
 //     return key * interval;
 // };
 
-const testId = 'chart';
-const testType = 'bar';
+// const testId = 'chart';
+// const testType = 'bar';
 
-// magic
-let statisticData = localStorage.getItem('statistic');
-
+let statisticData = localStorage.getItem('stat');
+statisticData = JSON.parse(statisticData);
+console.log(statisticData);
 initStatistic(statisticData);
-
-
 
 //----------------------------------------------------------------------------------------------------------------------
 //------ [ Hacker News ] -----------------------------------------------------------------------------------------------

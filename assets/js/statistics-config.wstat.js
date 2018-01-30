@@ -148,7 +148,7 @@ function onFormSubmit() {
     }
 
     let key = getUniqueStatisticKey(statisticData);
-    localStorage.setItem(key, statisticData);
+    localStorage.setItem(key, JSON.stringify(statisticData));
 
     console.log("Saved statistic", key);
 }
