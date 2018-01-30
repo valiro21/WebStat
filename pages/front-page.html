@@ -16,13 +16,13 @@
 
 </head>
 <body>
-    <div class="content">
+    <div class="content" itemscope itemtype="http://schema.org/WebSite">
         <header>
         </header>
         <div id="wstat-image">
             <div class="wrapper">
                 <div id="motto">
-                    <h2><strong>WStat</strong><br/>
+                    <h2 itemprop="accessibilitySummary"><strong>WStat</strong><br/>
                         A simple way to gather data<br/>
                         and generate statistics.
                     </h2>
@@ -36,14 +36,14 @@
                 <ul>
                     <li class="feature-1">
                         <h4>Easy to Use</h4>
-                        <p>
+                        <p itemscope itemprop="description">
                             Our application is easy to use, all you need to do is start our crawler,
                             gather data then create a statistic using the data you gathered.
                         </p>
                     </li>
-                    <li class="feature-2">
-                        <h4>Gather data</h4>
-                        <p>
+                    <li class="feature-2" itemscope itemprop="potentialAction" itemtype="http://schema.org/Action">
+                        <h4 itemscope itemprop="name">Gather data</h4>
+                        <p itemscope itemprop="description">
                             You can easily gather data using our crawler, it works with multiple social platforms
                             such as Facebook, Twitter, Reddit, Tumblr and so many more.<br/>
                             As long as a platform has an API, you can configure our crawler for it.
@@ -52,13 +52,19 @@
                     <li class="feature-3">
                         <h4>Real-time statistics</h4>
                         <p>
-                            We use Chart.JS for our statistics, for beautiful and responsive charts.
+                            We use <a href="http://www.chartjs.org" itemscope itemprop="isBasedOn">Chart.JS</a> for our statistics, for beautiful and responsive charts.
                             <br/>
                             You're guaranteed to find a chart suited for your desired statistic, plus it will be
                             updated in real-time so you won't miss anything
                         </p>
                     </li>
                 </ul>
+            </div>
+
+            <div style="visibility: hidden; display: none;" itemscope itemprop="url">
+                <a href="https://wstat.com">
+                    WStat
+                </a>
             </div>
         </div>
     </div>

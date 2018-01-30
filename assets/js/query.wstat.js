@@ -157,7 +157,7 @@ function fetchData(domain, statistic_name, primary_entity_name, fetch_callback, 
     primary_entity['_id'] = 0;
 
     var start = function fetchEntity(entity, depth) {
-        var url = join_url(domain["base_url"], entity["endpoint"]);
+        var url = join_url(domain["url"], entity["endpoint"]);
 
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
@@ -271,25 +271,25 @@ var like = {
     "_type": "like"
 };
 
-saveEntity('Facebook', self_posts_page);
-saveEntity('Facebook', post);
-saveEntity('Facebook', post_likes);
-saveEntity('Facebook', like);
-
-fetchData(
-    {
-        "name": 'Facebook',
-        "base_url": "https://graph.facebook.com/v2.11",
-        "parameters": {"access_token": ""}
-    },
-    'test',
-    'self_posts_page',
-    function (entity) { console.log("Fetched entity: ", entity); },
-    function () { console.log("Done"); },
-    10,
-    true,
-    4
-);
+// saveEntity('Facebook', self_posts_page);
+// saveEntity('Facebook', post);
+// saveEntity('Facebook', post_likes);
+// saveEntity('Facebook', like);
+//
+// fetchData(
+//     {
+//         "name": 'Facebook',
+//         "base_url": "https://graph.facebook.com/v2.11",
+//         "parameters": {"access_token": ""}
+//     },
+//     'test',
+//     'self_posts_page',
+//     function (entity) { console.log("Fetched entity: ", entity); },
+//     function () { console.log("Done"); },
+//     10,
+//     true,
+//     4
+// );
 
 
 
