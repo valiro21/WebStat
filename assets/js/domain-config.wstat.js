@@ -9,37 +9,35 @@ function openModal(){
 }
 
 function onSubmit() {
-    var editorPlaceholders = document.getElementsByClassName("editor");
+    var domain_name = getParameterByName("domain_name");
 
-    if (editorPlaceholders.length > 0) {
-        var domain_name = getParameterByName("domain_name");
-
-        var create_new_domain = false;
-        if (domain_name === null) {
-            domain_name = document.getElementById("DomainAlias").value;
-            create_new_domain = true;
-        }
-
-        var domain = {};
-        domain["name"] = domain_name;
-        domain["url"] = document.getElementById("DomainHostname").value;
-
-        var parametersList = document.getElementById("parameters").children;
-        var parameters = [];
-        for(var idx = 0; idx < parametersList.length; idx++) {
-            var parameter = parametersList[idx];
-
-            parameters[parameter.innerHTML] = "";
-        }
-
-        domain["parameters"] = parameters;
-
-        if (create_new_domain) {
-            newDomain(domain_name);
-        }
-
-        saveDomain(domain_name);
+    var create_new_domain = false;
+    if (domain_name === null) {
+        domain_name = document.getElementById("DomainAlias").value;
+        create_new_domain = true;
     }
+
+    var domain = {};
+    domain["name"] = domain_name;
+    domain["url"] = document.getElementById("DomainHostname").value;
+
+    var parametersList = document.getElementById("parameters").children;
+    var parameters = {};
+    for(var idx = 0; idx < parametersList.length; idx++) {
+        var parameter = parametersList[idx];
+
+        parameters[parameter.innerHTML] = "";
+    }
+
+    domain["parameters"] = parameters;
+
+    if (create_new_domain) {
+        // newDomain(domain_name);
+    }
+
+    saveDomain(domain_name);
+
+    window.location = "./entity-drive.html";
 }
 
 function initDomain() {
