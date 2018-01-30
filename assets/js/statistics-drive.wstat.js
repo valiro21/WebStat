@@ -77,8 +77,7 @@ function openFolderManagement(index) {
 
     modalContent.appendChild(modalCloseButton);
 
-    var i;
-    for (i = 0; i < statistics.length; i++) {
+    for (var i = 0; i < statistics.length; i++) {
         if (statistics[i].type === 'Folder' && i !== index) {
             var folder = statistics[i];
             var folderIndex = i;
@@ -258,10 +257,10 @@ var StatisticsDrive = (function() {
 
         that.previous = [];
 
-        that.statistics = [new Statistic('../assets/img/chart-1.png', '../pages/realtime-data.html', 'Highest traffic'),
+        /*that.statistics = [new Statistic('../assets/img/chart-1.png', '../pages/realtime-data.html', 'Highest traffic'),
             new Statistic('../assets/img/chart-2.png', '../pages/realtime-data.html', 'Most text'),
             new Statistic('../assets/img/chart-3.png', '../pages/realtime-data.html', 'Data types'),
-            new Folder('Test', [new Statistic('../assets/img/chart-3.png', '../pages/realtime-data.html', 'Data types')])];
+            new Folder('Test', [new Statistic('../assets/img/chart-3.png', '../pages/realtime-data.html', 'Data types')])];*/
 
         that.stocare = function(path, folder) {
             var toStore = [];
@@ -288,11 +287,13 @@ var StatisticsDrive = (function() {
                     var newPath = currentFolder[i].split('/');
                     statisticsDrive.push(new Folder(newPath[newPath.length - 2], that.citire(currentFolder[i])));
                 } else {
-                    statisticsDrive.push(new Statistic('yee.jpg', 'main.html', currentFolder[i]))
+                    statisticsDrive.push(new Statistic('../assets/img/default.png', 'main.html', currentFolder[i]))
                 }
             }
             return statisticsDrive;
         };
+
+        that.statistics = that.citire('sDrive/');
 
         that.addStatistic = function() {
         };
@@ -325,21 +326,21 @@ var StatisticsDrive = (function() {
             that.statistics.splice(index, 1);
             that.clearStatistics();
             that.renderStatistics();
-            that.stocare('sDrive/', that.statistics);
+            that.stocare('sDrive/', that.previous[0]);
         };
 
         that.makeNewFolder = function(title) {
             that.statistics.push(new Folder(title, []));
             that.clearStatistics();
             that.renderStatistics();
-            that.stocare('sDrive/', that.statistics);
+            that.stocare('sDrive/', that.previous[0]);
         };
 
         that.deleteFolder = function(index) {
             that.statistics.splice(index, 1);
             that.clearStatistics();
             that.renderStatistics();
-            that.stocare('sDrive/', that.statistics);
+            that.stocare('sDrive/', that.previous[0]);
         };
 
         that.moveToFolder = function(fileIndex, folderIndex) {
@@ -347,7 +348,7 @@ var StatisticsDrive = (function() {
             that.statistics.splice(fileIndex, 1);
             that.clearStatistics();
             that.renderStatistics();
-            that.stocare('sDrive/', that.statistics);
+            that.stocare('sDrive/', that.previous[0]);
         };
 
         that.renderStatistics = function() {
