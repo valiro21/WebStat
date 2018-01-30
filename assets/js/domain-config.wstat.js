@@ -33,7 +33,7 @@ function onSubmit() {
     domain["parameters"] = parameters;
 
     if (create_new_domain) {
-        // newDomain(domain_name);
+        newDomain(domain_name);
     }
 
     saveDomain(domain_name, domain);
