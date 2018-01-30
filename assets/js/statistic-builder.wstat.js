@@ -111,28 +111,48 @@ function initStatistic(data) {
     let domainData = getDomain(domain);
     console.log('DOMAIN:', domainData);
 
+    if (accessToken) {
+        domainData['parameters']['access_token'] = accessToken;
+    }
+
     fetchData(
-        {
-            "name": 'Facebook',
-            "base_url": "https://graph.facebook.com/v2.11",
-            "parameters": {
-                "access_token": "EAACEdEose0cBAAwH1BjgX1MMvnPHZCuCy4tpZCgqNGXXzZBZA7GhtWQb4PJvV93R24Be3x3dcxUpQ9ygWcD4ffU6CixGTXHI9xNiZASRUhTmtatozmZCtNzNAxDQRyiyopw9nL5iSRqrNeI1aZCBXOVF0EgS67vhwz6o6faU6BKmrdhRioDHsBm9FbKDsa77qAZD"
-            }
-        },
-        'test',
-        'self_posts_page',
-        function (entity) {
-            console.log("Fetched entity: ", entity);
-            statisticsBuilder.add(entity);
+        domainData,
+        statisticName,
+        entity,
+        function (ent) {
+            console.log("Add", ent);
+            statisticsBuilder.add(ent);
         },
         function () {
-            console.log("Done");
+            console.log("Finalized statistic.");
             statisticsBuilder.finalize();
         },
         10,
-        true,
+        true, // TODO change to false
         3
-    );
+    )
+    // fetchData(
+    //     {
+    //         "name": 'Facebook',
+    //         "base_url": "https://graph.facebook.com/v2.11",
+    //         "parameters": {
+    //             "access_token": "EAACEdEose0cBAAwH1BjgX1MMvnPHZCuCy4tpZCgqNGXXzZBZA7GhtWQb4PJvV93R24Be3x3dcxUpQ9ygWcD4ffU6CixGTXHI9xNiZASRUhTmtatozmZCtNzNAxDQRyiyopw9nL5iSRqrNeI1aZCBXOVF0EgS67vhwz6o6faU6BKmrdhRioDHsBm9FbKDsa77qAZD"
+    //         }
+    //     },
+    //     'test',
+    //     'self_posts_page',
+    //     function (entity) {
+    //         console.log("Fetched entity: ", entity);
+    //         statisticsBuilder.add(entity);
+    //     },
+    //     function () {
+    //         console.log("Done");
+    //         statisticsBuilder.finalize();
+    //     },
+    //     10,
+    //     true,
+    //     3
+    // );
 }
 // executes
 
