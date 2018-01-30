@@ -137,9 +137,9 @@ function initStatistic(data) {
     // newEntity('Facebook', 'like');
     // saveEntity('Facebook', like);
 
-    console.log(domain);
+    // console.log(domain);
     let domainData = getDomain(domain);
-    console.log('DOMAIN:', domainData);
+    // console.log('DOMAIN:', domainData);
 
     if (accessToken) {
         // domainData['parameters']['access_token'] = "EAACEdEose0cBAGBcAweGAGGbJWJG8ZBPicTgTlIy0Hz4Gx0VmG5Qz8rmjbMK8GZBmToqk4pi5hay3teqvZB6sunavViVGnLflp9WoZATQQq0jp9Pf3dEzegqZCeGxWeCmUTWJL2GDNlZBDr0H6eVlRJERHvnboidxwfRKRPXtV9oemtmPZClamzktZB5LNEwctQZD";

@@ -156,6 +156,8 @@ function onFormSubmit() {
     localStorage.setItem(key, JSON.stringify(statisticData));
 
     console.log("Saved statistic", key);
+
+    window.location.href = "realtime-data.html?statistic=" + key;
 }
 //----------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
