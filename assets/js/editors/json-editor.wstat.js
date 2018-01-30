@@ -77,9 +77,17 @@ function createExpandableNode(key, objectType) {
     });
 
     var entityType = createValueNode(objectType);
-    var removeNode = createRemoveButton(node, function() {
+    var confirm_method = function() {
         return confirm("Do you really want to remove the node and all of it's content?");
-    });
+    };
+
+    var removeNode;
+    if (key === null) {
+        removeNode = createSwapRemoveButton(node, createAddNodeButton(), confirm_method);
+    }
+    else {
+        removeNode = createRemoveButton(node, confirm_method);
+    }
 
     header.appendChild(expandArrow);
     if (key !== null) {
@@ -344,8 +352,8 @@ function createVisualizerFromEntity(entity) {
     return createVisualizer(null, entity);
 }
 
-function refreshEditor(divClassName = "editor") {
-    var editorPlaceholders = document.getElementsByClassName(divClassName);
+function refreshEditor() {
+    var editorPlaceholders = document.getElementsByClassName("editor");
 
     if (editorPlaceholders.length > 0) {
 /*        var domain_name = getParameterByName("domain_name");
@@ -360,7 +368,6 @@ function refreshEditor(divClassName = "editor") {
         placeholder.appendChild(createVisualizerFromEntity({"a": []}));
     }
 }
-
 
 if(window.attachEvent) {
     window.attachEvent('onload', refreshEditor);
