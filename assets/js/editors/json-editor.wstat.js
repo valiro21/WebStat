@@ -224,11 +224,12 @@ function createNodeTypeSelector(includeKeyInput) {
             return;
         }
 
+        var replace_with = null;
         if (select.value === "object") {
-            node.replaceWith(createObjectNode(!includeKeyInput ? null : keyNode.value));
+            replace_with = createObjectNode(!includeKeyInput ? null : keyNode.value);
         }
         else if (select.value === "array") {
-            node.replaceWith(createArrayNode(!includeKeyInput ? null : keyNode.value));
+            replace_with = createArrayNode(!includeKeyInput ? null : keyNode.value);
         }
         else {
             var value = select.value;
@@ -241,12 +242,14 @@ function createNodeTypeSelector(includeKeyInput) {
                 value = value + ' ' + entity_selector.value;
             }
 
-            node.replaceWith(createLeafNode(!includeKeyInput ? null : keyNode.value, value));
+            replace_with = createLeafNode(!includeKeyInput ? null : keyNode.value, value);
         }
 
         if (includeKeyInput) {
             node.parentNode.appendChild(createAddFieldButton());
         }
+
+        node.replaceWith(replace_with);
     });
 
     cancelBtn.addEventListener('click', function (event) {

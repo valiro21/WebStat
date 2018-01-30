@@ -9,15 +9,6 @@ function openModal(){
 }
 
 function initEditor() {
-    var like = {
-        "root": JSON.parse('{"id": "id"}'),
-        "endpoint": "/{id}",
-        "properties": ["ceva"],
-        "_type": "like"
-    };
-
-    saveEntity("Facebook", like);
-
     var editorPlaceholders = document.getElementsByClassName("editor");
 
     if (editorPlaceholders.length > 0) {
@@ -99,6 +90,8 @@ function onSubmit() {
         }
 
         saveEntity(domain_name, entity);
+
+        window.location = './entity-drive.html';
     }
 }
 
