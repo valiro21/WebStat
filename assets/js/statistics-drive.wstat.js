@@ -166,6 +166,7 @@ Statistic.prototype.generateElement = function(index) {
     var statisticElement = document.createElement('div');
     statisticElement.appendChild(statisticElementLink);
     statisticElement.setAttribute('class', 'entry');
+    statisticElement.setAttribute('id' , 'entry-' + index);
 
     var imgElement = document.createElement('img');
     imgElement.setAttribute('src', this.img);
@@ -180,7 +181,7 @@ Statistic.prototype.generateElement = function(index) {
     title.textContent = this.title;
     textElement.appendChild(title);
 
-    textElement.appendChild(this.createDropDownEditButton(index));
+    //textElement.appendChild(this.createDropDownEditButton(index));
     statisticElementLink.appendChild(imgElement);
     statisticElement.appendChild(textElement);
 
@@ -190,12 +191,11 @@ Statistic.prototype.generateElement = function(index) {
 Folder.prototype.generateElement = function(index) {
     var folder = document.createElement('div');
 
-    var folderButton = document.createElement('button');
+    var folderButton = document.createElement('a');
     folderButton.setAttribute('onclick', 'openFolder(' + index + ')');
 
 
     var folderElement = document.createElement('div');
-    folder.appendChild(folderElement);
     folderElement.setAttribute('class', 'entry');
 
     var imgElement = document.createElement('img');
@@ -213,11 +213,11 @@ Folder.prototype.generateElement = function(index) {
     title.textContent = this.title;
     textElement.appendChild(title);
 
-    textElement.appendChild(this.createDropDownEditButton(index));
+    //textElement.appendChild(this.createDropDownEditButton(index));
     folderElement.appendChild(folderButton);
     folderElement.appendChild(textElement);
 
-    return folder;
+    return folderElement;
 };
 
 var StatisticsDrive = (function() {
@@ -338,21 +338,71 @@ var StatisticsDrive = (function() {
     };
 })();
 
-function initStatisticsDrive() {
+function closeMenu(menuId){
+    var menu = document.getElementById(menuId);
+    menu.style.display = "";
+    menu.style.left = "";
+    menu.style.top = "";
+}
 
+function openMenu(menuId, event){
+    var menu = document.getElementById(menuId);
+    menu.style.display = "block";
+    menu.style.left = (event.pageX - 10)+"px";
+    menu.style.top = (event.pageY - 10)+"px";
+}
+
+function initStatisticsDrive() {
     StatisticsDrive.getInstance().renderStatistics();
+    var entries = document.getElementsByClassName('entry');
+    var htmlTag = document.getElementsByTagName("html")[0];
+    htmlTag.addEventListener("click", function(event){
+        closeMenu('entryMenu');
+        closeMenu('contextMenu');
+        event.stopPropagation();
+    }, false);
+    htmlTag.addEventListener("contextmenu", function(event){
+        closeMenu('entryMenu');
+        closeMenu('contextMenu');
+        event.stopPropagation();
+    }, false);
+
+    bodyTag = document.getElementsByTagName('body')[0];
+    bodyTag.addEventListener("contextmenu", function(event){
+        event.preventDefault();
+        closeMenu('entryMenu');
+        openMenu('contextMenu', event);
+        event.stopPropagation();
+    }, false);
+
+    for (var entry of entries) {
+        entry.addEventListener("contextmenu", function(event){
+            event.preventDefault();
+            openMenu('entryMenu', event);
+            closeMenu('contextMenu');
+            event.stopPropagation();
+        }, false);
+    }
+
+    var entryMenu = document.getElementById('entryMenu');
+    entryMenu.addEventListener('contextmenu', function(event){
+        event.preventDefault();
+        event.stopPropagation();
+    });
 }
 
 
 // Add drive generation after page load w/o overriding.
 if(window.attachEvent) {
     window.attachEvent('onload', initStatisticsDrive);
-} else {
+}
+else {
     if(window.onload) {
         var currentOnLoad = window.onload;
         window.onload = function(evt) {
             currentOnLoad(evt);
             initStatisticsDrive();
+
         };
     } else {
         window.onload = initStatisticsDrive;
