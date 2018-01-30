@@ -2,7 +2,7 @@ function createNewListItem(item) {
     var node = document.createElement('li');
 
     var textNode = document.createTextNode(item);
-    var deleteButtonNode = createRemoveButton2(node, function() {});
+    var deleteButtonNode = createRemoveButton(node, null);
 
     node.appendChild(textNode);
     node.appendChild(deleteButtonNode);

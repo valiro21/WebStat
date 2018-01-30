@@ -1,199 +1,287 @@
 OPTIONS = [
+    'value',
     'array',
     'object',
+    'id',
     'entity',
     'entity_id',
     'entity_url'
 ];
 
-PRIMITIVES = [
-    'string',
-    'number',
-    'boolean',
-    'next_page',
-    'entity'
-];
-
-function isPrimitive(type) {
-    return PRIMITIVES.indexOf(type) >= 0;
+function toggleClass(classList, className) {
+    if(classList.contains(className)) {
+        classList.remove(className);
+    }
+    else {
+        classList.add(className);
+    }
 }
 
-function createValueNode(key, type){
+
+
+// ##############################################################
+// # ##                     NODE CREATION                    # ##
+
+function createLine() {
     var node = document.createElement('div');
-    node.className = "node";
-    if (!isPrimitive(type)) {
-        node.classList.add("non-value");
+    node.classList.add('line');
+    return node;
+}
+
+function createHeader() {
+    var node = document.createElement('div');
+    node.classList.add('header');
+    return node;
+}
+
+function createChildrenWrapper() {
+    var node = document.createElement('div');
+    node.classList.add('children');
+    return node;
+}
+
+function createP(value) {
+    var p = document.createElement('p');
+    p.innerHTML = value;
+    return p;
+}
+
+function createKeyNode(key) {
+    var keyNode = createP(key);
+    keyNode.classList.add('key');
+    return keyNode;
+}
+
+function createValueNode(value) {
+    var valueNode = createP(value);
+    valueNode.classList.add('value');
+    return valueNode;
+}
+
+function createExpandableNode(key, objectType) {
+    var node = createLine();
+
+    var header = createHeader();
+    header.classList.add('node-head');
+
+    var children = createChildrenWrapper();
+    children.classList.add('node-children');
+
+    var expandArrow = document.createElement('button');
+    expandArrow.classList.add('node-collapse');
+    expandArrow.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        toggleClass(expandArrow.classList, "collapsed");
+        toggleClass(children.classList, "closed");
+    });
+
+    var entityType = createValueNode(objectType);
+    var removeNode = createRemoveButton(node, function() {
+        return confirm("Do you really want to remove the node and all of it's content?");
+    });
+
+    header.appendChild(expandArrow);
+    if (key !== null) {
+        header.appendChild(createKeyNode(key));
+        header.appendChild(document.createTextNode(':'));
     }
+    header.appendChild(entityType);
+    header.appendChild(removeNode);
 
-    var nodeText = document.createElement('a');
-
-    // Key node
-    var keyNode = document.createElement('p');
-    keyNode.className = "key";
-    keyNode.textContent = key.toString();
-
-    // Type node
-    var typeNode = document.createElement('p');
-    typeNode.className = "type";
-    typeNode.textContent = type.toString();
-
-    nodeText.appendChild(keyNode);
-    nodeText.appendChild(typeNode);
-    nodeText.addEventListener('click', toggleVisibleNode);
-
-    node.appendChild(nodeText);
-    node.appendChild(createRemoveButton());
+    node.appendChild(header);
+    node.appendChild(children);
 
     return node;
 }
 
-function createNewNodeButton() {
-    var addButton = document.createElement("a");
-    addButton.className = "btn new-node";
-    addButton.addEventListener('click', newNode);
-
-    return addButton;
+function createObjectNode(key) {
+    var node = createExpandableNode(key, '{}');
+    node.children[1].appendChild(createAddFieldButton());
+    return node;
 }
 
-function createRemoveButton() {
-    var removeButton = document.createElement("a");
-    removeButton.className = "btn remove-node";
-    removeButton.addEventListener('click', removeNode);
-
-    return removeButton;
+function createArrayNode(key) {
+    var node = createExpandableNode(key, '[]');
+    node.children[1].appendChild(createAddNodeButton());
+    return node;
 }
 
-function createLevel(key, type) {
-    // Create div to wrap the whole level
-    var level = document.createElement('div');
-    level.className = "level-node";
-
-    var node = createValueNode(key, type);
-    level.appendChild(node);
-
-    level.appendChild(createNewNodeButton());
-
-    return level;
-}
-
-
-function addNode(event){
-    var nodeForm = event.target.parentNode;
-
-    var name = nodeForm.getElementsByTagName("input")[0].value;
-    var type = nodeForm.getElementsByTagName("select")[0].value;
-
-    var node = createLevel(name, type);
-    if (isPrimitive(type)) {
-        node.removeChild(node.lastChild);
+function createLeafNode(key, value) {
+    var node = createHeader();
+    if (key !== null) {
+        node.appendChild(createKeyNode(key));
+        node.appendChild(createP(':'));
     }
 
-    nodeForm.parentElement.appendChild(createNewNodeButton());
-    nodeForm.replaceWith(node);
-}
+    node.appendChild(createValueNode(value));
 
-function cancelNode(event){
-    var nodeForm = event.target.parentNode;
-    nodeForm.replaceWith(createNewNodeButton());
-}
 
-function newNode(event) {
-    var newNodeForm = document.createElement('div');
-    newNodeForm.className = "add-node level-node";
+    var confirm_method = function() {
+        return confirm("Do you really want to remove the node and all of it's content?");
+    };
 
-    var name = document.createElement('input');
-    name.type = 'text';
-    name.className = "add-node";
-
-    var select = document.createElement('select');
-    OPTIONS.forEach(function(item){
-        var option = document.createElement('option');
-        option.textContent = item;
-        select.appendChild(option);
-    });
-    select.className = "add-node";
-
-    newNodeForm.appendChild(name);
-    newNodeForm.appendChild(select);
-
-    var addButton = document.createElement('button');
-    addButton.textContent = "Add";
-    addButton.className = "btn add-node";
-    addButton.addEventListener('click', addNode);
-
-    var cancelButton = document.createElement('button');
-    cancelButton.textContent = "Cancel";
-    cancelButton.className = "btn cancel-node";
-    cancelButton.addEventListener('click', cancelNode);
-
-    newNodeForm.appendChild(addButton);
-    newNodeForm.appendChild(cancelButton);
-
-    event.target.replaceWith(newNodeForm);
-}
-
-function removeNode(event) {
-    var node = event.target.parentNode.parentNode;
-    if (confirm ("Do you really want to remove the node and all of it's content?")) {
-        node.parentNode.removeChild(node);
-    }
-}
-
-function toggleVisibleNode(event) {
-    var node = event.target.parentNode.parentNode;
-    if (node.tagName === "p") {
-        node = node.parentNode;
-    }
-
-    if(node.classList.contains("closed")) {
-        node.classList.remove("closed");
+    var removeNode;
+    if (key === null) {
+        removeNode = createSwapRemoveButton(node, createAddNodeButton(), confirm_method);
     }
     else {
-        node.classList.add("closed");
-    }
-}
-
-function isTerminalNode(data) {
-    return ['string', 'number', 'boolean'].indexOf(typeof data) >= 0;
-}
-
-function buildJsonVisualizer(data, rootName = "root", rootType = "object") {
-    var level = createLevel(rootName, rootType);
-
-    if (isTerminalNode(data)) {
-        level.removeChild(level.lastChild);
-        return level;
+        removeNode = createRemoveButton(node, confirm_method);
     }
 
-    for (var key in data) {
-        if (data.hasOwnProperty(key)) {
-            var value = data[key];
+    node.appendChild(removeNode);
+    return node;
+}
 
-            var dataType = typeof value;
-            if (dataType instanceof Array) {
-                value = dataType[0];
+// # ##                        END                           # ##
+// ##############################################################
+
+
+// ##############################################################
+// # ##                     NODE SELECTOR                    # ##
+
+function createOption(value) {
+    var option = document.createElement('option');
+    option.textContent = value;
+    return option;
+}
+
+function createButton(value) {
+    var button = document.createElement('button');
+    button.appendChild(document.createTextNode(value));
+    return button;
+}
+
+function createNodeTypeSelector(includeKeyInput) {
+    var node = createHeader();
+
+    var keyNode = null;
+    if (includeKeyInput) {
+        keyNode = document.createElement('input');
+        node.appendChild(keyNode);
+    }
+
+    var select = document.createElement('select');
+
+    OPTIONS.forEach(function(item){
+        select.appendChild(createOption(item));
+    });
+
+    var entity_addons = document.createElement('div');
+    entity_addons.appendChild(document.createTextNode('of'));
+    var entity_selector = document.createElement('select');
+    var refresh = function () {
+        while (entity_selector.firstChild) {
+            entity_selector.removeChild(entity_selector.firstChild);
+        }
+        // entity_selector.appendChild(createOption("Test"));
+    };
+
+    entity_selector.addEventListener('click', refresh);
+    refresh();
+
+    entity_addons.appendChild(entity_selector);
+    entity_addons.classList.add('closed');
+    entity_addons.classList.add('entity-addons');
+
+    select.addEventListener('change', function () {
+        if(this.value.startsWith('entity')) {
+            entity_addons.classList.remove("closed");
+        }
+        else {
+            if(!entity_addons.classList.contains("closed")) {
+                entity_addons.classList.add("closed");
+            }
+        }
+    });
+
+    var addBtn = createButton('Add');
+    var cancelBtn = createButton('Cancel');
+
+    addBtn.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        if (includeKeyInput) {
+            if(keyNode.value === "") {
+                alert("You can't insert an element with an empty key.")
+                return;
+            }
+            node.parentNode.appendChild(createAddFieldButton());
+        }
+
+        if (select.value === "object") {
+            node.replaceWith(createObjectNode(!includeKeyInput ? null : keyNode.value));
+        }
+        else if (select.value === "array") {
+            node.replaceWith(createArrayNode(!includeKeyInput ? null : keyNode.value));
+        }
+        else {
+            var value = select.value;
+            if (!entity_addons.classList.contains('closed')) {
+                if (entity_selector.value === "") {
+                    alert("You must specify an entity.");
+                    return;
+                }
+
+                value = value + ' ' + entity_selector.value;
             }
 
-            var createNewButton = level.lastChild;
-            level.removeChild(createNewButton);
-            level.appendChild(buildJsonVisualizer(value, key, dataType));
-            level.appendChild(createNewButton);
+            node.replaceWith(createLeafNode(!includeKeyInput ? null : keyNode.value, value));
         }
-    }
+    });
 
-    return level;
+    cancelBtn.addEventListener('click', function (event) {
+        event.preventDefault();
+
+        if (includeKeyInput) {
+            node.replaceWith(createAddFieldButton());
+        }
+        else {
+            node.replaceWith(createAddNodeButton());
+        }
+    });
+
+    node.appendChild(select);
+    node.appendChild(entity_addons);
+    node.appendChild(addBtn);
+    node.appendChild(cancelBtn);
+
+    return node;
 }
 
-function getNodeDetails(node) {
-    var valueNode = node.getElementsByClassName("node")[0];
-    var aNode = valueNode.getElementsByTagName("a")[0];
-    var name = aNode.getElementsByClassName("key")[0].innerText;
-    var type = aNode.getElementsByClassName("type")[0].innerText;
+// # ##                        END                           # ##
+// ##############################################################
 
-    return [name, type];
+
+// ##############################################################
+// # ##                     ADD BUTTONS                      # ##
+
+function createAddNodeButton() {
+    var node = document.createElement('button');
+    node.classList.add('add-btn');
+    node.addEventListener('click', function(event) {
+        event.preventDefault();
+
+        node.replaceWith(createNodeTypeSelector(false));
+    });
+    return node;
 }
 
-function getJsonFromVisualizer(rootNode) {
+function createAddFieldButton() {
+    var node = document.createElement('button');
+    node.classList.add('add-btn');
+    node.addEventListener('click', function(event) {
+        event.preventDefault();
+
+        node.replaceWith(createNodeTypeSelector(true));
+    });
+    return node;
+}
+
+// # ##                        END                           # ##
+// ##############################################################
+
+function getEntityFromVisualizer(rootNode) {
     var details = getNodeDetails(rootNode);
     var name = details[0];
     var type = details[1];
@@ -220,21 +308,56 @@ function getJsonFromVisualizer(rootNode) {
     return [name, typeVal];
 }
 
-function refreshEditor(divClassName = "editors") {
+function createVisualizer(key, value) {
+    var tree = null;
+    var children = null;
+
+    if (value === null) {
+        return createAddNodeButton();
+    }
+    else if (Array.isArray(value)) {
+        tree = createArrayNode(key);
+        children = tree.getElementsByClassName('children')[0];
+        if(value.length > 0) {
+            children.appendChild(createVisualizer(null, value[0]));
+        }
+    }
+    else if(typeof(value) === "object") {
+        tree = createObjectNode(key);
+        children = tree.getElementsByClassName('children')[0];
+        Object.keys(value).forEach(function(key){
+            var last = children.lastChild;
+            children.removeChild(last);
+
+            children.appendChild(createVisualizer(key, value[key]));
+            children.appendChild(last);
+        });
+    }
+    else {
+        tree = createLeafNode(key, value);
+    }
+
+    return tree;
+}
+
+function createVisualizerFromEntity(entity) {
+    return createVisualizer(null, entity);
+}
+
+function refreshEditor(divClassName = "editor") {
     var editorPlaceholders = document.getElementsByClassName(divClassName);
 
     if (editorPlaceholders.length > 0) {
-        var domain_name = getParameterByName("domain_name");
+/*        var domain_name = getParameterByName("domain_name");
         var entity_name = getParameterByName("entity_name");
 
         var entity = {};
         if (entity_name !== undefined && entity_name !== null) {
             entity = getEntity(domain_name, entity_name);
-        }
+        }*/
 
         var placeholder = editorPlaceholders.item(0);
-        placeholder.appendChild(buildJsonVisualizer(entity));
-        console.log(getJsonFromVisualizer(placeholder.children[0]));
+        placeholder.appendChild(createVisualizerFromEntity({"a": []}));
     }
 }
 
