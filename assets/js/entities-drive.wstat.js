@@ -18,11 +18,11 @@ function CloseDomain() {
 }
 
 function redirectToEdit(dName, title) {
-    window.location.href = '../../pages/entity-config.html?domain_name=' + dName + '&entity_name=' + title;
+    window.location.href = '../../wstat/pages/entity-config.html?domain_name=' + dName + '&entity_name=' + title;
 }
 
 function redirectToEditDomain(dName) {
-    window.location.href = '../../pages/domain-config.html?domain_name=' + dName;
+    window.location.href = '../../wstat/pages/domain-config.html?domain_name=' + dName;
 }
 
 Domain.prototype.convertToJson = function() {
