@@ -4,7 +4,7 @@ function deepCopy(obj) {
 }
 
 function getParameterByName(name) {
-    var match = RegExp('[#&]' + name + '=([^&]*)').exec(window.location.search);
+    var match = RegExp('[#&?]' + name + '=([^&]*)').exec(window.location.search);
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
 
@@ -67,6 +67,18 @@ function hasEntity(namespace, entity_name, entity_id) {
     var entity = localStorage.getItem(location);
 
     return !(entity === undefined || entity === null);
+}
+
+function saveDomain(domain_name, domain) {
+    localStorage.setItem(join_url("domain", domain_name), JSON.stringify(domain));
+}
+
+function getDomain(domain_name) {
+    var domain = localStorage.getItem(join_url("domain", domain_name));
+    if(domain === undefined) {
+        domain = null;
+    }
+    return JSON.parse(domain);
 }
 
 function newEntity(domainTitle, entityTitle) {

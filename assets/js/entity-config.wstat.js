@@ -23,6 +23,21 @@ function initEditor() {
         var placeholder = editorPlaceholders.item(0);
         placeholder.appendChild(createVisualizerFromEntity(entity));
     }
+
+    var refresh = function () {
+        var entity_selector = document.getElementById("parameter-name");
+        while (entity_selector.firstChild) {
+            entity_selector.removeChild(entity_selector.firstChild);
+        }
+
+        var domain = getParameterByName('domain_name');
+        listEntities(domain).forEach(function(entity) {
+            entity_selector.appendChild(createOption(entity));
+        });
+    };
+
+    document.getElementById("parameter-name").addEventListener('click', refresh);
+    refresh();
 }
 
 function onSubmit() {
