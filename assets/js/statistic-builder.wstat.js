@@ -55,7 +55,7 @@ let statisticsBuilder = {
         this.buildData();
 
         this.chart.buildDataFromDict(
-            'Random bullshit',
+            'Data',
             this.labelFunc,
             this.data
         );
@@ -100,7 +100,7 @@ function initStatistic(data) {
 
 
     let chartWrapper = new ChartWrapper(CHART_ID, chartType, null, null);
-    mainChart = chartWrapper.chart;
+    // mainChart = chartWrapper.chart;
     statisticsBuilder.init(keyValFunc, labelFunc, aggrStr, chartWrapper, updateInterval);
 
 
@@ -176,10 +176,12 @@ const interval = 10;
 // const testId = 'chart';
 // const testType = 'bar';
 
-let debug = true;
+let debug = false;
 
 if (!debug) {
-    let statisticData = localStorage.getItem('stat'); // TODO: change
+
+    let statisticName = getParameterByName('statistic');
+    let statisticData = localStorage.getItem(statisticName); // TODO: change
     statisticData = JSON.parse(statisticData);
     console.log(statisticData);
     initStatistic(statisticData);
@@ -229,7 +231,7 @@ else {
     saveEntity('Facebook', like);
 
     let chartWrapper = new ChartWrapper(CHART_ID, 'bar', null, null);
-    mainChart = chartWrapper.chart;
+    // mainChart = chartWrapper.chart;
     statisticsBuilder.init(keyValFunc, labelFunc, 'sum', chartWrapper, 1000);
 
     fetchData(
@@ -237,7 +239,7 @@ else {
             "name": 'Facebook',
             "base_url": "https://graph.facebook.com/v2.11",
             "parameters": {
-                "access_token": "EAACEdEose0cBAHbftn79R1d0kNRRXBXSy69kAAUdaFqf0hRqbofraFJ4ri425vRpTOIhwYCdPIlrVH8SsfPvoxdA8krRKMu1767SwwJGMQzr6deoMrkjOFwPMrJgz0iedWbHO5MpHVc3oeLLnREEis50HRI7VR1LIad7mfSen2Hb8ZBuA7gPLDyd0gzkZD\n"
+                "access_token": "EAACEdEose0cBAHbftn79R1d0kNRRXBXSy69kAAUdaFqf0hRqbofraFJ4ri425vRpTOIhwYCdPIlrVH8SsfPvoxdA8krRKMu1767SwwJGMQzr6deoMrkjOFwPMrJgz0iedWbHO5MpHVc3oeLLnREEis50HRI7VR1LIad7mfSen2Hb8ZBuA7gPLDyd0gzkZD"
             }
         },
         'test',
