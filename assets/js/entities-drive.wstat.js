@@ -61,7 +61,7 @@ Domain.prototype.generateElement = function(index) {
     domainElement.setAttribute('class', 'entry');
 
     var imgElement = document.createElement('img');
-    imgElement.setAttribute('src', this.img);
+    imgElement.setAttribute('src', '../assets/img/default.png');
     imgElement.setAttribute('height', '250px');
     imgElement.setAttribute('width', '250px');
     imgElement.setAttribute('onclick', 'OpenDomain(' + index +')');
@@ -76,7 +76,7 @@ Domain.prototype.generateElement = function(index) {
     title.textContent = this.title;
     textElement.appendChild(title);
 
-    textElement.appendChild(this.createDropDownEditButton());
+    //textElement.appendChild(this.createDropDownEditButton());
 
     return domainElement;
 };
@@ -111,7 +111,7 @@ Entity.prototype.generateElement = function() {
     imgElement.setAttribute('src', 'https://images-na.ssl-images-amazon.com/images/I/31NaU1jyiUL._SL500_AC_SS350_.jpg');
     imgElement.setAttribute('height', '250px');
     imgElement.setAttribute('width', '250px');
-    entityElement.appendChild(imgElement);
+    //entityElement.appendChild(imgElement);
 
     var textElement = document.createElement('div');
     textElement.setAttribute('class', 'container');
@@ -122,7 +122,7 @@ Entity.prototype.generateElement = function() {
     title.textContent = this.title;
     textElement.appendChild(title);
 
-    textElement.appendChild(this.createDropDownEditButton());
+    //textElement.appendChild(this.createDropDownEditButton());
 
     return entityElement;
 };
@@ -189,7 +189,7 @@ var EntitiesDrive = (function() {
                 that.entities.push(newD);
             });
         } else {
-            that.entities = [new Domain('yes.jpg', 'Facebook', [new Entity('DA')])];
+            that.entities = [new Domain('../assets/img/default.png', 'Facebook', [new Entity('DA')])];
         }
 
         that.openDomain = function(index) {
@@ -247,6 +247,7 @@ var EntitiesDrive = (function() {
 
 function initEntitiesDrive() {
     EntitiesDrive.getInstance().renderEntities();
+
 }
 
 
