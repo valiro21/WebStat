@@ -18,6 +18,15 @@ if(window.attachEvent) {
     }
 }
 
+function exportChartAsPng() {
+    let urlBase64Png = document.getElementById('chart').toDataURL("image/png");
+
+    let link = document.createElement('a');
+    link.download = "chart.png";
+    link.href = urlBase64Png;
+    link.click();
+}
+
 /**
 var chartWrapper;
 

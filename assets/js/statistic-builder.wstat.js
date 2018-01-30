@@ -65,16 +65,17 @@ let statisticsBuilder = {
 };
 
 function initStatistic(data) {
-    let accessToken = statisticData['access-token'];
-    let statisticName = statisticData['statistic-name'];
-    let domain = statisticData['domain'];
-    let entity = statisticData['entity'];
-    let chartType = statisticData['chart-type'];
-    let updateInterval = statisticData['update-interval'];
-    let keyStr = statisticData['key'];
-    let valStr = statisticData['value'];
-    let labelStr = statisticData['label'];
-    let aggrStr = statisticData['aggr-func'];
+
+    let accessToken = data['access-token'];
+    let statisticName = data['statistic-name'];
+    let domain = data['domain'];
+    let entity = data['entity'];
+    let chartType = data['chart-type'];
+    let updateInterval = data['update-interval'];
+    let keyStr = data['key'];
+    let valStr = data['value'];
+    let labelStr = data['label'];
+    let aggrStr = data['aggr-func'];
 
     let buildKeyValFunc = function (keyStr, valStr) {
         return function (t, all) {
@@ -99,13 +100,14 @@ function initStatistic(data) {
 
 
     let chartWrapper = new ChartWrapper(CHART_ID, chartType, null, null);
+    mainChart = chartWrapper.chart;
     statisticsBuilder.init(keyValFunc, labelFunc, aggrStr, chartWrapper, updateInterval);
 
 
-    saveEntity('Facebook', self_posts_page);
-    saveEntity('Facebook', post);
-    saveEntity('Facebook', post_likes);
-    saveEntity('Facebook', like);
+    // saveEntity('Facebook', self_posts_page);
+    // saveEntity('Facebook', post);
+    // saveEntity('Facebook', post_likes);
+    // saveEntity('Facebook', like);
 
     console.log(domain);
     let domainData = getDomain(domain);
@@ -167,42 +169,6 @@ const interval = 10;
 //     }
 // };
 
-getFromEntities = function (entities, type, id) {
-    let ans = null;
-
-    for (let i = 0; i < entities.length; ++i) {
-        let t = entities[i];
-
-        if (t._type === type && t._id === id){
-            return t;
-        }
-    }
-    return ans;
-};
-
-keyValFunc = function (t, all) {
-    try {
-        if (t._type !== "post_likes")
-            return {key:null, val:null};
-
-        let parentFullId = t._parent;
-        let temp = parentFullId.split("/");
-
-        let parentType = temp[0];
-        let parentId = temp[1];
-
-        let ent = getFromEntities(all, parentType, parentId);
-        return {key : ent.created_time, val : t.data.length};
-    }
-    catch (err) {
-        return {key:null, val:null};
-    }
-};
-
-labelFunc = function (key) {
-    return key;
-};
-
 // labelFunc = function (key) {
 //     return key * interval;
 // };
@@ -210,10 +176,86 @@ labelFunc = function (key) {
 // const testId = 'chart';
 // const testType = 'bar';
 
-let statisticData = localStorage.getItem('stat');
-statisticData = JSON.parse(statisticData);
-console.log(statisticData);
-initStatistic(statisticData);
+let debug = true;
+
+if (!debug) {
+    let statisticData = localStorage.getItem('stat'); // TODO: change
+    statisticData = JSON.parse(statisticData);
+    console.log(statisticData);
+    initStatistic(statisticData);
+}
+else {
+
+    // DEBUG PURPOSES
+    getFromEntities = function (entities, type, id) {
+        let ans = null;
+
+        for (let i = 0; i < entities.length; ++i) {
+            let t = entities[i];
+
+            if (t._type === type && t._id === id){
+                return t;
+            }
+        }
+        return ans;
+    };
+
+    keyValFunc = function (t, all) {
+        try {
+            if (t._type !== "post_likes")
+                return {key:null, val:null};
+
+            let parentFullId = t._parent;
+            let temp = parentFullId.split("/");
+
+            let parentType = temp[0];
+            let parentId = temp[1];
+
+            let ent = getFromEntities(all, parentType, parentId);
+            return {key : ent.created_time, val : t.data.length};
+        }
+        catch (err) {
+            return {key:null, val:null};
+        }
+    };
+
+    labelFunc = function (key) {
+        return key;
+    };
+
+    saveEntity('Facebook', self_posts_page);
+    saveEntity('Facebook', post);
+    saveEntity('Facebook', post_likes);
+    saveEntity('Facebook', like);
+
+    let chartWrapper = new ChartWrapper(CHART_ID, 'bar', null, null);
+    mainChart = chartWrapper.chart;
+    statisticsBuilder.init(keyValFunc, labelFunc, 'sum', chartWrapper, 1000);
+
+    fetchData(
+        {
+            "name": 'Facebook',
+            "base_url": "https://graph.facebook.com/v2.11",
+            "parameters": {
+                "access_token": "EAACEdEose0cBAHbftn79R1d0kNRRXBXSy69kAAUdaFqf0hRqbofraFJ4ri425vRpTOIhwYCdPIlrVH8SsfPvoxdA8krRKMu1767SwwJGMQzr6deoMrkjOFwPMrJgz0iedWbHO5MpHVc3oeLLnREEis50HRI7VR1LIad7mfSen2Hb8ZBuA7gPLDyd0gzkZD\n"
+            }
+        },
+        'test',
+        'self_posts_page',
+        function (entity) {
+            console.log("Fetched entity: ", entity);
+            statisticsBuilder.add(entity);
+        },
+        function () {
+            console.log("Done");
+            statisticsBuilder.finalize();
+        },
+        10,
+        true,
+        3
+    );
+}
+
 
 //----------------------------------------------------------------------------------------------------------------------
 //------ [ Hacker News ] -----------------------------------------------------------------------------------------------
