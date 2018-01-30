@@ -69,7 +69,7 @@ Domain.prototype.generateElement = function(index) {
     domainElement.setAttribute('class', 'entry');
 
     var imgElement = document.createElement('img');
-    imgElement.setAttribute('src', this.img);
+    imgElement.setAttribute('src', '../assets/img/default.png');
     imgElement.setAttribute('height', '250px');
     imgElement.setAttribute('width', '250px');
     imgElement.setAttribute('onclick', 'OpenDomain(' + index +')');
@@ -84,7 +84,7 @@ Domain.prototype.generateElement = function(index) {
     title.textContent = this.title;
     textElement.appendChild(title);
 
-    textElement.appendChild(this.createDropDownEditButton(this.title));
+    //textElement.appendChild(this.createDropDownEditButton(this.title));
 
     return domainElement;
 };
@@ -116,7 +116,7 @@ Entity.prototype.generateElement = function(domainName) {
     entityElement.setAttribute('class', 'entry');
 
     var imgElement = document.createElement('img');
-    imgElement.setAttribute('src', 'https://images-na.ssl-images-amazon.com/images/I/31NaU1jyiUL._SL500_AC_SS350_.jpg');
+    imgElement.setAttribute('src', '../assets/img/default.png');
     imgElement.setAttribute('height', '250px');
     imgElement.setAttribute('width', '250px');
     entityElement.appendChild(imgElement);
@@ -130,7 +130,7 @@ Entity.prototype.generateElement = function(domainName) {
     title.textContent = this.title;
     textElement.appendChild(title);
 
-    textElement.appendChild(this.createDropDownEditButton(domainName, this.title));
+    //textElement.appendChild(this.createDropDownEditButton(domainName, this.title));
 
     return entityElement;
 };
@@ -139,7 +139,8 @@ var EntitiesDrive = (function() {
     var instance;
 
     function createAddButton(domainName) {
-
+        var divContainer = document.createElement('div');
+        divContainer.setAttribute('class', 'entry');
         var addButtonRedirect = document.createElement('a');
         addButtonRedirect.setAttribute('href', '../pages/entity-config.html?domain_name=' + domainName);
 
@@ -150,9 +151,7 @@ var EntitiesDrive = (function() {
 
         var imgElement = document.createElement('img');
         imgElement.setAttribute('src', '../assets/img/cross.png');
-        imgElement.setAttribute('style', 'margin-top: 50px');
-        imgElement.setAttribute('height', '150px');
-        imgElement.setAttribute('width', '150px');
+
 
         var textElement = document.createElement('div');
         textElement.setAttribute('class', 'container');
@@ -162,8 +161,9 @@ var EntitiesDrive = (function() {
         textElement.appendChild(title);
 
         addButton.appendChild(imgElement);
-        addButton.appendChild(textElement);
-        return addButtonRedirect;
+
+        divContainer.appendChild(addButtonRedirect);
+        return divContainer;
     }
 
     function createInstance() {
@@ -197,7 +197,7 @@ var EntitiesDrive = (function() {
                 that.entities.push(newD);
             });
         } else {
-            that.entities = [new Domain('yes.jpg', 'Facebook', [new Entity('DA')])];
+            that.entities = [new Domain('../assets/img/default.png', 'Facebook', [new Entity('DA')])];
         }
 
         that.openDomain = function(index) {
@@ -255,6 +255,7 @@ var EntitiesDrive = (function() {
 
 function initEntitiesDrive() {
     EntitiesDrive.getInstance().renderEntities();
+
 }
 
 
