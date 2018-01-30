@@ -104,9 +104,13 @@ function initStatistic(data) {
     statisticsBuilder.init(keyValFunc, labelFunc, aggrStr, chartWrapper, updateInterval);
 
 
+    // newEntity('Facebook', 'self_posts_page');
     // saveEntity('Facebook', self_posts_page);
+    // newEntity('Facebook', 'post');
     // saveEntity('Facebook', post);
+    // newEntity('Facebook', 'post_likes');
     // saveEntity('Facebook', post_likes);
+    // newEntity('Facebook', 'like');
     // saveEntity('Facebook', like);
 
     console.log(domain);
