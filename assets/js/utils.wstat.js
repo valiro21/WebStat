@@ -109,3 +109,20 @@ function listEntities(domainTitle) {
     }
     return entityList;
 }
+
+function newDomain(title) {
+    var domains = listDomains();
+    domains.push(new Domain('yes.jpg', title, []));
+
+    localStorage.setItem('drive_dNames', domains);
+}
+
+function listDomains() {
+    var dNamesGot = localStorage.getItem('drive_dNames');
+    if(dNamesGot !== null) {
+        dNamesGot = dNamesGot.split(',');
+        return dNamesGot;
+    } else {
+        return [];
+    }
+}

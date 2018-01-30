@@ -1,5 +1,24 @@
 
 
+function onRealTimeDataLoad() {
+
+}
+
+if(window.attachEvent) {
+    window.attachEvent('onload', onRealTimeDataLoad());
+} else {
+    if(window.onload) {
+        let currentOnLoad = window.onload;
+        window.onload = function(currentOnLoad, evt) {
+            currentOnLoad(evt);
+            onRealTimeDataLoad();
+        }.bind(null, currentOnLoad);
+    } else {
+        window.onload = function(evt){onRealTimeDataLoad();};
+    }
+}
+
+/**
 var chartWrapper;
 
 // Test data ------------------------------------------------------------------------------
@@ -13,9 +32,8 @@ var testType = 'bar';
 
 // Functions ------------------------------------------------------------------------------
 
-/**
- * Initializes chart with mock-up data
- */
+
+// Initializes chart with mock-up data
 function initTestChart() {
     chartWrapper = new ChartWrapper(testId, testType, null, null);
 
@@ -24,9 +42,7 @@ function initTestChart() {
     chartWrapper.render();
 }
 
-/**
- * Changes chart type to the one specified by #chart-type element
- */
+// Changes chart type to the one specified by #chart-type element
 function changeChartType() {
     var elem = document.getElementById("chart-type");
     var type = elem.options[elem.selectedIndex].value;
@@ -77,3 +93,5 @@ if(window.attachEvent) {
         window.onload = window.initTestChart;
     }
 }
+
+*/
