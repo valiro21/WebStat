@@ -272,6 +272,7 @@ var StatisticsDrive = (function() {
                     that.stocare(newPath, folder[i].content);
                 } else {
                     toStore.push(folder[i].title);
+                    localStorage.setItem(folder[i].title, folder[i].url);
                 }
             }
 
@@ -287,7 +288,8 @@ var StatisticsDrive = (function() {
                     var newPath = currentFolder[i].split('/');
                     statisticsDrive.push(new Folder(newPath[newPath.length - 2], that.citire(currentFolder[i])));
                 } else {
-                    statisticsDrive.push(new Statistic('../assets/img/default.png', 'main.html', currentFolder[i]))
+                    var link = localStorage.getItem(currentFolder[i]);
+                    statisticsDrive.push(new Statistic('../assets/img/default.png', link, currentFolder[i]))
                 }
             }
             return statisticsDrive;
