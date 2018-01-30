@@ -122,8 +122,30 @@ function onStatisticsConfigLoad() {
 //----------------------------------------------------------------------------------------------------------------------
 function onFormSubmit() {
     let form = document.getElementById(FORM_ID);
+    let inputs = form.getElementsByTagName('input');
+    let selects = form.getElementsByTagName('select');
 
-    console.log(form.elements);
+    let statisticData = {};
+
+    for (let i = 0; i < inputs.length; ++i) {
+        statisticData[inputs[i].name] = inputs[i].value;
+        // console.log(inputs[i].name, inputs[i].value);
+    }
+
+    let getSelName = function (t) {
+        return t.name;
+    };
+    let getSelVal = function (t) {
+        return t.value;
+    };
+
+    for (let i = 0; i < selects.length; ++i) {
+        let sel = selects[i];
+        statisticData[getSelName(sel)] = getSelVal(sel);
+    }
+
+    console.log(statisticData);
+
 }
 //----------------------------------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------
